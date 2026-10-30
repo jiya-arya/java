@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java - Jiya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --pastel-blue: #e0f2fe;
+            --pastel-purple: #f3e8ff;
+            --accent: #818cf8;
+            --secondary: #a5b4fc;
+            --text-dark: #334155;
+            --text-light: #64748b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ffffff 0%, var(--pastel-blue) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        nav {
+            padding: 1.2rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+        .nav-session {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            background: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .main-hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .project-tag {
+            background: var(--pastel-purple);
+            color: #7e22ce;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+        }
+        .identity-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,255,0.8);
+            margin-bottom: 2.5rem;
+        }
+        .id-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .id-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .cta-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 260px;
+        }
+        .btn-enter {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            padding: 1.1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(129, 140, 248, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-enter:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(129, 140, 248, 0.3);
+            filter: brightness(1.1);
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">SUBMISSION PORTFOLIO</div>
+        <div class="nav-session">JIYA | 7011/24 | BCA 5 SEM</div>
+    </nav>
+    <main class="main-hero">
+        <div class="project-tag fade-in">Final Project Submission</div>
+        <h1 class="fade-in">Java </h1>
+        <p class="subtitle fade-in">Assignment record for Java implementation.</p>
+        <div class="identity-card fade-in">
+            <div class="id-row">
+                <span class="label">Student Name</span>
+                <span class="value">Jiya</span>
+            </div>
+            <div class="id-row">
+                <span class="label">Roll Number</span>
+                <span class="value">7011/24</span>
+            </div>
+            <div class="id-row">
+                <span class="label">Class & Sem</span>
+                <span class="value">BCA - 5th Semester</span>
+            </div>
+            <div class="id-row">
+                <span class="label">Subject</span>
+                <span class="value">JAVA</span>
+            </div>
+        </div>
+        <div class="cta-container fade-in">
+            <div class="btn-group">
+                <a href="html/dashboard.html" class="btn-enter">
+                    View Topics <span>&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS Project Submission - Jiya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --accent: #6366f1;
+            --pastel-blue: #e0f2fe;
+            --success: #22c55e;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --code-bg: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            z-index: 10;
+        }
+
+        .sidebar h2 {
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .topic-list {
+            flex: 1;
+            overflow-y: auto;
+            list-style: none;
+            padding-right: 5px;
+        }
+
+        .topic-item {
+            padding: 12px 18px;
+            border-radius: 14px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .topic-item:hover {
+            background: #f8fafc;
+            color: var(--accent);
+            padding-left: 25px;
+        }
+
+        .topic-item.active {
+            background: var(--pastel-blue);
+            color: var(--accent);
+            border: 1px solid #d1e9ff;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 5%;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            color: #1e293b;
+            text-transform: uppercase;
+        }
+
+        /* --- Query Card Styling --- */
+        .query-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f1f5f9;
+            position: relative;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .q-badge {
+            position: absolute;
+            left: -15px;
+            top: 30px;
+            background: var(--accent);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .q-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            color: #1e293b;
+        }
+
+        .code-box {
+            background: var(--code-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+
+        .sql-code {
+            color: #cbd5e1;
+            font-family: 'Consolas', monospace;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        .sql-code b {
+            color: #f472b6;
+        }
+
+        .output-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .output-img {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .output-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Empty/Not Started State */
+        .empty-state {
+            text-align: center;
+            padding: 5rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-badge {
+            background: #fee2e2;
+            color: #ef4444;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border: 2px solid #fecaca;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                overflow: auto;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 1rem;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+                position: sticky;
+                top: 0;
+                background: white;
+            }
+
+            .topic-list {
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+                padding-bottom: 10px;
+            }
+
+            .topic-item {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+                overflow: visible;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <h2>Assignment Topics</h2>
+        <ul class="topic-list" id="sidebarList"></ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <a href="dashboard.html" class="back-btn">&larr; DASHBOARD</a>
+                <h1 id="activeTopicTitle">Select a Topic</h1>
+            </div>
+            <div style="text-align: right;">
+                <p style="font-weight: 700; font-size: 0.8rem; color: var(--accent);">JIYA | 7011/24</p>
+                <p style="font-size: 0.7rem; color: var(--text-muted);">BCA 4th SEMESTER</p>
+            </div>
+        </div>
+
+        <div id="queryContainer">
+            <div class="empty-state">
+                <p>Please select a Topic from the sidebar to view solved queries.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // const assignmentData = {
+        const assignmentData = {
+            "Strings": [
+    {
+        "question": "1. Program to Check if a String contains only digits?",
+        "sql": "<b>CREATE TABLE</b> STUDENT (\n  SID <b>NUMBER</b>,\n  SNAME <b>VARCHAR2</b>(30),\n  AGE <b>NUMBER</b>,\n  COURSE <b>VARCHAR2</b>(20)\n);",
+        "image": "./outputs/ddl/1.png"
+    },
+    {
+        "question": "2. Program to perform Deep Copy for String?",
+        "sql": "<b>CREATE TABLE</b> EMPLOYEE (\n  EID <b>NUMBER</b>,\n  ENAME <b>VARCHAR2</b>(40),\n  SALARY <b>NUMBER</b>(8,2),\n  DEPTNO <b>NUMBER</b>\n);",
+        "image": "./outputs/ddl/2.png"
+    },
+    {
+        "question": "3. Program to prove String is immutable programmatically?",
+        "sql": "<b>CREATE TABLE</b> DEPARTMENT (\n  DEPTNO <b>NUMBER</b>,\n  DNAME <b>VARCHAR2</b>(30),\n  LOCATION <b>VARCHAR2</b>(30)\n);",
+        "image": "./outputs/ddl/3.png"
+    },
+    {
+        "question": "4. Program to remove all occurrences of a given character from input String?",
+        "sql": "<b>CREATE TABLE</b> BOOK (\n  BOOK_ID <b>NUMBER</b>,\n  TITLE <b>VARCHAR2</b>(50),\n  AUTHOR <b>VARCHAR2</b>(40),\n  PRICE <b>NUMBER</b>\n);",
+        "image": "./outputs/ddl/4.png"
+    },
+    {
+        "question": "5. Program to append the string using StringBuffer class",
+        "sql": "<b>CREATE TABLE</b> COURSE (\n  CID <b>NUMBER</b>,\n  CNAME <b>VARCHAR2</b>(40),\n  DURATION <b>NUMBER</b>\n);",
+        "image": "./outputs/ddl/5.png"
+    },
+    {
+        "question": "6. Program to insert the string using StringBuffer class",
+        "sql": "<b>CREATE TABLE</b> PROJECT (\n  PID <b>NUMBER</b>,\n  PNAME <b>VARCHAR2</b>(50),\n  START_DATE <b>DATE</b>,\n  END_DATE <b>DATE</b>\n);",
+        "image": "./outputs/ddl/6.png"
+    },
+    {
+        "question": "7. Program to Add Characters to a String",
+        "sql": "<b>CREATE TABLE</b> CUSTOMER (\n  CID <b>NUMBER</b>,\n  CNAME <b>VARCHAR2</b>(40),\n  CITY <b>VARCHAR2</b>(30),\n  PHONE <b>NUMBER</b>\n);",
+        "image": "./outputs/ddl/7.png"
+    },
+    {
+        "question": "8. Program to Add Characters to a String",
+        "sql": "<b>CREATE TABLE</b> SALES (\n  SALE_ID <b>NUMBER</b>,\n  PRODUCT_NAME <b>VARCHAR2</b>(50),\n  QUANTITY <b>NUMBER</b>,\n  PRICE <b>NUMBER</b>\n);",
+        "image": "./outputs/ddl/8.png"
+    },
+    {
+        "question": "9. Program to Check Anagram",
+        "sql": "<b>CREATE TABLE</b> EMP_COPY\n<b>AS SELECT</b> *\n<b>FROM</b> EMP\n<b>WHERE</b> 1=0;",
+        "image": "./outputs/ddl/9.png"
+    },
+    {
+        "question": "10. Program to check whether a string is a Palindrome",
+        "sql": "<b>CREATE TABLE</b> EMP_BACKUP\n<b>AS SELECT</b> *\n<b>FROM</b> EMP;",
+        "image": "./outputs/ddl/10.png"
+    },
+    {
+        "question": "11. Program to Convert Enum to String",
+        "sql": "<b>ALTER TABLE</b> STUDENT\n<b>ADD</b> EMAIL <b>VARCHAR2</b>(50);",
+        "image": "./outputs/ddl/11.png"
+    },
+    {
+        "question": "12. Program to Convert String to String Array",
+        "sql": "<b>ALTER TABLE</b> EMPLOYEE\n<b>ADD</b> PHONE <b>NUMBER</b>;",
+        "image": "./outputs/ddl/12.png"
+    },
+    {
+        "question": "13. Program to count number of words in a String?",
+        "sql": "<b>ALTER TABLE</b> STUDENT\n<b>MODIFY</b> SNAME <b>VARCHAR2</b>(50);",
+        "image": "./outputs/ddl/13.png"
+    },
+    {
+        "question": "14. Program to count the total number of characters in a string",
+        "sql": "<b>ALTER TABLE</b> EMPLOYEE\n<b>MODIFY</b> SALARY <b>NUMBER</b>(10,2);",
+        "image": "./outputs/ddl/14.png"
+    },
+    {
+        "question": "15. Program to count the total number of punctuation characters exists in a String",
+        "sql": "<b>ALTER TABLE</b> CUSTOMER\n<b>ADD</b> (CITY <b>VARCHAR2</b>(30), PINCODE <b>NUMBER</b>);",
+        "image": "./outputs/ddl/15.png"
+    },
+    {
+        "question": "16. Program to count the total number of vowels and consonants in a string",
+        "sql": "<b>ALTER TABLE</b> STUDENT\n<b>RENAME COLUMN</b> SNAME <b>TO</b> STUDENT_NAME;",
+        "image": "./outputs/ddl/16.png"
+    },
+    {
+        "question": "17. Program to determine whether a given string is palindrome",
+        "sql": "<b>ALTER TABLE</b> STUDENT\n<b>DROP COLUMN</b> AGE;",
+        "image": "./outputs/ddl/17.png"
+    },
+    {
+        "question": "18. Set SALARY NOT NULL",
+        "sql": "<b>ALTER TABLE</b> EMPLOYEE\n<b>MODIFY</b> SALARY <b>NOT NULL</b>;",
+        "image": "./outputs/ddl/18.png"
+    },
+    {
+        "question": "19. Increase TITLE size",
+        "sql": "<b>ALTER TABLE</b> BOOK\n<b>MODIFY</b> TITLE <b>VARCHAR2</b>(100);",
+        "image": "./outputs/ddl/19.png"
+    },
+    {
+        "question": "20. Add MANAGER_ID",
+        "sql": "<b>ALTER TABLE</b> EMPLOYEE\n<b>ADD</b> MANAGER_ID <b>NUMBER</b>;",
+        "image": "./outputs/ddl/20.png"
+    },
+    {
+        "question": "21. Drop STUDENT table",
+        "sql": "<b>DROP TABLE</b> STUDENT;",
+        "image": "./outputs/ddl/21.png"
+    },
+    {
+        "question": "22. Drop CUSTOMER table",
+        "sql": "<b>DROP TABLE</b> CUSTOMER;",
+        "image": "./outputs/ddl/22.png"
+    },
+    {
+        "question": "23. Drop PROJECT permanently",
+        "sql": "<b>DROP TABLE</b> PROJECT\n<b>PURGE</b>;",
+        "image": "./outputs/ddl/23.png"
+    },
+    {
+        "question": "24. Drop SALES table",
+        "sql": "<b>DROP TABLE</b> SALES;",
+        "image": "./outputs/ddl/24.png"
+    },
+    {
+        "question": "25. Drop COURSE table",
+        "sql": "<b>DROP TABLE</b> COURSE;",
+        "image": "./outputs/ddl/25.png"
+    },
+    {
+        "question": "26. Rename STUDENT to STUDENTS",
+        "sql": "<b>RENAME</b> STUDENT\n<b>TO</b> STUDENTS;",
+        "image": "./outputs/ddl/26.png"
+    },
+    {
+        "question": "27. Rename EMPLOYEE to EMP_MASTER",
+        "sql": "<b>RENAME</b> EMPLOYEE\n<b>TO</b> EMP_MASTER;",
+        "image": "./outputs/ddl/27.png"
+    },
+    {
+        "question": "28. Rename CUSTOMER to CLIENT",
+        "sql": "<b>RENAME</b> CUSTOMER\n<b>TO</b> CLIENT;",
+        "image": "./outputs/ddl/28.png"
+    },
+    {
+        "question": "29. Rename BOOK to BOOK_DETAILS",
+        "sql": "<b>RENAME</b> BOOK\n<b>TO</b> BOOK_DETAILS;",
+        "image": "./outputs/ddl/29.png"
+    },
+    {
+        "question": "30. Rename PROJECT to PROJECT_INFO",
+        "sql": "<b>RENAME</b> PROJECT\n<b>TO</b> PROJECT_INFO;",
+        "image": "./outputs/ddl/30.png"
+    },
+    {
+        "question": "31. Delete all records from STUDENT",
+        "sql": "<b>DELETE FROM</b> STUDENT;",
+        "image": "./outputs/ddl/31.png"
+    },
+    {
+        "question": "32. Truncate EMPLOYEE",
+        "sql": "<b>TRUNCATE TABLE</b> EMPLOYEE;",
+        "image": "./outputs/ddl/32.png"
+    },
+    {
+        "question": "33. Truncate CUSTOMER",
+        "sql": "<b>TRUNCATE TABLE</b> CUSTOMER;",
+        "image": "./outputs/ddl/33.png"
+    },
+    {
+        "question": "34. Truncate SALES",
+        "sql": "<b>TRUNCATE TABLE</b> SALES;",
+        "image": "./outputs/ddl/34.png"
+    },
+    {
+        "question": "35. Truncate PROJECT",
+        "sql": "<b>TRUNCATE TABLE</b> PROJECT;",
+        "image": "./outputs/ddl/35.png"
+    },
+    {
+        "question": "36. Create TRAINING table",
+        "sql": "<b>CREATE TABLE</b> TRAINING (\n  TID <b>NUMBER</b>,\n  TNAME <b>VARCHAR2</b>(40),\n  DURATION <b>NUMBER</b>\n);",
+        "image": "./outputs/ddl/36.png"
+    },
+    {
+        "question": "37. Add TRAINER_NAME",
+        "sql": "<b>ALTER TABLE</b> TRAINING\n<b>ADD</b> TRAINER_NAME <b>VARCHAR2</b>(40);",
+        "image": "./outputs/ddl/37.png"
+    },
+    {
+        "question": "38. Modify TNAME size",
+        "sql": "<b>ALTER TABLE</b> TRAINING\n<b>MODIFY</b> TNAME <b>VARCHAR2</b>(60);",
+        "image": "./outputs/ddl/38.png"
+    },
+    {
+        "question": "39. Rename TRAINING to TRAINING_PROGRAM",
+        "sql": "<b>RENAME</b> TRAINING\n<b>TO</b> TRAINING_PROGRAM;",
+        "image": "./outputs/ddl/39.png"
+    },
+    {
+        "question": "40. Truncate TRAINING_PROGRAM",
+        "sql": "<b>TRUNCATE TABLE</b> TRAINING_PROGRAM;",
+        "image": "./outputs/ddl/40.png"
+    },
+    {
+        "question": "41. Drop TRAINING_PROGRAM",
+        "sql": "<b>DROP TABLE</b> TRAINING_PROGRAM;",
+        "image": "./outputs/ddl/41.png"
+    },
+    {
+        "question": "42. Create EMP_PROJECT and modify",
+        "sql": "<b>CREATE TABLE</b> EMP_PROJECT (\n  EMP_ID <b>NUMBER</b>,\n  PROJECT_ID <b>NUMBER</b>,\n  START_DATE <b>DATE</b>,\n  END_DATE <b>DATE</b>,\n  ROLE <b>VARCHAR2</b>(30)\n);\n<b>ALTER TABLE</b> EMP_PROJECT\n<b>MODIFY</b> ROLE <b>VARCHAR2</b>(50);\n<b>ALTER TABLE</b> EMP_PROJECT\n<b>ADD</b> STATUS <b>VARCHAR2</b>(20);",
+        "image": "./outputs/ddl/42.png"
+    },
+    {
+        "question": "43. Create PRODUCT and modify",
+        "sql": "<b>CREATE TABLE</b> PRODUCT (\n  PID <b>NUMBER</b>,\n  PNAME <b>VARCHAR2</b>(50),\n  PRICE <b>NUMBER</b>,\n  CATEGORY <b>VARCHAR2</b>(30)\n);\n<b>ALTER TABLE</b> PRODUCT\n<b>RENAME COLUMN</b> PNAME <b>TO</b> PRODUCT_NAME;\n<b>ALTER TABLE</b> PRODUCT\n<b>MODIFY</b> PRICE <b>NUMBER</b>(10,2);",
+        "image": "./outputs/ddl/43.png"
+    },
+    {
+        "question": "44. Create ORDERS and modify",
+        "sql": "<b>CREATE TABLE</b> ORDERS (\n  ORDER_ID <b>NUMBER</b>,\n  CUSTOMER_ID <b>NUMBER</b>,\n  ORDER_DATE <b>DATE</b>,\n  TOTAL_AMOUNT <b>NUMBER</b>\n);\n<b>ALTER TABLE</b> ORDERS\n<b>ADD</b> STATUS <b>VARCHAR2</b>(20);\n<b>ALTER TABLE</b> ORDERS\n<b>DROP COLUMN</b> TOTAL_AMOUNT;\n<b>ALTER TABLE</b> ORDERS\n<b>ADD</b> TOTAL_AMOUNT <b>NUMBER</b>(10,2);",
+        "image": "./outputs/ddl/44.png"
+    },
+    {
+        "question": "45. Create EMP_TEMP then rename, truncate, drop",
+        "sql": "<b>CREATE TABLE</b> EMP_TEMP\n<b>AS SELECT</b> *\n<b>FROM</b> EMP\n<b>WHERE</b> SAL > 2000;\n<b>RENAME</b> EMP_TEMP <b>TO</b> EMP_HIGH_SALARY;\n<b>TRUNCATE TABLE</b> EMP_HIGH_SALARY;\n<b>DROP TABLE</b> EMP_HIGH_SALARY;",
+        "image": "./outputs/ddl/45.png"
+    },
+    {
+        "question": "46. Create STUDENT_RECORD and modify",
+        "sql": "<b>CREATE TABLE</b> STUDENT_RECORD (\n  SID <b>NUMBER</b>,\n  SNAME <b>VARCHAR2</b>(40),\n  COURSE <b>VARCHAR2</b>(30),\n  MARKS <b>NUMBER</b>\n);\n<b>ALTER TABLE</b> STUDENT_RECORD\n<b>ADD</b> GRADE <b>CHAR</b>(1);\n<b>ALTER TABLE</b> STUDENT_RECORD\n<b>MODIFY</b> MARKS <b>NUMBER</b>(5,2);\n<b>ALTER TABLE</b> STUDENT_RECORD\n<b>RENAME COLUMN</b> COURSE <b>TO</b> COURSE_NAME;",
+        "image": "./outputs/ddl/46.png"
+    },
+    {
+        "question": "47. Create EMP_ARCHIVE and modify",
+        "sql": "<b>CREATE TABLE</b> EMP_ARCHIVE\n<b>AS SELECT</b> *\n<b>FROM</b> EMP\n<b>WHERE</b> 1=0;\n<b>ALTER TABLE</b> EMP_ARCHIVE\n<b>ADD</b> ARCHIVE_DATE <b>DATE</b>;\n<b>RENAME</b> EMP_ARCHIVE <b>TO</b> EMP_HISTORY;",
+        "image": "./outputs/ddl/47.png"
+    },
+    {
+        "question": "48. Create DEPT_BACKUP and modify",
+        "sql": "<b>CREATE TABLE</b> DEPT_BACKUP\n<b>AS SELECT</b> *\n<b>FROM</b> DEPT;\n<b>ALTER TABLE</b> DEPT_BACKUP\n<b>DROP COLUMN</b> LOC;\n<b>ALTER TABLE</b> DEPT_BACKUP\n<b>ADD</b> LOCATION <b>VARCHAR2</b>(40);",
+        "image": "./outputs/ddl/48.png"
+    },
+    {
+        "question": "49. Create SALES_DATA and modify",
+        "sql": "<b>CREATE TABLE</b> SALES_DATA (\n  SALE_ID <b>NUMBER</b>,\n  PRODUCT_ID <b>NUMBER</b>,\n  SALE_DATE <b>DATE</b>,\n  AMOUNT <b>NUMBER</b>\n);\n<b>ALTER TABLE</b> SALES_DATA\n<b>ADD</b> REGION <b>VARCHAR2</b>(30);\n<b>ALTER TABLE</b> SALES_DATA\n<b>MODIFY</b> AMOUNT <b>NUMBER</b>(12,2);\n<b>RENAME</b> SALES_DATA <b>TO</b> REGIONAL_SALES_DATA;",
+        "image": "./outputs/ddl/49.png"
+    },
+    {
+        "question": "50. Create LOG_TABLE and modify",
+        "sql": "<b>CREATE TABLE</b> LOG_TABLE (\n  LOG_ID <b>NUMBER</b>,\n  USER_NAME <b>VARCHAR2</b>(30),\n  ACTION <b>VARCHAR2</b>(50),\n  LOG_DATE <b>DATE</b>\n);\n<b>TRUNCATE TABLE</b> LOG_TABLE;\n<b>RENAME</b> LOG_TABLE <b>TO</b> SYSTEM_LOG;\n<b>DROP TABLE</b> SYSTEM_LOG;",
+        "image": "./outputs/ddl/50.png"
+    }
+],
+            "DML Commands": [
+                {
+                    question: "1. Insert a record into STUDENT table with SID=101, SNAME='RAHUL', AGE=20, COURSE='MCA'",
+                    sql: "<b>INSERT INTO</b> STUDENT (SID, SNAME, AGE, COURSE) <b>VALUES</b> (101, 'RAHUL', 20, 'MCA');",
+                    image: "./outputs/dml/1.png"
+                },
+                {
+                    question: "2. Insert a record into EMPLOYEE table with EID=201, ENAME='ANITA', SALARY=45000, DEPTNO=10",
+                    sql: "<b>INSERT INTO</b> EMPLOYEE (EID, ENAME, SALARY, DEPTNO) <b>VALUES</b> (201, 'ANITA', 45000, 10);",
+                    image: "./outputs/dml/2.png"
+                },
+                {
+                    question: "3. Insert a new department into DEPT table (DEPTNO 50, TRAINING, DELHI)",
+                    sql: "<b>INSERT INTO</b> DEPT (DEPTNO, DNAME, LOC) <b>VALUES</b> (50, 'TRAINING', 'DELHI');",
+                    image: "./outputs/dml/3.png"
+                },
+                {
+                    question: "4. Insert a record into BOOK table providing only BOOK_ID, TITLE, and PRICE",
+                    sql: "<b>INSERT INTO</b> BOOK (BOOK_ID, TITLE, PRICE) <b>VALUES</b> (1, 'SQL BASICS', 500);",
+                    image: "./outputs/dml/4.png"
+                },
+
+                {
+                    question: "6. Insert data into EMP_COPY table by selecting all records from EMP table",
+                    sql: "<b>INSERT INTO</b> EMP_COPY <b>SELECT * FROM</b> EMP;",
+                    image: "./outputs/dml/6.png"
+                },
+                {
+                    question: "7. Insert employees with salary greater than 3000 into EMP_HIGH_SAL table",
+                    sql: "<b>INSERT INTO</b> EMP_HIGH_SAL <b>SELECT * FROM</b> EMP <b>WHERE</b> SAL > 3000;",
+                    image: "./outputs/dml/7.png"
+                },
+                {
+                    question: "8. Insert employees hired after 1981 into EMP_NEW_HIRE table",
+                    sql: "<b>INSERT INTO</b> EMP_NEW_HIRE <b>SELECT * FROM</b> EMP <b>WHERE</b> HIREDATE > '31-DEC-1981';",
+                    image: "./outputs/dml/8.png"
+                },
+                {
+                    question: "9. Insert DEPTNO and DNAME from DEPT into DEPT_BACKUP table",
+                    sql: "<b>INSERT INTO</b> DEPT_BACKUP (DEPTNO, DNAME) <b>SELECT</b> DEPTNO, DNAME <b>FROM</b> DEPT;",
+                    image: "./outputs/dml/9.png"
+                },
+                {
+                    question: "10. Insert ENAME and SAL from EMP into EMP_SALARY_RECORD table",
+                    sql: "<b>INSERT INTO</b> EMP_SALARY_RECORD (ENAME, SAL) <b>SELECT</b> ENAME, SAL <b>FROM</b> EMP;",
+                    image: "./outputs/dml/10.png"
+                },
+                {
+                    question: "11. Update the salary of employee 'SMITH' to 2000",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> SAL = 2000 <b>WHERE</b> ENAME = 'SMITH';",
+                    image: "./outputs/dml/11.png"
+                },
+                {
+                    question: "12. Increase the salary of all employees by 10%",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> SAL = SAL * 1.10;",
+                    image: "./outputs/dml/12.png"
+                },
+                {
+                    question: "13. Update the DEPTNO of employee 'ALLEN' to 20",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> DEPTNO = 20 <b>WHERE</b> ENAME = 'ALLEN';",
+                    image: "./outputs/dml/13.png"
+                },
+                {
+                    question: "14. Update the commission of all 'SALESMAN' to 500",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> COMM = 500 <b>WHERE</b> JOB = 'SALESMAN';",
+                    image: "./outputs/dml/14.png"
+                },
+                {
+                    question: "15. Update the job of employee 'MILLER' to 'MANAGER'",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> JOB = 'MANAGER' <b>WHERE</b> ENAME = 'MILLER';",
+                    image: "./outputs/dml/15.png"
+                },
+                {
+                    question: "16. Increase the salary of employees in department 10 by 20%",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> SAL = SAL * 1.20 <b>WHERE</b> DEPTNO = 10;",
+                    image: "./outputs/dml/16.png"
+                },
+                {
+                    question: "17. Update the salary of all 'CLERK' employees to 1500",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> SAL = 1500 <b>WHERE</b> JOB = 'CLERK';",
+                    image: "./outputs/dml/17.png"
+                },
+                {
+                    question: "18. Update the location of department 30 to 'MUMBAI'",
+                    sql: "<b>UPDATE</b> DEPT <b>SET</b> LOC = 'MUMBAI' <b>WHERE</b> DEPTNO = 30;",
+                    image: "./outputs/dml/18.png"
+                },
+                {
+                    question: "19. Update all NULL commission values to 100",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> COMM = 100 <b>WHERE</b> COMM <b>IS NULL</b>;",
+                    image: "./outputs/dml/19.png"
+                },
+                {
+                    question: "20. Increase salary by 500 for employees earning less than the average salary",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> SAL = SAL + 500 <b>WHERE</b> SAL < (<b>SELECT AVG</b>(SAL) <b>FROM</b> EMP);",
+                    image: "./outputs/dml/20.png"
+                },
+                {
+                    question: "21. Delete the record of employee 'SMITH'",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> ENAME = 'SMITH';",
+                    image: "./outputs/dml/21.png"
+                },
+                {
+                    question: "22. Delete all employees belonging to department 30",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> DEPTNO = 30;",
+                    image: "./outputs/dml/22.png"
+                },
+                {
+                    question: "23. Delete employees with a salary less than 1000",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> SAL < 1000;",
+                    image: "./outputs/dml/23.png"
+                },
+                {
+                    question: "24. Delete employees hired before 1st Jan 1981",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> HIREDATE < '01-JAN-1981';",
+                    image: "./outputs/dml/24.png"
+                },
+                {
+                    question: "25. Delete employees who have no commission (NULL)",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> COMM <b>IS NULL</b>;",
+                    image: "./outputs/dml/25.png"
+                },
+                {
+                    question: "26. Delete departments located in 'CHICAGO'",
+                    sql: "<b>DELETE FROM</b> DEPT <b>WHERE</b> LOC = 'CHICAGO';",
+                    image: "./outputs/dml/26.png"
+                },
+                {
+                    question: "27. Delete all employees whose job is 'CLERK'",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> JOB = 'CLERK';",
+                    image: "./outputs/dml/27.png"
+                },
+                {
+                    question: "28. Delete employees who receive the minimum salary",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> SAL = (<b>SELECT MIN</b>(SAL) <b>FROM</b> EMP);",
+                    image: "./outputs/dml/28.png"
+                },
+                {
+                    question: "29. Delete employees in departments located in 'NEW YORK'",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b> (<b>SELECT</b> DEPTNO <b>FROM</b> DEPT <b>WHERE</b> LOC = 'NEW YORK');",
+                    image: "./outputs/dml/29.png"
+                },
+                {
+                    question: "30. Delete employees who do not have a manager (MGR is NULL)",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> MGR <b>IS NULL</b>;",
+                    image: "./outputs/dml/30.png"
+                }
+            ],
+            "DQL: Select": [
+                {
+                    question: "1. Display all columns of the EMP table",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP;",
+                    image: "./outputs/dql/1.png"
+                },
+                {
+                    question: "2. Display EMPNO, ENAME and SAL from the EMP table",
+                    sql: "<b>SELECT</b> EMPNO, ENAME, SAL <b>FROM</b> EMP;",
+                    image: "./outputs/dql/2.png"
+                },
+                {
+                    question: "3. Display unique job titles from the EMP table",
+                    sql: "<b>SELECT DISTINCT</b> JOB <b>FROM</b> EMP;",
+                    image: "./outputs/dql/3.png"
+                },
+                {
+                    question: "4. Display ENAME and DEPTNO from the EMP table",
+                    sql: "<b>SELECT</b> ENAME, DEPTNO <b>FROM</b> EMP;",
+                    image: "./outputs/dql/4.png"
+                },
+                {
+                    question: "5. Display all details from the DEPT table",
+                    sql: "<b>SELECT</b> * <b>FROM</b> DEPT;",
+                    image: "./outputs/dql/5.png"
+                },
+                {
+                    question: "6. Display distinct department numbers (DEPTNO) from the EMP table",
+                    sql: "<b>SELECT DISTINCT</b> DEPTNO <b>FROM</b> EMP;",
+                    image: "./outputs/dql/6.png"
+                },
+                {
+                    question: "7. Display ENAME and annual salary (SAL * 12) from the EMP table",
+                    sql: "<b>SELECT</b> ENAME, SAL*12 <b>AS</b> ANNUAL_SALARY <b>FROM</b> EMP;",
+                    image: "./outputs/dql/7.png"
+                },
+                {
+                    question: "8. Display ENAME, SAL and COMM from the EMP table",
+                    sql: "<b>SELECT</b> ENAME, SAL, COMM <b>FROM</b> EMP;",
+                    image: "./outputs/dql/8.png"
+                },
+                {
+                    question: "9. Display JOB and SAL from the EMP table",
+                    sql: "<b>SELECT</b> JOB, SAL <b>FROM</b> EMP;",
+                    image: "./outputs/dql/9.png"
+                },
+                {
+                    question: "10. Display employee names (ENAME) with their manager number (MGR)",
+                    sql: "<b>SELECT</b> ENAME, MGR <b>FROM</b> EMP;",
+                    image: "./outputs/dql/10.png"
+                }
+            ],
+            "Where & Order By": [
+                {
+                    question: "1. Display employees whose salary is greater than 3000",
+                    sql: "<b>SELECT</b> ENAME, SAL <b>FROM</b> EMP <b>WHERE</b> SAL > 3000;",
+                    image: "./outputs/where_order/1.png"
+                },
+                {
+                    question: "2. Display employees working in department 10",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10;",
+                    image: "./outputs/where_order/2.png"
+                },
+                {
+                    question: "3. Display employees whose job is CLERK",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB = 'CLERK';",
+                    image: "./outputs/where_order/3.png"
+                },
+                {
+                    question: "4. Display employees hired after 01-JAN-1981",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> HIREDATE > '01-JAN-1981';",
+                    image: "./outputs/where_order/4.png"
+                },
+                {
+                    question: "5. Display employees whose salary is less than 1500",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> SAL < 1500;",
+                    image: "./outputs/where_order/5.png"
+                },
+                {
+                    question: "6. Display employees with salary > 2000 and job is MANAGER",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> SAL > 2000 <b>AND</b> JOB = 'MANAGER';",
+                    image: "./outputs/where_order/6.png"
+                },
+                {
+                    question: "7. Display employees in department 10 or 20",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b> (10, 20);",
+                    image: "./outputs/where_order/7.png"
+                },
+                {
+                    question: "8. Display SALESMAN with salary greater than 1500",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB = 'SALESMAN' <b>AND</b> SAL > 1500;",
+                    image: "./outputs/where_order/8.png"
+                },
+                {
+                    question: "9. Display employees who are CLERK or ANALYST",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>IN</b> ('CLERK', 'ANALYST');",
+                    image: "./outputs/where_order/9.png"
+                },
+                {
+                    question: "10. Display employees hired before 1982 in department 30",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> HIREDATE < '01-JAN-1982' <b>AND</b> DEPTNO = 30;",
+                    image: "./outputs/where_order/10.png"
+                },
+                {
+                    question: "11. Display employees in departments 10, 20, or 30",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b> (10, 20, 30);",
+                    image: "./outputs/where_order/11.png"
+                },
+                {
+                    question: "12. Display employees who are not MANAGER or CLERK",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>NOT IN</b> ('MANAGER', 'CLERK');",
+                    image: "./outputs/where_order/12.png"
+                },
+                {
+                    question: "13. Display employees not in department 10",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO <> 10;",
+                    image: "./outputs/where_order/13.png"
+                },
+                {
+                    question: "14. Display employees with salary between 1000 and 3000",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> SAL <b>BETWEEN</b> 1000 <b>AND</b> 3000;",
+                    image: "./outputs/where_order/14.png"
+                },
+                {
+                    question: "15. Display employees hired in the year 1981",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> HIREDATE <b>BETWEEN</b> '01-JAN-1981' <b>AND</b> '31-DEC-1981';",
+                    image: "./outputs/where_order/15.png"
+                },
+                {
+                    question: "16. Display employees ordered by salary in ascending order",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> SAL <b>ASC</b>;",
+                    image: "./outputs/where_order/16.png"
+                },
+                {
+                    question: "17. Display employees ordered by salary in descending order",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> SAL <b>DESC</b>;",
+                    image: "./outputs/where_order/17.png"
+                },
+                {
+                    question: "18. Display employees ordered by hire date",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> HIREDATE;",
+                    image: "./outputs/where_order/18.png"
+                },
+                {
+                    question: "19. Display employees ordered by department number and then by salary",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> DEPTNO, SAL;",
+                    image: "./outputs/where_order/19.png"
+                },
+                {
+                    question: "20. Display employees ordered by job (ASC) and then salary (DESC)",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> JOB <b>ASC</b>, SAL <b>DESC</b>;",
+                    image: "./outputs/where_order/20.png"
+                },
+                {
+                    question: "21. Display employee names in alphabetical order",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>ORDER BY</b> ENAME;",
+                    image: "./outputs/where_order/21.png"
+                },
+                {
+                    question: "22. Display department 30 employees ordered by salary",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 30 <b>ORDER BY</b> SAL;",
+                    image: "./outputs/where_order/22.png"
+                },
+                {
+                    question: "23. Display employees ordered by annual salary",
+                    sql: "<b>SELECT</b> ENAME, SAL*12 <b>FROM</b> EMP <b>ORDER BY</b> SAL*12;",
+                    image: "./outputs/where_order/23.png"
+                },
+                {
+                    question: "24. Display employees ordered by commission",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> COMM;",
+                    image: "./outputs/where_order/24.png"
+                },
+                {
+                    question: "25. Display employees ordered by job and then name",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>ORDER BY</b> JOB, ENAME;",
+                    image: "./outputs/where_order/25.png"
+                },
+                {
+                    question: "26. Display employee name with alias 'Employee_Name'",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> Employee_Name <b>FROM</b> EMP;",
+                    image: "./outputs/where_order/26.png"
+                },
+                {
+                    question: "27. Display salary with alias 'Monthly_Salary'",
+                    sql: "<b>SELECT</b> SAL <b>AS</b> Monthly_Salary <b>FROM</b> EMP;",
+                    image: "./outputs/where_order/27.png"
+                },
+                {
+                    question: "28. Display employee name and job with aliases 'Name' and 'Job'",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> Name, JOB <b>AS</b> Job <b>FROM</b> EMP;",
+                    image: "./outputs/where_order/28.png"
+                },
+                {
+                    question: "29. Display DEPTNO with alias 'Dept_No'",
+                    sql: "<b>SELECT</b> DEPTNO <b>AS</b> Dept_No <b>FROM</b> EMP;",
+                    image: "./outputs/where_order/29.png"
+                },
+                {
+                    question: "30. Display employee name and salary with aliases 'Name' and 'Salary'",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> Name, SAL <b>AS</b> Salary <b>FROM</b> EMP;",
+                    image: "./outputs/where_order/30.png"
+                },
+                {
+                    question: "31. Display commission with alias 'Incentive'",
+                    sql: "<b>SELECT</b> COMM <b>AS</b> Incentive <b>FROM</b> EMP;",
+                    image: "./outputs/where_order/31.png"
+                },
+                {
+                    question: "32. Display name, job, and salary with aliases ordered by job",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> Name, JOB <b>AS</b> Job, SAL <b>AS</b> Salary <b>FROM</b> EMP <b>ORDER BY</b> JOB;",
+                    image: "./outputs/where_order/32.png"
+                },
+                {
+                    question: "33. Display department 30 employees with salary > 1500 ordered by salary",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 30 <b>AND</b> SAL > 1500 <b>ORDER BY</b> SAL;",
+                    image: "./outputs/where_order/33.png"
+                },
+                {
+                    question: "34. Display employees with non-null commission ordered by commission",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> COMM <b>IS NOT NULL</b> <b>ORDER BY</b> COMM;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "35. Display employees with salary between 1500 and 3000 ordered by salary",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> SAL <b>BETWEEN</b> 1500 <b>AND</b> 3000 <b>ORDER BY</b> SAL;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "36. Display ENAME and DEPTNO ordered by department number and name",
+                    sql: "<b>SELECT</b> ENAME, DEPTNO <b>FROM</b> EMP <b>ORDER BY</b> DEPTNO, ENAME;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "37. Display employees whose name starts with 'S' ordered by salary",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'S%' <b>ORDER BY</b> SAL;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "38. Display employees hired before 1982 with aliases ordered by hire date",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> Name, HIREDATE <b>AS</b> Hire_Date <b>FROM</b> EMP <b>WHERE</b> HIREDATE < '01-JAN-1982' <b>ORDER BY</b> HIREDATE;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "39. Display Name and Pay for department 10",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> Name, SAL <b>AS</b> Pay <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "40. Display employees with null commission ordered by salary in descending order",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> COMM <b>IS NULL</b> <b>ORDER BY</b> SAL <b>DESC</b>;",
+                    image: "Paste result here..."
+                }
+            ],
+            "Pattern Matching": [
+                {
+                    question: "1. display employees whose name starts with a",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'A%';",
+                    image: "./outputs/like/1.png"
+                },
+                {
+                    question: "2. display employees whose name starts with s",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'S%';",
+                    image: "./outputs/like/2.png"
+                },
+                {
+                    question: "3. display employees whose name ends with n",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%N';",
+                    image: "./outputs/like/3.png"
+                },
+                {
+                    question: "4. display employees whose name ends with r",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%R';",
+                    image: "./outputs/like/4.png"
+                },
+                {
+                    question: "33. display employees whose name contains a and commission is null",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%A%' <b>AND</b> COMM <b>IS NULL</b>;",
+                    image: "./outputs/like/33.png"
+                },
+                {
+                    question: "34. display employees whose job starts with c and salary < 1500",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> 'C%' <b>AND</b> SAL < 1500;",
+                    image: "./outputs/like/34.png"
+                },
+                {
+                    question: "35. display employees whose name ends with s and hired after 1981",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%S' <b>AND</b> HIREDATE > '31-DEC-1981';",
+                    image: "./outputs/like/35.png"
+                },
+                {
+                    question: "5. display employees whose name contains ll",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%LL%';",
+                    image: "./outputs/like/5.png"
+                },
+                {
+                    question: "6. display employees whose name contains ar",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%AR%';",
+                    image: "./outputs/like/6.png"
+                },
+                {
+                    question: "7. display employees whose job starts with m",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> 'M%';",
+                    image: "./outputs/like/7.png"
+                },
+                {
+                    question: "8. display employees whose job ends with an",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> '%AN';",
+                    image: "./outputs/like/8.png"
+                },
+                {
+                    question: "9. display employees whose job contains cl",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> '%CL%';",
+                    image: "./outputs/like/9.png"
+                },
+                {
+                    question: "10. display departments whose location starts with n",
+                    sql: "<b>SELECT</b> * <b>FROM</b> DEPT <b>WHERE</b> LOC <b>LIKE</b> 'N%';",
+                    image: "./outputs/like/10.png"
+                },
+                {
+                    question: "11. display employees whose name has exactly 4 characters",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '____';",
+                    image: "./outputs/like/11.png"
+                },
+                {
+                    question: "12. display employees whose name has exactly 5 characters",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '_____';",
+                    image: "./outputs/like/12.png"
+                },
+                {
+                    question: "13. display employees whose name has a as second character",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '_A%';",
+                    image: "./outputs/like/13.png"
+                },
+                {
+                    question: "14. display employees whose name has l as third character",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '__L%';",
+                    image: "./outputs/like/14.png"
+                },
+                {
+                    question: "15. display employees whose job has exactly 6 characters",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> '______';",
+                    image: "./outputs/like/15.png"
+                },
+                {
+                    question: "18. display employees whose name starts with a and ends with n",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'A%N';",
+                    image: "./outputs/like/18.png"
+                },
+                {
+                    question: "19. display employees whose name has exactly 2 characters before e",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '__E%';",
+                    image: "./outputs/like/19.png"
+                },
+                {
+                    question: "20. display employees whose name has exactly 1 character after a",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'A_';",
+                    image: "./outputs/like/20.png"
+                },
+                {
+                    question: "22. display employees whose name contains e",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%E%';",
+                    image: "./outputs/like/22.png"
+                },
+                {
+                    question: "23. display employees whose name does not contain a",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>NOT LIKE</b> '%A%';",
+                    image: "./outputs/like/23.png"
+                },
+                {
+                    question: "24. display employees whose job contains man",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> '%MAN%';",
+                    image: "./outputs/like/24.png"
+                },
+                {
+                    question: "25. display employees whose job does not start with c",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>NOT LIKE</b> 'C%';",
+                    image: "./outputs/like/25.png"
+                },
+                {
+                    question: "27. display employees whose name starts with j and has s anywhere",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'J%S%';",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "28. display employees whose job starts with s and ends with an",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> 'S%AN';",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "29. display employees whose name has a as second last character",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> '%A_';",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "31. display employees whose name starts with s and salary > 2000",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> ENAME <b>LIKE</b> 'S%' <b>AND</b> SAL > 2000;",
+                    image: "Paste result here..."
+                },
+                {
+                    question: "32. display employees whose job ends with man and deptno = 20",
+                    sql: "<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB <b>LIKE</b> '%MAN' <b>AND</b> DEPTNO = 20;",
+                    image: "Paste result here..."
+                }
+            ],
+            "Grouping & Having": [
+                {
+                    question: "1. display total number of employees",
+                    sql: "<b>SELECT COUNT</b>(*) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/1.png"
+                },
+                {
+                    question: "2. display total salary of all employees",
+                    sql: "<b>SELECT SUM</b>(SAL) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/2.png"
+                },
+                {
+                    question: "3. display average salary",
+                    sql: "<b>SELECT AVG</b>(SAL) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/3.png"
+                },
+                {
+                    question: "4. display highest salary",
+                    sql: "<b>SELECT MAX</b>(SAL) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/4.png"
+                },
+                {
+                    question: "5. display lowest salary",
+                    sql: "<b>SELECT MIN</b>(SAL) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/5.png"
+                },
+                {
+                    question: "6. display total number of departments in emp",
+                    sql: "<b>SELECT COUNT</b>(<b>DISTINCT</b> DEPTNO) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/6.png"
+                },
+                {
+                    question: "7. display number of managers",
+                    sql: "<b>SELECT COUNT</b>(*) <b>FROM</b> EMP <b>WHERE</b> JOB = 'MANAGER';",
+                    image: "./outputs/Grouping/7.png"
+                },
+                {
+                    question: "8. display total commission",
+                    sql: "<b>SELECT SUM</b>(COMM) <b>FROM</b> EMP;",
+                    image: "./outputs/Grouping/8.png"
+                },
+                {
+                    question: "10. display employees getting commission",
+                    sql: "<b>SELECT COUNT</b>(*) <b>FROM</b> EMP <b>WHERE</b> COMM <b>IS NOT NULL</b>;",
+                    image: "./outputs/Grouping/10.png"
+                },
+                {
+                    question: "11. display department-wise total salary",
+                    sql: "<b>SELECT</b> DEPTNO, <b>SUM</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO;",
+                    image: "./outputs/Grouping/11.png"
+                },
+                {
+                    question: "12. display department-wise average salary",
+                    sql: "<b>SELECT</b> DEPTNO, <b>AVG</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO;",
+                    image: "./outputs/Grouping/12.png"
+                },
+                {
+                    question: "13. display department-wise number of employees",
+                    sql: "<b>SELECT</b> DEPTNO, <b>COUNT</b>(*) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO;",
+                    image: "./outputs/Grouping/13.png"
+                },
+                {
+                    question: "14. display job-wise number of employees",
+                    sql: "<b>SELECT</b> JOB, <b>COUNT</b>(*) <b>FROM</b> EMP <b>GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/14.png"
+                },
+                {
+                    question: "15. display job-wise total salary",
+                    sql: "<b>SELECT</b> JOB, <b>SUM</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/15.png"
+                },
+                {
+                    question: "16. display job-wise maximum salary",
+                    sql: "<b>SELECT</b> JOB, <b>MAX</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/16.png"
+                },
+                {
+                    question: "18. display department-wise maximum salary",
+                    sql: "<b>SELECT</b> DEPTNO, <b>MAX</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO;",
+                    image: "./outputs/Grouping/18.png"
+                },
+                {
+                    question: "21. display department-wise job-wise number of employees",
+                    sql: "<b>SELECT</b> DEPTNO, JOB, <b>COUNT</b>(*) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO, JOB;",
+                    image: "./outputs/Grouping/21.png"
+                },
+                {
+                    question: "22. display department-wise job-wise total salary",
+                    sql: "<b>SELECT</b> DEPTNO, JOB, <b>SUM</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO, JOB;",
+                    image: "./outputs/Grouping/22.png"
+                },
+                {
+                    question: "26. display department and job having highest total salary",
+                    sql: "<b>SELECT</b> DEPTNO, JOB, <b>SUM</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO, JOB <b>HAVING SUM</b>(SAL) = (<b>SELECT MAX</b>(<b>SUM</b>(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO, JOB);",
+                    image: "./outputs/Grouping/26.png"
+                },
+                {
+                    question: "27. display department with maximum total salary",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING SUM</b>(SAL) = (<b>SELECT MAX</b>(<b>SUM</b>(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);",
+                    image: "./outputs/Grouping/27.png"
+                },
+                {
+                    question: "28. display job having minimum average salary",
+                    sql: "<b>SELECT</b> JOB <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING AVG</b>(SAL) = (<b>SELECT MIN</b>(<b>AVG</b>(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> JOB);",
+                    image: "./outputs/Grouping/28.png"
+                },
+                {
+                    question: "30. display department having highest number of employees",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*) = (<b>SELECT MAX</b>(<b>COUNT</b>(*)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);",
+                    image: "./outputs/Grouping/30.png"
+                },
+                {
+                    question: "34. display department having minimum total salary",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING SUM</b>(SAL) = (<b>SELECT MIN</b>(<b>SUM</b>(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);",
+                    image: "./outputs/Grouping/34.png"
+                },
+                {
+                    question: "35. display job having highest average salary",
+                    sql: "<b>SELECT</b> JOB <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING AVG</b>(SAL) = (<b>SELECT MAX</b>(<b>AVG</b>(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> JOB);",
+                    image: "./outputs/Grouping/35.png"
+                },
+                {
+                    question: "37. display job-wise count of employees not getting commission",
+                    sql: "<b>SELECT</b> JOB, <b>COUNT</b>(*) <b>FROM</b> EMP <b>WHERE</b> COMM <b>IS NULL GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/37.png"
+                },
+                {
+                    question: "42. display number of employees without commission",
+                    sql: "<b>SELECT COUNT</b>(*) <b>FROM</b> EMP <b>WHERE</b> COMM <b>IS NULL</b>;",
+                    image: "./outputs/Grouping/42.png"
+                },
+                {
+                    question: "45. display job-wise total commission",
+                    sql: "<b>SELECT</b> JOB, <b>SUM</b>(COMM) <b>FROM</b> EMP <b>GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/45.png"
+                },
+                {
+                    question: "49. display job-wise avg salary where total salary > 5000",
+                    sql: "<b>SELECT</b> JOB, <b>AVG</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING SUM</b>(SAL) > 5000;",
+                    image: "./outputs/Grouping/49.png"
+                },
+                {
+                    question: "50. display dept-wise total salary where employee count > 4",
+                    sql: "<b>SELECT</b> DEPTNO, <b>SUM</b>(SAL) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*) > 4;",
+                    image: "./outputs/Grouping/50.png"
+                },
+                {
+                    question: "53. display jobs having more than 2 employees",
+                    sql: "<b>SELECT</b> JOB <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING COUNT</b>(*) > 2;",
+                    image: "./outputs/Grouping/53.png"
+                },
+                {
+                    question: "56. display departments having more than 3 employees",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*) > 3;",
+                    image: "./outputs/Grouping/56.png"
+                },
+                {
+                    question: "58. display job-wise max salary where salary > 1500",
+                    sql: "<b>SELECT</b> JOB, <b>MAX</b>(SAL) <b>FROM</b> EMP <b>WHERE</b> SAL > 1500 <b>GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/58.png"
+                },
+                {
+                    question: "60. display job-wise avg salary where dept is 20",
+                    sql: "<b>SELECT</b> JOB, <b>AVG</b>(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 20 <b>GROUP BY</b> JOB;",
+                    image: "./outputs/Grouping/60.png"
+                }
+            ],
+            "Subqueries": [
+                { question: "1. Salary greater than JONES", sql: "<b>SELECT</b> ENAME <b>FROM</b> SCOTT.EMP <b>WHERE</b> SAL>(<b>SELECT</b> SAL <b>FROM</b> SCOTT.EMP <b>WHERE</b> ENAME='JONES');", image: "./outputs/subQuery/1.png" },
+                { question: "2. Same salary as SCOTT", sql: "<b>SELECT</b> ENAME <b>FROM</b> SCOTT.EMP <b>WHERE</b> SAL=(<b>SELECT</b> SAL <b>FROM</b> SCOTT.EMP <b>WHERE</b> ENAME='SCOTT');", image: "./outputs/subQuery/2.png" },
+                { question: "3. Hired after ALLEN", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</b> HIREDATE>(<b>SELECT</b> HIREDATE <b>FROM</b> SCOTT.EMP <b>WHERE</b> ENAME='ALLEN');", image: "./outputs/subQuery/3.png" },
+                { question: "4. Same dept as BLAKE", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</b> DEPTNO=(<b>SELECT</b> DEPTNO <b>FROM</b> SCOTT.EMP <b>WHERE</b> ENAME='BLAKE');", image: "./outputs/subQuery/4.png" },
+                { question: "5. Same job as MILLER", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</b> JOB=(<b>SELECT</b> JOB <b>FROM</b> SCOTT.EMP <b>WHERE</b> ENAME='MILLER');", image: "./outputs/subQuery/5.png" },
+                { question: "6. Less than avg salary", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</ b> SAL<(< b > SELECT </ b > AVG(SAL) < b > FROM </ b > SCOTT.EMP);", image: "./outputs/subQuery/6.png" },
+                { question: "7. More than max CLERK", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</b> SAL>(<b>SELECT</b> MAX(SAL) <b>FROM</b> SCOTT.EMP <b>WHERE</b> JOB='CLERK');", image: "./outputs/subQuery/7.png" },
+                { question: "8. Min salary employee", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</b> SAL=(<b>SELECT</b> MIN(SAL) <b>FROM</b> SCOTT.EMP);", image: "./outputs/subQuery/8.png" },
+                { question: "9. Max salary employee", sql: "<b>SELECT</b> * <b>FROM</b> SCOTT.EMP <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> SCOTT.EMP);", image: "./outputs/subQuery/9.png" },
+                { question: "10. Dept in NEW YORK", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> DEPT <b>WHERE</b> LOC='NEW YORK');", image: "./outputs/subQuery/10.png" },
+
+                { question: "11. Salary = ANY dept30", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP <b>WHERE</b> SAL=<b>ANY</b>(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> DEPTNO=30);", image: "./outputs/subQuery/11.png" },
+                { question: "12. Salary > ALL clerks", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL><b>ALL</b>(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> JOB='CLERK');", image: "./outputs/subQuery/12.png" },
+                { question: "13. Salary < ANY manager", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL<<b>ANY</b>(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> JOB='MANAGER');", image: "./outputs/subQuery/13.png" },
+                { question: "14. Job in dept20", sql: "<b>SELECT</b> ENAME,JOB <b>FROM</b> EMP <b>WHERE</b> JOB <b>IN</b>(<b>SELECT</b> JOB <b>FROM</ b > EMP < b > WHERE </ b > DEPTNO=20);", image: "./outputs/subQuery/14.png" },
+                { question: "15. Dept has salesman", sql: "<b>SELECT</ b > ENAME,DEPTNO < b > FROM </ b > EMP E < b > WHERE EXISTS </ b >(< b > SELECT </ b > 1 < b > FROM </ b > EMP < b > WHERE </ b > DEPTNO=E.DEPTNO < b > AND </ b > JOB='SALESMAN');", image: "./outputs/subQuery/15.png" },
+
+                { question: "16. Salary equals clerk", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL=<b>ANY</b>(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> JOB='CLERK');", image: "./outputs/subQuery/16.png" },
+                { question: "17. Not salesman dept", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>NOT IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>WHERE</b> JOB='SALESMAN');", image: "./outputs/subQuery/17.png" },
+                { question: "18. > ALL dept10", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL><b>ALL</b>(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> DEPTNO=10);", image: "./outputs/subQuery/18.png" },
+                { question: "19. Dept >3 emp", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</ b > EMP < b > GROUP BY </ b > DEPTNO < b > HAVING COUNT </ b >(*)>3);", image: "./outputs/subQuery/19.png" },
+                { question: "20. > manager salary", sql: "<b>SELECT</ b > ENAME,SAL < b > FROM </ b > EMP E < b > WHERE </ b > SAL>(< b > SELECT </ b > SAL < b > FROM </ b > EMP < b > WHERE </ b > EMPNO=E.MGR);", image: "./outputs/subQuery/20.png" },
+
+                { question: "21. Job avg > overall avg", sql: "<b>SELECT</b> JOB <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING</b> AVG(SAL)>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP);", image: "" },
+                { question: "22. > dept avg", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO);", image: "" },
+                { question: "23. Max per dept", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO);", image: "" },
+                {
+                    question: "24. Min per job",
+
+                    sql: "<b>SELECT</b> ENAME,SAL,JOB <b>FROM</b> EMP E <b>WHERE</b> SAL=(<b>SELECT</b> MIN(SAL) <b>FROM</b> EMP <b>WHERE</b> JOB=E.JOB);",
+                    image: ""
+                },
+                {
+                    question: "25. Dept sum > dept20",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING</b> SUM(SAL)>(<b>SELECT</b> SUM(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=20);",
+                    image: ""
+                },
+
+                {
+                    question: "26. Max salary per job", sql: "<b>SELECT</b> ENAME,SAL,JOB <b>FROM</b> EMP E <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> JOB=E.JOB);", image: ""
+                },
+                { question: "27. > overall avg", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP);", image: "" },
+                { question: "28. Dept max count", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*)=(<b>SELECT</b> MAX(COUNT(*)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);", image: "" },
+                { question: "29. Job min avg", sql: "<b>SELECT</b> JOB <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING</b> AVG(SAL)=(<b>SELECT</b> MIN(AVG(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> JOB);", image: "" },
+                { question: "30. > avg clerk", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> JOB='CLERK');", image: "" },
+
+                { question: "31. Dept highest avg", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING</b> AVG(SAL)=(<b>SELECT</b> MAX(AVG(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);", image: "" },
+                { question: "32. > own dept avg", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO);", image: "" },
+                { question: "33. Max in dept", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO);", image: "" },
+                { question: "34. Min in dept", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL=(<b>SELECT</b> MIN(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO);", image: "" },
+                { question: "35. > job avg", sql: "<b>SELECT</b> ENAME,SAL,JOB <b>FROM</b> EMP E <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> JOB=E.JOB);", image: "" },
+
+                { question: "36. Only employee in dept", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> 1=(<b>SELECT</b> COUNT(*) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO);", image: "" },
+                { question: "37. Dept salary >5000 exists", sql: "<b>SELECT DISTINCT</b> DEPTNO <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>WHERE</b> SAL>5000);", image: "" },
+                { question: "38. Dept >3 employees", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*)>3);", image: "" },
+                { question: "39. Job >2 employees", sql: "<b>SELECT</b> ENAME,JOB <b>FROM</b> EMP E <b>WHERE</b> JOB <b>IN</b>(<b>SELECT</b> JOB <b>FROM</b> EMP <b>GROUP BY</b> JOB <b>HAVING COUNT</b>(*)>2);", image: "" },
+                { question: "40. Dept no commission", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE NOT EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO <b>AND</b> COMM IS NOT NULL);", image: "" },
+
+                { question: "41. Dept has manager", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO <b>AND</b> JOB='MANAGER');", image: "" },
+                { question: "42. Dept with employees", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> DEPT D <b>WHERE EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=D.DEPTNO);", image: "" },
+                { question: "43. Dept without employees", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> DEPT D <b>WHERE NOT EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=D.DEPTNO);", image: "" },
+                { question: "44. Managers (have subordinates)", sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP E <b>WHERE EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> MGR=E.EMPNO);", image: "" },
+                { question: "45. Not managers", sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP E <b>WHERE NOT EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> MGR=E.EMPNO);", image: "" },
+
+                { question: "46. Dept has salesman", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO <b>AND</b> JOB='SALESMAN');", image: "" },
+                { question: "47. Dept no salesman", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> DEPT D <b>WHERE NOT EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=D.DEPTNO <b>AND</b> JOB='SALESMAN');", image: "" },
+                { question: "48. Dept has commission", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO <b>AND</b> COMM IS NOT NULL);", image: "" },
+                { question: "49. All get commission", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*)=COUNT(COMM);", image: "" },
+                { question: "50. Dept no clerks", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP E <b>WHERE NOT EXISTS</b>(<b>SELECT</b> 1 <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO <b>AND</b> JOB='CLERK');", image: "" },
+
+                { question: "51. Dept in CHICAGO", sql: "<b>SELECT</b> ENAME,DEPTNO <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> DEPT <b>WHERE</b> LOC='CHICAGO');", image: "" },
+                { question: "52. Dept avg salary >2000", sql: "<b>SELECT</b> DEPTNO,AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> SAL>2000 <b>GROUP BY</b> DEPTNO;", image: "" },
+                { question: "53. Job total > dept avg", sql: "<b>SELECT</b> JOB,SUM(SAL) <b>FROM</b> EMP E <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO) <b>GROUP BY</b> JOB;", image: "" },
+                { question: "54. Dept avg > overall", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING</b> AVG(SAL)>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP);", image: "" },
+                { question: "55. Job count >1500", sql: "<b>SELECT</b> JOB,COUNT(*) <b>FROM</b> EMP <b>WHERE</b> SAL>1500 <b>GROUP BY</b> JOB;", image: "" },
+
+                { question: "56. Dept >2 commission", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>WHERE</b> COMM IS NOT NULL <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*)>2;", image: "" },
+                { question: "57. Job max salary after 1981", sql: "<b>SELECT</b> JOB,MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> HIREDATE>'31-DEC-1981' <b>GROUP BY</b> JOB;", image: "" },
+                { question: "58. Dept total excluding 30", sql: "<b>SELECT</b> DEPTNO,SUM(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO<>30 <b>GROUP BY</b> DEPTNO;", image: "" },
+                { question: "59. Dept total > avg total", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING</b> SUM(SAL)>(<b>SELECT</b> AVG(SUM(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);", image: "" },
+                { question: "60. Job avg dept>3", sql: "<b>SELECT</b> JOB,AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*)>3) <b>GROUP BY</b> JOB;", image: "" },
+
+                { question: "61. Dept+job max total", sql: "<b>SELECT</b> DEPTNO,JOB <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO,JOB <b>HAVING</b> SUM(SAL)=(<b>SELECT</b> MAX(SUM(SAL)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO,JOB);", image: "" },
+                { question: "62. Second highest salary", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> SAL<(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP));", image: "" },
+                { question: "63. > avg Dallas dept", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL>(<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO <b>IN</b>(<b>SELECT</b> DEPTNO <b>FROM</b> DEPT <b>WHERE</b> LOC='DALLAS'));", image: "" },
+                { question: "64. Max=Min dept", sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING</b> MAX(SAL)=MIN(SAL);", image: "" },
+                { question: "65. Between clerk & manager", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL<ALL(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> JOB='MANAGER') <b>AND</b> SAL>ANY(<b>SELECT</b> SAL <b>FROM</b> EMP <b>WHERE</b> JOB='CLERK');", image: "" },
+
+                { question: "66. 2nd highest per dept", sql: "<b>SELECT</b> ENAME,SAL,DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO <b>AND</b> SAL<(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO=E.DEPTNO));", image: "" },
+                { question: "67. > median salary", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL>(<b>SELECT</b> MEDIAN(SAL) <b>FROM</b> EMP);", image: "" },
+                { question: "68. >50% employees", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL>(<b>SELECT</b> MEDIAN(SAL) <b>FROM</b> EMP);", image: "" },
+                { question: "69. Third highest salary", sql: "<b>SELECT</b> ENAME,SAL <b>FROM</b> EMP <b>WHERE</b> SAL=(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> SAL<(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> SAL<(<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP)));", image: "" }
+            ],
+            "Scalar Functions": [
+    {
+        "question": "1. Display employee name, hire date, current date and days worked",
+        "sql": "<b>SELECT</b> ENAME, HIREDATE, SYSDATE,\n  (SYSDATE - HIREDATE) <b>AS</b> DAYS_WORKED\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/1.png"
+    },
+    {
+        "question": "2. Display hire date in full format",
+        "sql": "<b>SELECT</b> ENAME,\n  TO_CHAR(HIREDATE, 'Day, Month DD, YYYY') <b>AS</b> FORMATTED_DATE\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/2.png"
+    },
+    {
+        "question": "3. Employees joined in current month",
+        "sql": "<b>SELECT</b> ENAME, HIREDATE\n<b>FROM</b> EMP\n<b>WHERE</b> TO_CHAR(HIREDATE, 'MM') = TO_CHAR(SYSDATE, 'MM');",
+        "image": "./outputs/scalarfun/3.png"
+    },
+    {
+        "question": "4. Next Monday after hire date",
+        "sql": "<b>SELECT</b> ENAME,\n  NEXT_DAY(HIREDATE, 'MONDAY') <b>AS</b> NEXT_MONDAY\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/4.png"
+    },
+    {
+        "question": "5. Last day of joining month",
+        "sql": "<b>SELECT</b> ENAME,\n  LAST_DAY(HIREDATE) <b>AS</b> LAST_DAY\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/5.png"
+    },
+    {
+        "question": "7. Number of months worked",
+        "sql": "<b>SELECT</b> ENAME,\n  MONTHS_BETWEEN(SYSDATE, HIREDATE) <b>AS</b> MONTHS_WORKED\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/7.png"
+    },
+    {
+        "question": "8. Hire date after adding 3 years 6 months",
+        "sql": "<b>SELECT</b> ENAME, HIREDATE,\n  ADD_MONTHS(HIREDATE, 42) <b>AS</b> NEW_DATE\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/8.png"
+    },
+    {
+        "question": "9. Employees hired between given dates",
+        "sql": "<b>SELECT</b> ENAME, HIREDATE\n<b>FROM</b> EMP\n<b>WHERE</b> HIREDATE <b>BETWEEN</b>\n  TO_DATE('01-JAN-1981', 'DD-MON-YYYY') <b>AND</b>\n  TO_DATE('31-DEC-1981', 'DD-MON-YYYY');",
+        "image": "./outputs/scalarfun/9.png"
+    },
+    {
+        "question": "10. Difference in years between sysdate and hiredate",
+        "sql": "<b>SELECT</b> ENAME,\n  ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE) / 12) <b>AS</b> YEARS\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/10.png"
+    },
+    {
+        "question": "11. Salary rounded to nearest 1000",
+        "sql": "<b>SELECT</b> ENAME,\n  ROUND(SAL, -3) <b>AS</b> ROUNDED_SAL\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/11.png"
+    },
+    {
+        "question": "13. Square root of salary",
+        "sql": "<b>SELECT</b> ENAME,\n  SQRT(SAL) <b>AS</b> SQRT_SAL\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/13.png"
+    },
+    {
+        "question": "14. Absolute difference between salary and 5000",
+        "sql": "<b>SELECT</b> ENAME,\n  ABS(SAL - 5000) <b>AS</b> DIFFERENCE\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/14.png"
+    },
+    {
+        "question": "17. Generate random number between 1 and 500",
+        "sql": "<b>SELECT</b> ENAME,\n  TRUNC(DBMS_RANDOM.VALUE(1, 501)) <b>AS</b> RANDOM_NUM\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/17.png"
+    },
+    {
+        "question": "20. Round salary to nearest 100 and 1000",
+        "sql": "<b>SELECT</b> ENAME,\n  ROUND(SAL, -2) <b>AS</b> NEAREST_100,\n  ROUND(SAL, -3) <b>AS</b> NEAREST_1000\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/20.png"
+    },
+    {
+        "question": "21. Names in uppercase and lowercase",
+        "sql": "<b>SELECT</b> UPPER(ENAME) <b>AS</b> UPPER_NAME,\n  LOWER(ENAME) <b>AS</b> LOWER_NAME\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/21.png"
+    },
+    {
+        "question": "22. Employee name length",
+        "sql": "<b>SELECT</b> ENAME,\n  LENGTH(ENAME) <b>AS</b> NAME_LENGTH\n<b>FROM</b> EMP;",
+        "image": "./outputs/scalarfun/22.png"
+    },
+    {
+        "question": "23. First 4 characters of name",
+        "sql": "<b>SELECT</b> ENAME,\n  SUBSTR(ENAME, 1, 4) <b>AS</b> FIRST4\n<b>FROM</b> EMP;",
+        "image": ""
+    },
+    {
+        "question": "24. Concatenate name and job",
+        "sql": "<b>SELECT</b> ENAME || ' - ' || JOB <b>AS</b> DETAILS\n<b>FROM</b> EMP;",
+        "image": ""
+    },
+    {
+        "question": "25. Replace A with #",
+        "sql": "<b>SELECT</b> REPLACE(ENAME, 'A', '#') <b>AS</b> MODIFIED_NAME\n<b>FROM</b> EMP;",
+        "image": ""
+    },
+    {
+        "question": "28. Name in InitCap format",
+        "sql": "<b>SELECT</b> INITCAP(ENAME) <b>AS</b> FORMATTED_NAME\n<b>FROM</b> EMP;",
+        "image": ""
+    },
+    {
+        "question": "32. Names starting with S",
+        "sql": "<b>SELECT</b> ENAME\n<b>FROM</b> EMP\n<b>WHERE</b> ENAME <b>LIKE</b> 'S%';",
+        "image": ""
+    },
+    {
+        "question": "36. Convert sysdate to DD/MM/YYYY",
+        "sql": "<b>SELECT</b> TO_CHAR(SYSDATE, 'DD/MM/YYYY') <b>AS</b> TODAY\n<b>FROM</b> DUAL;",
+        "image": ""
+    },
+    {
+        "question": "38. Salary in currency format",
+        "sql": "<b>SELECT</b> ENAME,\n  TO_CHAR(SAL, '99,999') <b>AS</b> SALARY\n<b>FROM</b> EMP;",
+        "image": ""
+    },
+    {
+        "question": "47. Display commission or No Commission",
+        "sql": "<b>SELECT</b> ENAME,\n  NVL(TO_CHAR(COMM), 'No Commission') <b>AS</b> COMMISSION\n<b>FROM</b> EMP;",
+        "image": ""
+    },
+    {
+        "question": "55. Categorize employees based on experience",
+        "sql": "<b>SELECT</b> ENAME,\n  <b>CASE</b>\n    WHEN MONTHS_BETWEEN(SYSDATE, HIREDATE) / 12 < 5 THEN 'LOW'\n    WHEN MONTHS_BETWEEN(SYSDATE, HIREDATE) / 12 <b>BETWEEN</b> 5 AND 10 THEN 'MEDIUM'\n    ELSE 'HIGH'\n  <b>END</b> AS EXPERIENCE\n<b>FROM</b> EMP;",
+        "image": ""
+    }
+],
+            "SQL Joins": [
+                {
+                    question: "1. Display employee name and department name",
+                    sql: "<b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO;",
+                    image: "./outputs/joins/1.png"
+                },
+                {
+                    question: "2. Display employee name, salary, and department location",
+                    sql: "<b>SELECT</b> ENAME, SAL, LOC <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO;",
+                    image: "./outputs/joins/2.png"
+                },
+                {
+                    question: "3. Display employee name and department name for department 10",
+                    sql: "<b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> E.DEPTNO = 10;",
+                    image: "./outputs/joins/3.png"
+                },
+                {
+                    question: "4. Display employee name and department name where salary > 2000",
+                    sql: "<b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> SAL > 2000;",
+                    image: "./outputs/joins/4.png"
+                },
+                {
+                    question: "5. Display employee name, job, and department name",
+                    sql: "<b>SELECT</b> ENAME, JOB, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO;",
+                    image: "./outputs/joins/5.png"
+                },
+                {
+                    question: "6. Display employee name and department location for clerks",
+                    sql: "<b>SELECT</b> ENAME, LOC <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> JOB = 'CLERK';",
+                    image: "./outputs/joins/6.png"
+                },
+                {
+                    question: "7. Display employee name and department name working in NEW YORK",
+                    sql: "<b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> LOC = 'NEW YORK';",
+                    image: "./outputs/joins/7.png"
+                },
+                {
+                    question: "8. Display employee name, department number, and department name",
+                    sql: "<b>SELECT</b> ENAME, E.DEPTNO, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO;",
+                    image: "./outputs/joins/8.png"
+                },
+                {
+                    question: "9. Display employees hired after 1981 with department name",
+                    sql: "<b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> HIREDATE > TO_DATE('31-DEC-1981','DD-MON-YYYY');",
+                    image: "./outputs/joins/9.png"
+                },
+                {
+                    question: "10. Display employees with commission along with department name",
+                    sql: "<b>SELECT</b> ENAME, COMM, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> COMM IS NOT NULL;",
+                    image: "./outputs/joins/10.png"
+                },
+
+                {
+                    question: "11. Display employees whose salary is between 1500 and 3000 with department",
+                    sql: "<b>SELECT</b> ENAME, SAL, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>AND</b> SAL BETWEEN 1500 AND 3000;",
+                    image: "./outputs/joins/11.png"
+                },
+
+                {
+                    question: "19. Display employees who are highest paid in their department",
+                    sql: "<b>SELECT</b> ENAME, SAL, DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL = (<b>SELECT</b> MAX(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO = E.DEPTNO);",
+                    image: "./outputs/joins/19.png"
+                },
+                {
+                    question: "20. Display employees earning more than their department average",
+                    sql: "<b>SELECT</b> ENAME, SAL, DEPTNO <b>FROM</b> EMP E <b>WHERE</b> SAL > (<b>SELECT</b> AVG(SAL) <b>FROM</b> EMP <b>WHERE</b> DEPTNO = E.DEPTNO);",
+                    image: "./outputs/joins/20.png"
+                },
+                {
+                    question: "21. Display department with maximum employees",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO <b>HAVING COUNT</b>(*) = (<b>SELECT</b> MAX(COUNT(*)) <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO);",
+                    image: "./outputs/joins/21.png"
+                },
+
+                {
+                    question: "23. Display department name and average salary",
+                    sql: "<b>SELECT</b> DNAME, AVG(SAL) <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>GROUP BY</b> DNAME;",
+                    image: "./outputs/joins/23.png"
+                },
+                {
+                    question: "24. Display department name and total salary",
+                    sql: "<b>SELECT</b> DNAME, SUM(SAL) <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>GROUP BY</b> DNAME;",
+                    image: ""
+                },
+                {
+                    question: "25. Display department name and number of employees",
+                    sql: "<b>SELECT</b> DNAME, COUNT(*) <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>GROUP BY</b> DNAME;",
+                    image: ""
+                },
+
+                {
+                    question: "26. Display employees not assigned to any department",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> DEPTNO IS NULL;",
+                    image: ""
+                },
+                {
+                    question: "27. Display departments with no employees",
+                    sql: "<b>SELECT</b> DNAME <b>FROM</b> DEPT <b>WHERE</b> DEPTNO NOT IN (<b>SELECT</b> DEPTNO <b>FROM</b> EMP);",
+                    image: ""
+                },
+                {
+                    question: "28. Display all departments with employees (even if no employees)",
+                    sql: "<b>SELECT</b> DNAME, ENAME <b>FROM</b> DEPT D <b>LEFT JOIN</b> EMP E <b>ON</b> D.DEPTNO = E.DEPTNO;",
+                    image: ""
+                }
+            ],
+            "Set Operators": [
+                {
+                    question: "1. Display all department numbers from both EMP and DEPT using UNION",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>UNION</b> <b>SELECT</b> DEPTNO <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/1.png"
+                },
+                {
+                    question: "2. Display all department numbers including duplicates using UNION ALL",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>UNION ALL</b> <b>SELECT</b> DEPTNO <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/2.png"
+                },
+                {
+                    question: "3. Display department numbers present in both EMP and DEPT",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>INTERSECT</b> <b>SELECT</b> DEPTNO <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/3.png"
+                },
+                {
+                    question: "4. Display department numbers present in EMP but not in DEPT",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> EMP <b>MINUS</b> <b>SELECT</b> DEPTNO <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/4.png"
+                },
+                {
+                    question: "5. Display department numbers in DEPT not assigned to any employee",
+                    sql: "<b>SELECT</b> DEPTNO <b>FROM</b> DEPT <b>MINUS</b> <b>SELECT</b> DEPTNO <b>FROM</b> EMP;",
+                    image: "./outputs/setOp/5.png"
+                },
+                {
+                    question: "6. Display employee names and department names in single column",
+                    sql: "<b>SELECT</b> ENAME <b>AS</b> NAME <b>FROM</b> EMP <b>UNION</b> <b>SELECT</b> DNAME <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/6.png"
+                },
+                {
+                    question: "7. Display all employee names and department names including duplicates",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>UNION ALL</b> <b>SELECT</b> DNAME <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/7.png"
+                },
+
+                {
+                    question: "9. Display employee names that are not department names",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>MINUS</b> <b>SELECT</b> DNAME <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/9.png"
+                },
+
+                {
+                    question: "11. Display employee names from department 10 and 20 using UNION",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10 <b>UNION</b> <b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 20;",
+                    image: "./outputs/setOp/11.png"
+                },
+                {
+                    question: "12. Display employee names from department 10 and 20 including duplicates",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10 <b>UNION ALL</b> <b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 20;",
+                    image: "./outputs/setOp/12.png"
+                },
+
+                {
+                    question: "16. Display all unique jobs and department names",
+                    sql: "<b>SELECT</b> JOB <b>FROM</b> EMP <b>UNION</b> <b>SELECT</b> DNAME <b>FROM</b> DEPT;",
+                    image: "./outputs/setOp/16.png"
+                },
+
+                {
+                    question: "25. Combine employees with salary > 3000 and job = 'MANAGER'",
+                    sql: "<b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> SAL > 3000 <b>UNION</b> <b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> JOB = 'MANAGER';",
+                    image: "./outputs/setOp/25.png"
+                }
+            ],
+            "Database Views": [
+                {
+                    question: "1. Create a view to display employee name, salary, and department number",
+                    sql: "<b>CREATE  VIEW</b> emp_view1 <b>AS</b> <b>SELECT</b> ENAME, SAL, DEPTNO <b>FROM</b> EMP;",
+                    image: "./outputs/views/1.png"
+                },
+                {
+                    question: "2. Create a view to display employee name and department name",
+                    sql: "<b>CREATE VIEW</b> emp_dept_view <b>AS</b> <b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO;",
+                    image: "./outputs/views/2.png"
+                },
+                {
+                    question: "3. Create a view to display employees working in department 10",
+                    sql: "<b>CREATE VIEW</b> dept10_view <b>AS</b> <b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10;",
+                    image: "./outputs/views/3.png"
+                },
+                {
+                    question: "4. Create a view with annual salary",
+                    sql: "<b>CREATE VIEW</b> annual_salary_view <b>AS</b> <b>SELECT</b> ENAME, JOB, SAL*12 <b>AS</b> ANNUAL_SALARY <b>FROM</b> EMP;",
+                    image: "./outputs/views/4.png"
+                },
+                {
+                    question: "5. Create a view to display department name and location",
+                    sql: "<b>CREATE VIEW</b> dept_view <b>AS</b> <b>SELECT</b> DNAME, LOC <b>FROM</b> DEPT;",
+                    image: "./outputs/views/5.png"
+                },
+                {
+                    question: "6. Create a view with employee name, department name, and location",
+                    sql: "<b>CREATE VIEW</b> emp_full_view <b>AS</b> <b>SELECT</b> ENAME, DNAME, LOC <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO;",
+                    image: "./outputs/views/6.png"
+                },
+                {
+                    question: "7. Create a view for employees earning more than 3000",
+                    sql: "<b>CREATE VIEW</b> high_salary_view <b>AS</b> <b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> SAL > 3000;",
+                    image: "./outputs/views/7.png"
+                },
+                {
+                    question: "8. Create a view for department-wise total salary",
+                    sql: "<b>CREATE VIEW</b> dept_total_sal <b>AS</b> <b>SELECT</b> DEPTNO, SUM(SAL) <b>AS</b> TOTAL_SAL <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO;",
+                    image: "./outputs/views/8.png"
+                },
+                {
+                    question: "9. Create a view to display only managers",
+                    sql: "<b>CREATE VIEW</b> manager_view <b>AS</b> <b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> JOB = 'MANAGER';",
+                    image: "./outputs/views/9.png"
+                },
+                {
+                    question: "10. Create a view with column aliases",
+                    sql: "<b>CREATE VIEW</b> alias_view <b>AS</b> <b>SELECT</b> ENAME <b>AS</b> EMP_NAME, SAL <b>AS</b> EMP_SAL <b>FROM</b> EMP;",
+                    image: "./outputs/views/10.png"
+                },
+
+                {
+                    question: "11. Create a view for department 20 with check option",
+                    sql: "<b>CREATE VIEW</b> dept20_view <b>AS</b> <b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 20 <b>WITH CHECK OPTION</b>;",
+                    image: "./outputs/views/11.png"
+                },
+
+                {
+                    question: "12. Insert into view (valid insert)",
+                    sql: "<b>INSERT INTO</b> dept20_view (EMPNO, ENAME, JOB, SAL, DEPTNO) <b>VALUES</b> (9001, 'TEST1', 'CLERK', 1000, 20);",
+                    image: "./outputs/views/12.png"
+                },
+                {
+                    question: "13. Insert into view (invalid insert)",
+                    sql: "<b>INSERT INTO</b> dept20_view (EMPNO, ENAME, JOB, SAL, DEPTNO) <b>VALUES</b> (9002, 'TEST2', 'CLERK', 1000, 30);",
+                    image: "./outputs/views/13.png"
+                },
+
+                {
+                    question: "15. Create view with salary condition and check option",
+                    sql: "<b>CREATE VIEW</b> sal_view <b>AS</b> <b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> SAL > 2000 <b>WITH CHECK OPTION</b>;",
+                    image: "./outputs/views/15.png"
+                },
+
+                {
+                    question: "16. Create read only view",
+                    sql: "<b>CREATE VIEW</b> readonly_emp <b>AS</b> <b>SELECT</b> * <b>FROM</b> EMP <b>WITH READ ONLY</b>;",
+                    image: "./outputs/views/16.png"
+                },
+                {
+                    question: "17. Create read only view with join",
+                    sql: "<b>CREATE VIEW</b> readonly_join <b>AS</b> <b>SELECT</b> ENAME, DNAME <b>FROM</b> EMP E, DEPT D <b>WHERE</b> E.DEPTNO = D.DEPTNO <b>WITH READ ONLY</b>;",
+                    image: "./outputs/views/17.png"
+                },
+
+                {
+                    question: "21. Create materialized view for employee name and salary",
+                    sql: "<b>CREATE MATERIALIZED VIEW</b> mv_emp <b>BUILD IMMEDIATE</b> <b>REFRESH COMPLETE</b> <b>AS</b> <b>SELECT</b> ENAME, SAL <b>FROM</b> EMP;",
+                    image: "./outputs/views/21.png"
+                },
+
+                {
+                    question: "26. Create materialized view for department-wise total salary",
+                    sql: "<b>CREATE MATERIALIZED VIEW</b> mv_dept_sal <b>BUILD IMMEDIATE</b> <b>REFRESH COMPLETE</b> <b>AS</b> <b>SELECT</b> DEPTNO, SUM(SAL) <b>AS</b> TOTAL_SAL <b>FROM</b> EMP <b>GROUP BY</b> DEPTNO;",
+                    image: "./outputs/views/26.png"
+                }
+            ],
+            "TCL and DCL": [
+                {
+                    question: "19. Insert a new employee record into EMP table and commit the changes.",
+                    sql: "<b>INSERT INTO</b> EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) \n<b>VALUES</b> (8001, 'JIYA', 'DEVELOPER', 7698, <b>TO_DATE</b>('08-APR-2026','DD-MON-YYYY'), 5000, (null), 30);\n<b>COMMIT;</b>",
+                    image: "./outputs/tcl/19.png"
+                },
+                {
+                    question: "20. Update salary of employees in department 10 and commit the changes.",
+                    sql: "<b>UPDATE</b> EMP <b>SET</b> SAL = SAL + 500 <b>WHERE</b> DEPTNO = 10;\n<b>COMMIT;</b>",
+                    image: "./outputs/tcl/20.png"
+                },
+                {
+                    question: "21. Delete employees with salary less than 1000 and commit the transaction.",
+                    sql: "<b>DELETE FROM</b> EMP <b>WHERE</b> SAL < 1000;\n<b>COMMIT;</b>",
+                    image: "./outputs/tcl/21.png"
+                }
+            ],
+            "PLSQL: Basics": [
+    {
+        "question": "1. print your name and city",
+        "sql": "<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>('Jiya');\n  <b>DBMS_OUTPUT.PUT_LINE</b>('chandigarh');\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/1.png"
+    },
+    {
+        "question": "2. display numbers from 1 to 5",
+        "sql": "<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>(1);\n  <b>DBMS_OUTPUT.PUT_LINE</b>(2);\n  <b>DBMS_OUTPUT.PUT_LINE</b>(3);\n  <b>DBMS_OUTPUT.PUT_LINE</b>(4);\n  <b>DBMS_OUTPUT.PUT_LINE</b>(5);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/2.png"
+    },
+    {
+        "question": "3. print current system date",
+        "sql": "<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>(<b>SYSDATE</b>);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/3.png"
+    },
+    {
+        "question": "4. display employee name and salary using variables",
+        "sql": "<b>DECLARE</b>\n  ename_var EMP.ENAME%<b>TYPE</b>;\n  sal_var EMP.SAL%<b>TYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> ENAME, SAL <b>INTO</b> ename_var, sal_var\n  <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(ename_var || ' ' || sal_var);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/4.png"
+    },
+    {
+        "question": "5. declare variable and assign age",
+        "sql": "<b>DECLARE</b>\n  age <b>NUMBER</b> := 20;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>(age);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/5.png"
+    },
+    {
+        "question": "6. declare two variables and print sum",
+        "sql": "<b>DECLARE</b>\n  a <b>NUMBER</b> := 10;\n  b <b>NUMBER</b> := 20;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>(a + b);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/6.png"
+    },
+    {
+        "question": "7. store employee name and salary and display",
+        "sql": "<b>DECLARE</b>\n  name_var EMP.ENAME%<b>TYPE</b>;\n  salary_var EMP.SAL%<b>TYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> ENAME, SAL <b>INTO</b> name_var, salary_var\n  <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7499;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(name_var || ' ' || salary_var);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/7.png"
+    },
+    {
+        "question": "8. swap two numbers",
+        "sql": "<b>DECLARE</b>\n  a <b>NUMBER</b> := 10;\n  b <b>NUMBER</b> := 20;\n  temp <b>NUMBER</b>;\n<b>BEGIN</b>\n  temp := a;\n  a := b;\n  b := temp;\n  <b>DBMS_OUTPUT.PUT_LINE</b>('A=' || a || ' B=' || b);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/8.png"
+    },
+    {
+        "question": "9. calculate area of rectangle",
+        "sql": "<b>DECLARE</b>\n  l <b>NUMBER</b> := 5;\n  w <b>NUMBER</b> := 4;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>('Area=' || (l*w));\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/9.png"
+    },
+    {
+        "question": "10. calculate area of circle using constant PI",
+        "sql": "<b>DECLARE</b>\n  r <b>NUMBER</b> := 7;\n  pi <b>CONSTANT</b> <b>NUMBER</b> := 3.14;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>('Area=' || (pi*r*r));\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/10.png"
+    },
+    {
+        "question": "11. calculate salary after tax",
+        "sql": "<b>DECLARE</b>\n  sal <b>NUMBER</b> := 5000;\n  tax <b>CONSTANT</b> <b>NUMBER</b> := 0.1;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>('After Tax=' || (sal - sal*tax));\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/11.png"
+    },
+    {
+        "question": "13. simple interest using constant rate",
+        "sql": "<b>DECLARE</b>\n  p <b>NUMBER</b> := 1000;\n  r <b>CONSTANT</b> <b>NUMBER</b> := 0.05;\n  t <b>NUMBER</b> := 2;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>('SI=' || (p*r*t));\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/13.png"
+    },
+    {
+        "question": "14. using different datatypes",
+        "sql": "<b>DECLARE</b>\n  num <b>NUMBER</b> := 100;\n  name <b>VARCHAR2</b>(20) := 'Jiya';\n  d <b>DATE</b> := <b>SYSDATE</b>;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>(num || ' ' || name || ' ' || d);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/14.png"
+    },
+    {
+        "question": "15. declare variable using %TYPE",
+        "sql": "<b>DECLARE</b>\n  sal_var EMP.SAL%<b>TYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/15.png"
+    },
+    {
+        "question": "16. declare record using %ROWTYPE",
+        "sql": "<b>DECLARE</b>\n  emp_rec EMP%<b>ROWTYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME || ' ' || emp_rec.SAL);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/16.png"
+    },
+    {
+        "question": "17. store and display current date",
+        "sql": "<b>DECLARE</b>\n  d <b>DATE</b> := <b>SYSDATE</b>;\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>(d);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/17.png"
+    },
+    {
+        "question": "21. calculate bonus (10% of salary)",
+        "sql": "<b>DECLARE</b>\n  sal <b>NUMBER</b> := 4000;\n  bonus <b>NUMBER</b>;\n<b>BEGIN</b>\n  bonus := sal * 0.1;\n  <b>DBMS_OUTPUT.PUT_LINE</b>('Bonus=' || bonus);\n<b>END</b>;\n/",
+        "image": "./outputs/PLSQLbasics/21.png"
+    }
+],
+            "PLSQL: Conditionals": [
+    {
+        "question": "1. check if a number is positive",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := 10;\n<b>BEGIN</b>\n  <b>IF</b> n > 0 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Positive');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/1.png"
+    },
+    {
+        "question": "2. check if employee salary > 3000",
+        "sql": "<b>DECLARE</b>\n  sal <b>NUMBER</b> := 3500;\n<b>BEGIN</b>\n  <b>IF</b> sal > 3000 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Salary > 3000');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/2.png"
+    },
+    {
+        "question": "3. check if number is even",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := 4;\n<b>BEGIN</b>\n  <b>IF</b> <b>MOD</b>(n,2)=0 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Even');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/3.png"
+    },
+    {
+        "question": "4. display message if today is Monday",
+        "sql": "<b>BEGIN</b>\n  <b>IF</b> <b>TO_CHAR</b>(<b>SYSDATE</b>,'DAY') <b>LIKE</b> 'MONDAY%' <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Today is Monday');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/4.png"
+    },
+    {
+        "question": "5. check divisible by 5",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := 25;\n<b>BEGIN</b>\n  <b>IF</b> <b>MOD</b>(n,5)=0 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Divisible by 5');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/5.png"
+    },
+    {
+        "question": "6. check even or odd",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := 7;\n<b>BEGIN</b>\n  <b>IF</b> <b>MOD</b>(n,2)=0 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Even');\n  <b>ELSE</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Odd');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/6.png"
+    },
+    {
+        "question": "7. check positive or negative",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := -5;\n<b>BEGIN</b>\n  <b>IF</b> n >= 0 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Positive');\n  <b>ELSE</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Negative');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/7.png"
+    },
+    {
+        "question": "8. compare two numbers",
+        "sql": "<b>DECLARE</b>\n  a <b>NUMBER</b> := 10;\n  b <b>NUMBER</b> := 20;\n<b>BEGIN</b>\n  <b>IF</b> a > b <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>(a);\n  <b>ELSE</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>(b);\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/8.png"
+    },
+    {
+        "question": "9. check pass or fail",
+        "sql": "<b>DECLARE</b>\n  marks <b>NUMBER</b> := 55;\n<b>BEGIN</b>\n  <b>IF</b> marks >= 40 <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Pass');\n  <b>ELSE</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Fail');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/9.png"
+    },
+    {
+        "question": "10. check salary above average (fixed value)",
+        "sql": "<b>DECLARE</b>\n  sal <b>NUMBER</b> := 2500;\n  avg <b>NUMBER</b> := 2000;\n<b>BEGIN</b>\n  <b>IF</b> sal > avg <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Above Avg');\n  <b>ELSE</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Below Avg');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/10.png"
+    },
+    {
+        "question": "11. assign grades using IF-ELSIF",
+        "sql": "<b>DECLARE</b>\n  marks <b>NUMBER</b> := 75;\n<b>BEGIN</b>\n  <b>IF</b> marks >= 80 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('A');\n  <b>ELSIF</b> marks >= 60 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('B');\n  <b>ELSIF</b> marks >= 40 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('C');\n  <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Fail');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/11.png"
+    },
+    {
+        "question": "12. greatest of three numbers",
+        "sql": "<b>DECLARE</b>\n  a <b>NUMBER</b> := 10;\n  b <b>NUMBER</b> := 20;\n  c <b>NUMBER</b> := 15;\n<b>BEGIN</b>\n  <b>IF</b> a > b <b>AND</b> a > c <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>(a);\n  <b>ELSIF</b> b > c <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>(b);\n  <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>(c);\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/12.png"
+    },
+    {
+        "question": "13. check positive, negative or zero",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := 0;\n<b>BEGIN</b>\n  <b>IF</b> n > 0 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Positive');\n  <b>ELSIF</b> n < 0 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Negative');\n  <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Zero');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/13.png"
+    },
+    {
+        "question": "14. categorize salary",
+        "sql": "<b>DECLARE</b>\n  sal <b>NUMBER</b> := 3200;\n<b>BEGIN</b>\n  <b>IF</b> sal > 5000 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('High');\n  <b>ELSIF</b> sal >= 3000 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Medium');\n  <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Low');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/14.png"
+    },
+    {
+        "question": "16. CASE day of week",
+        "sql": "<b>DECLARE</b>\n  d <b>NUMBER</b> := 3;\n<b>BEGIN</b>\n  <b>CASE</b> d\n    <b>WHEN</b> 1 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Monday');\n    <b>WHEN</b> 2 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Tuesday');\n    <b>WHEN</b> 3 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Wednesday');\n    <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Other');\n  <b>END CASE</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/16.png"
+    },
+    {
+        "question": "17. CASE grades",
+        "sql": "<b>DECLARE</b>\n  marks <b>NUMBER</b> := 85;\n<b>BEGIN</b>\n  <b>CASE</b>\n    <b>WHEN</b> marks >= 80 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('A');\n    <b>WHEN</b> marks >= 60 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('B');\n    <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Fail');\n  <b>END CASE</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/17.png"
+    },
+    {
+        "question": "18. CASE even or odd",
+        "sql": "<b>DECLARE</b>\n  n <b>NUMBER</b> := 6;\n<b>BEGIN</b>\n  <b>CASE</b> <b>MOD</b>(n,2)\n    <b>WHEN</b> 0 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Even');\n    <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Odd');\n  <b>END CASE</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/18.png"
+    },
+    {
+        "question": "20. CASE salary category",
+        "sql": "<b>DECLARE</b>\n  sal <b>NUMBER</b> := 4500;\n<b>BEGIN</b>\n  <b>CASE</b>\n    <b>WHEN</b> sal > 5000 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('High');\n    <b>WHEN</b> sal >= 3000 <b>THEN</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Medium');\n    <b>ELSE</b> <b>DBMS_OUTPUT.PUT_LINE</b>('Low');\n  <b>END CASE</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/20.png"
+    },
+    {
+        "question": "21. print 1 to 10 skip 5",
+        "sql": "<b>BEGIN</b>\n  <b>FOR</b> i <b>IN</b> 1..10 <b>LOOP</b>\n    <b>IF</b> i = 5 <b>THEN</b> <b>CONTINUE</b>; <b>END IF</b>;\n    <b>DBMS_OUTPUT.PUT_LINE</b>(i);\n  <b>END LOOP</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/21.png"
+    },
+    {
+        "question": "22. print odd numbers 1 to 20",
+        "sql": "<b>BEGIN</b>\n  <b>FOR</b> i <b>IN</b> 1..20 <b>LOOP</b>\n    <b>IF</b> <b>MOD</b>(i,2)=0 <b>THEN</b> <b>CONTINUE</b>; <b>END IF</b>;\n    <b>DBMS_OUTPUT.PUT_LINE</b>(i);\n  <b>END LOOP</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/22.png"
+    },
+    {
+        "question": "23. skip multiples of 3",
+        "sql": "<b>BEGIN</b>\n  <b>FOR</b> i <b>IN</b> 1..15 <b>LOOP</b>\n    <b>IF</b> <b>MOD</b>(i,3)=0 <b>THEN</b> <b>CONTINUE</b>; <b>END IF</b>;\n    <b>DBMS_OUTPUT.PUT_LINE</b>(i);\n  <b>END LOOP</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/23.png"
+    },
+    {
+        "question": "25. exit loop when number reaches 5",
+        "sql": "<b>BEGIN</b>\n  <b>FOR</b> i <b>IN</b> 1..10 <b>LOOP</b>\n    <b>EXIT WHEN</b> i = 5;\n    <b>DBMS_OUTPUT.PUT_LINE</b>(i);\n  <b>END LOOP</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/25.png"
+    },
+    {
+        "question": "26. exit when sum exceeds 50",
+        "sql": "<b>DECLARE</b>\n  sum_val <b>NUMBER</b> := 0;\n  i <b>NUMBER</b> := 1;\n<b>BEGIN</b>\n  <b>LOOP</b>\n    sum_val := sum_val + i;\n    <b>EXIT WHEN</b> sum_val > 50;\n    i := i + 1;\n  <b>END LOOP</b>;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(sum_val);\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/26.png"
+    },
+    {
+        "question": "28. exit when condition met",
+        "sql": "<b>DECLARE</b>\n  i <b>NUMBER</b> := 1;\n<b>BEGIN</b>\n  <b>LOOP</b>\n    <b>EXIT WHEN</b> i > 5;\n    <b>DBMS_OUTPUT.PUT_LINE</b>(i);\n    i := i + 1;\n  <b>END LOOP</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/28.png"
+    },
+    {
+        "question": "31. simple login system",
+        "sql": "<b>DECLARE</b>\n  uname <b>VARCHAR2</b>(20) := 'admin';\n  pass <b>VARCHAR2</b>(20) := '123';\n<b>BEGIN</b>\n  <b>IF</b> uname = 'admin' <b>AND</b> pass = '123' <b>THEN</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Login Success');\n  <b>ELSE</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>('Login Failed');\n  <b>END IF</b>;\n<b>END</b>;\n/",
+        "image": "./outputs/conditionals/31.png"
+    }
+],
+            "PLSQL: Loops": [
+    {
+        "question": "1. Print numbers 1 to 5 using simple loop",
+        "sql": "<b>DECLARE</b>\n  i NUMBER := 1;\n<b>BEGIN</b>\n  LOOP\n    DBMS_OUTPUT.PUT_LINE(i);\n    i := i + 1;\n    EXIT WHEN i > 5;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/1.png"
+    },
+    {
+        "question": "2. Display numbers 10 to 1",
+        "sql": "<b>DECLARE</b>\n  i NUMBER := 10;\n<b>BEGIN</b>\n  LOOP\n    DBMS_OUTPUT.PUT_LINE(i);\n    i := i - 1;\n    EXIT WHEN i < 1;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/2.png"
+    },
+    {
+        "question": "3. Sum 1 to 10",
+        "sql": "<b>DECLARE</b>\n  i NUMBER := 1;\n  s NUMBER := 0;\n<b>BEGIN</b>\n  LOOP\n    s := s + i;\n    i := i + 1;\n    EXIT WHEN i > 10;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(s);\n<b>END;</b>",
+        "image": "./outputs/loops/3.png"
+    },
+    {
+        "question": "4. Multiplication table using simple loop",
+        "sql": "<b>DECLARE</b>\n  n NUMBER := 5;\n  i NUMBER := 1;\n<b>BEGIN</b>\n  LOOP\n    DBMS_OUTPUT.PUT_LINE(n || '*' || i || '=' || (n*i));\n    i := i + 1;\n    EXIT WHEN i > 10;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/4.png"
+    },
+    {
+        "question": "5. Even numbers 1 to 20",
+        "sql": "<b>DECLARE</b>\n  i NUMBER := 1;\n<b>BEGIN</b>\n  LOOP\n    IF MOD(i,2)=0 THEN\n      DBMS_OUTPUT.PUT_LINE(i);\n    END IF;\n    i := i + 1;\n    EXIT WHEN i > 20;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/5.png"
+    },
+    {
+        "question": "6. Exit when number > 50",
+        "sql": "<b>DECLARE</b>\n  i NUMBER := 1;\n<b>BEGIN</b>\n  LOOP\n    EXIT WHEN i > 50;\n    DBMS_OUTPUT.PUT_LINE(i);\n    i := i + 1;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/6.png"
+    },
+    {
+        "question": "7. Numbers 1 to 10 using WHILE",
+        "sql": "<b>DECLARE</b>\n  i NUMBER := 1;\n<b>BEGIN</b>\n  WHILE i <= 10 LOOP\n    DBMS_OUTPUT.PUT_LINE(i);\n    i := i + 1;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/7.png"
+    },
+    {
+        "question": "8. Factorial using WHILE",
+        "sql": "<b>DECLARE</b>\n  n NUMBER := 5;\n  f NUMBER := 1;\n<b>BEGIN</b>\n  WHILE n > 0 LOOP\n    f := f * n;\n    n := n - 1;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(f);\n<b>END;</b>",
+        "image": "./outputs/loops/8.png"
+    },
+    {
+        "question": "9. Sum of digits",
+        "sql": "<b>DECLARE</b>\n  n NUMBER := 123;\n  s NUMBER := 0;\n<b>BEGIN</b>\n  WHILE n > 0 LOOP\n    s := s + MOD(n,10);\n    n := TRUNC(n/10);\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(s);\n<b>END;</b>",
+        "image": "./outputs/loops/9.png"
+    },
+    {
+        "question": "10. Reverse number",
+        "sql": "<b>DECLARE</b>\n  n NUMBER := 123;\n  r NUMBER := 0;\n<b>BEGIN</b>\n  WHILE n > 0 LOOP\n    r := r*10 + MOD(n,10);\n    n := TRUNC(n/10);\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(r);\n<b>END;</b>",
+        "image": "./outputs/loops/10.png"
+    },
+    {
+        "question": "11. Palindrome check",
+        "sql": "<b>DECLARE</b>\n  n NUMBER := 121;\n  temp NUMBER;\n  r NUMBER := 0;\n<b>BEGIN</b>\n  temp := n;\n  WHILE n > 0 LOOP\n    r := r*10 + MOD(n,10);\n    n := TRUNC(n/10);\n  END LOOP;\n  IF temp = r THEN\n    DBMS_OUTPUT.PUT_LINE('Palindrome');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE('Not Palindrome');\n  END IF;\n<b>END;</b>",
+        "image": "./outputs/loops/11.png"
+    },
+    {
+        "question": "12. Fibonacci series",
+        "sql": "<b>DECLARE</b>\n  a NUMBER := 0;\n  b NUMBER := 1;\n  c NUMBER;\n  i NUMBER := 1;\n<b>BEGIN</b>\n  WHILE i <= 5 LOOP\n    DBMS_OUTPUT.PUT_LINE(a);\n    c := a + b;\n    a := b;\n    b := c;\n    i := i + 1;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/12.png"
+    },
+    {
+        "question": "13. Numbers 1 to 10 using FOR",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..10 LOOP\n    DBMS_OUTPUT.PUT_LINE(i);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/13.png"
+    },
+    {
+        "question": "15. Sum first 10 numbers",
+        "sql": "<b>DECLARE</b>\n  s NUMBER := 0;\n<b>BEGIN</b>\n  FOR i IN 1..10 LOOP\n    s := s + i;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(s);\n<b>END;</b>",
+        "image": "./outputs/loops/15.png"
+    },
+    {
+        "question": "16. Table of 5",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..10 LOOP\n    DBMS_OUTPUT.PUT_LINE('5*'||i||'='||(5*i));\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/16.png"
+    },
+    {
+        "question": "17. Squares 1 to 10",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..10 LOOP\n    DBMS_OUTPUT.PUT_LINE(i*i);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/17.png"
+    },
+    {
+        "question": "18. Odd numbers 1 to 50",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..50 LOOP\n    IF MOD(i,2)!=0 THEN\n      DBMS_OUTPUT.PUT_LINE(i);\n    END IF;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/18.png"
+    },
+    {
+        "question": "19. Star pattern",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..4 LOOP\n    FOR j IN 1..i LOOP\n      DBMS_OUTPUT.PUT('*');\n    END LOOP;\n    DBMS_OUTPUT.NEW_LINE;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/19.png"
+    },
+    {
+        "question": "20. Tables 1 to 5",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..5 LOOP\n    FOR j IN 1..10 LOOP\n      DBMS_OUTPUT.PUT_LINE(i||'*'||j||'='||(i*j));\n    END LOOP;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/20.png"
+    },
+    {
+        "question": "21. Number pattern",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..4 LOOP\n    FOR j IN 1..i LOOP\n      DBMS_OUTPUT.PUT(j);\n    END LOOP;\n    DBMS_OUTPUT.NEW_LINE;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/21.png"
+    },
+    {
+        "question": "22. Skip multiples of 4",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..20 LOOP\n    IF MOD(i,4)=0 THEN\n      CONTINUE;\n    END IF;\n    DBMS_OUTPUT.PUT_LINE(i);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/22.png"
+    },
+    {
+        "question": "23. Stop when sum > 100",
+        "sql": "<b>DECLARE</b>\n  s NUMBER := 0;\n<b>BEGIN</b>\n  FOR i IN 1..100 LOOP\n    s := s + i;\n    EXIT WHEN s > 100;\n    DBMS_OUTPUT.PUT_LINE(i);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/23.png"
+    },
+    {
+        "question": "24. Exit when divisible by 7",
+        "sql": "<b>BEGIN</b>\n  FOR i IN 1..50 LOOP\n    IF MOD(i,7)=0 THEN\n      EXIT;\n    END IF;\n    DBMS_OUTPUT.PUT_LINE(i);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/24.png"
+    },
+    {
+        "question": "25. Display emp ids",
+        "sql": "<b>BEGIN</b>\n  FOR rec IN (<b>SELECT</b> EMPNO <b>FROM</b> EMP) LOOP\n    DBMS_OUTPUT.PUT_LINE(rec.EMPNO);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/25.png"
+    },
+    {
+        "question": "26. Increase salary by 10%",
+        "sql": "<b>BEGIN</b>\n  FOR rec IN (<b>SELECT</b> EMPNO, SAL <b>FROM</b> EMP) LOOP\n    <b>UPDATE</b> EMP <b>SET</b> SAL = SAL * 1.1\n    <b>WHERE</b> EMPNO = rec.EMPNO;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/26.png"
+    },
+    {
+        "question": "30. Prime numbers 1 to 50",
+        "sql": "<b>DECLARE</b>\n  i NUMBER; j NUMBER; flag NUMBER;\n<b>BEGIN</b>\n  FOR i IN 2..50 LOOP\n    flag := 0;\n    FOR j IN 2..i-1 LOOP\n      IF MOD(i,j)=0 THEN\n        flag := 1;\n        EXIT;\n      END IF;\n    END LOOP;\n    IF flag = 0 THEN\n      DBMS_OUTPUT.PUT_LINE(i);\n    END IF;\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/loops/30.png"
+    }
+],
+            "PLSQL: Types": [
+                {
+                    question: "1 fetch employee name for empno 4300",
+                    sql: "<b>DECLARE</b> name_var EMP.ENAME%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> ENAME <b>INTO</b> name_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(name_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/1.png"
+                },
+                {
+                    question: "2 retrieve salary and print",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/2.png"
+                },
+                {
+                    question: "3 fetch employee name and job",
+                    sql: "<b>DECLARE</b> name_var EMP.ENAME%<b>TYPE</b>; job_var EMP.JOB%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> ENAME, JOB <b>INTO</b> name_var, job_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(name_var || ' ' || job_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/3.png"
+                },
+                {
+                    question: "4 display department number",
+                    sql: "<b>DECLARE</b> dept_var EMP.DEPTNO%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> DEPTNO <b>INTO</b> dept_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(dept_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/4.png"
+                },
+                {
+                    question: "5 fetch hiredate",
+                    sql: "<b>DECLARE</b> d EMP.HIREDATE%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> HIREDATE <b>INTO</b> d <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(d); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/5.png"
+                },
+                {
+                    question: "6 count total employees",
+                    sql: "<b>DECLARE</b> c <b>NUMBER</b>; <b>BEGIN</b> <b>SELECT</b> <b>COUNT</b>(*) <b>INTO</b> c <b>FROM</b> EMP; <b>DBMS_OUTPUT.PUT_LINE</b>(c); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/6.png"
+                },
+                {
+                    question: "7 %TYPE for salary",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b> := 2000; <b>BEGIN</b> <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/7.png"
+                },
+                {
+                    question: "8 %TYPE for name and job",
+                    sql: "<b>DECLARE</b> name_var EMP.ENAME%<b>TYPE</b> := 'jIYA'; job_var EMP.JOB%<b>TYPE</b> := 'CLERK'; <b>BEGIN</b> <b>DBMS_OUTPUT.PUT_LINE</b>(name_var || ' ' || job_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/8.png"
+                },
+                {
+                    question: "9 fetch salary using %TYPE",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/9.png"
+                },
+                {
+                    question: "10 calculate annual salary",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var*12); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/10.png"
+                },
+                {
+                    question: "11 update salary using %TYPE",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 4300; <b>UPDATE</b> EMP <b>SET</b> SAL = sal_var + 500 <b>WHERE</b> EMPNO = 7369; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/11.png"
+                },
+                {
+                    question: "12 %TYPE from DEPT",
+                    sql: "<b>DECLARE</b> dname_var DEPT.DNAME%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> DNAME <b>INTO</b> dname_var <b>FROM</b> DEPT <b>WHERE</b> DEPTNO = 10; <b>DBMS_OUTPUT.PUT_LINE</b>(dname_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/12.png"
+                },
+                {
+                    question: "13 declare record using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>NULL</b>; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/13.png"
+                },
+                {
+                    question: "14 fetch record using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/14.png"
+                },
+                {
+                    question: "15 display name, salary, job",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME || ' ' || emp_rec.SAL || ' ' || emp_rec.JOB); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/15.png"
+                },
+                {
+                    question: "16 update salary using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>UPDATE</b> EMP <b>SET</b> SAL = emp_rec.SAL + 100 <b>WHERE</b> EMPNO = 7369; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/16.png"
+                },
+                {
+                    question: "17 insert using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> emp_rec.EMPNO := 9001; emp_rec.ENAME := 'TEST'; emp_rec.JOB := 'CLERK'; emp_rec.SAL := 1000; emp_rec.DEPTNO := 10; <b>INSERT INTO</b> EMP <b>VALUES</b> emp_rec; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/17.png"
+                },
+                {
+                    question: "18 fetch employee using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/18.png"
+                },
+                {
+                    question: "19 combined %TYPE + select",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/19.png"
+                },
+                {
+                    question: "20 display all columns using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME || ' ' || emp_rec.SAL || ' ' || emp_rec.DEPTNO); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/20.png"
+                },
+                {
+                    question: "21 calculate bonus 10%",
+                    sql: "<b>DECLARE</b> sal_var EMP.SAL%<b>TYPE</b>; bonus <b>NUMBER</b>; <b>BEGIN</b> <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; bonus := sal_var * 0.1; <b>DBMS_OUTPUT.PUT_LINE</b>(bonus); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/21.png"
+                },
+                {
+                    question: "22 update if salary < 2000",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = 7369; <b>IF</b> emp_rec.SAL < 2000 <b>THEN</b> <b>UPDATE</b> EMP <b>SET</b> SAL = SAL + 500 <b>WHERE</b> EMPNO = 7369; <b>END IF</b>; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/22.png"
+                },
+                {
+                    question: "23 fetch highest salary",
+                    sql: "<b>DECLARE</b> max_sal EMP.SAL%<b>TYPE</b>; <b>BEGIN</b> <b>SELECT MAX</b>(SAL) <b>INTO</b> max_sal <b>FROM</b> EMP; <b>DBMS_OUTPUT.PUT_LINE</b>(max_sal); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/23.png"
+                },
+                {
+                    question: "24 fetch employee with highest salary",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> SAL = (<b>SELECT MAX</b>(SAL) <b>FROM</b> EMP); <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME); <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/24.png"
+                },
+                {
+                    question: "25 display employees of a department using loop",
+                    sql: "<b>DECLARE</b> <b>BEGIN</b> <b>FOR</b> rec <b>IN</b> (<b>SELECT</b> * <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10) <b>LOOP</b> <b>DBMS_OUTPUT.PUT_LINE</b>(rec.ENAME); <b>END LOOP</b>; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/25.png"
+                },
+                {
+                    question: "26 increase salary department-wise",
+                    sql: "<b>BEGIN</b> <b>FOR</b> rec <b>IN</b> (<b>SELECT</b> EMPNO <b>FROM</b> EMP <b>WHERE</b> DEPTNO = 10) <b>LOOP</b> <b>UPDATE</b> EMP <b>SET</b> SAL = SAL + 200 <b>WHERE</b> EMPNO = rec.EMPNO; <b>END LOOP</b>; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/26.png"
+                },
+                {
+                    question: "27 cursor with %ROWTYPE",
+                    sql: "<b>DECLARE</b> <b>CURSOR</b> c1 <b>IS</b> <b>SELECT</b> * <b>FROM</b> EMP; emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>OPEN</b> c1; <b>LOOP</b> <b>FETCH</b> c1 <b>INTO</b> emp_rec; <b>EXIT WHEN</b> c1%<b>NOTFOUND</b>; <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME); <b>END LOOP</b>; <b>CLOSE</b> c1; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/27.png"
+                },
+                {
+                    question: "28 copy data using %ROWTYPE",
+                    sql: "<b>DECLARE</b> emp_rec EMP%<b>ROWTYPE</b>; <b>BEGIN</b> <b>FOR</b> rec <b>IN</b> (<b>SELECT</b> * <b>FROM</b> EMP) <b>LOOP</b> <b>INSERT INTO</b> EMP_COPY <b>VALUES</b> rec; <b>END LOOP</b>; <b>END</b>; /",
+                    image: "./outputs/plsqlTypes/28.png"
+                }
+            ],
+            "PLSQL: Cursors": [
+    {
+        "question": "1. Declare cursor to fetch all employees and display names",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1 <b>IS</b> SELECT ENAME FROM EMP;\n  name_var EMP.ENAME%TYPE;\n<b>BEGIN</b>\n  OPEN c1;\n  LOOP\n    FETCH c1 INTO name_var;\n    EXIT WHEN c1%NOTFOUND;\n    DBMS_OUTPUT.PUT_LINE(name_var);\n  END LOOP;\n  CLOSE c1;\n<b>END;</b>",
+        "image": "./outputs/cursors/1.png"
+    },
+    {
+        "question": "2. Fetch employee name and salary using cursor",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1 <b>IS</b> SELECT ENAME, SAL FROM EMP;\n  name_var EMP.ENAME%TYPE;\n  sal_var EMP.SAL%TYPE;\n<b>BEGIN</b>\n  OPEN c1;\n  LOOP\n    FETCH c1 INTO name_var, sal_var;\n    EXIT WHEN c1%NOTFOUND;\n    DBMS_OUTPUT.PUT_LINE(name_var || ' ' || sal_var);\n  END LOOP;\n  CLOSE c1;\n<b>END;</b>",
+        "image": "./outputs/cursors/2.png"
+    },
+    {
+        "question": "3. Display employees with salary > 3000",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1 <b>IS</b> SELECT ENAME, SAL FROM EMP WHERE SAL > 3000;\n  name_var EMP.ENAME%TYPE;\n  sal_var EMP.SAL%TYPE;\n<b>BEGIN</b>\n  OPEN c1;\n  LOOP\n    FETCH c1 INTO name_var, sal_var;\n    EXIT WHEN c1%NOTFOUND;\n    DBMS_OUTPUT.PUT_LINE(name_var || ' ' || sal_var);\n  END LOOP;\n  CLOSE c1;\n<b>END;</b>",
+        "image": "./outputs/cursors/3.png"
+    },
+    {
+        "question": "4. Count number of employees using cursor",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1 <b>IS</b> SELECT EMPNO FROM EMP;\n  count_var NUMBER := 0;\n  temp EMP.EMPNO%TYPE;\n<b>BEGIN</b>\n  OPEN c1;\n  LOOP\n    FETCH c1 INTO temp;\n    EXIT WHEN c1%NOTFOUND;\n    count_var := count_var + 1;\n  END LOOP;\n  CLOSE c1;\n  DBMS_OUTPUT.PUT_LINE(count_var);\n<b>END;</b>",
+        "image": "./outputs/cursors/4.png"
+    },
+    {
+        "question": "5. Calculate total salary using cursor",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1 <b>IS</b> SELECT SAL FROM EMP;\n  total NUMBER := 0;\n  sal_var EMP.SAL%TYPE;\n<b>BEGIN</b>\n  OPEN c1;\n  LOOP\n    FETCH c1 INTO sal_var;\n    EXIT WHEN c1%NOTFOUND;\n    total := total + sal_var;\n  END LOOP;\n  CLOSE c1;\n  DBMS_OUTPUT.PUT_LINE(total);\n<b>END;</b>",
+        "image": "./outputs/cursors/5.png"
+    },
+    {
+        "question": "6. Fetch records using OPEN FETCH CLOSE",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1 <b>IS</b> SELECT ENAME FROM EMP;\n  name_var EMP.ENAME%TYPE;\n<b>BEGIN</b>\n  OPEN c1;\n  FETCH c1 INTO name_var;\n  WHILE c1%FOUND LOOP\n    DBMS_OUTPUT.PUT_LINE(name_var);\n    FETCH c1 INTO name_var;\n  END LOOP;\n  CLOSE c1;\n<b>END;</b>",
+        "image": "./outputs/cursors/6.png"
+    },
+    {
+        "question": "7. Display all employee records using cursor FOR LOOP",
+        "sql": "<b>BEGIN</b>\n  FOR rec IN (SELECT * FROM EMP) LOOP\n    DBMS_OUTPUT.PUT_LINE(rec.ENAME || ' ' || rec.SAL);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/cursors/7.png"
+    },
+    {
+        "question": "8. Display employee names and jobs using cursor FOR LOOP",
+        "sql": "<b>BEGIN</b>\n  FOR rec IN (SELECT ENAME, JOB FROM EMP) LOOP\n    DBMS_OUTPUT.PUT_LINE(rec.ENAME || ' ' || rec.JOB);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/cursors/8.png"
+    },
+    {
+        "question": "9. Display employees from department 10",
+        "sql": "<b>BEGIN</b>\n  FOR rec IN (SELECT * FROM EMP WHERE DEPTNO = 10) LOOP\n    DBMS_OUTPUT.PUT_LINE(rec.ENAME);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/cursors/9.png"
+    },
+    {
+        "question": "10. Calculate total salary using cursor FOR LOOP",
+        "sql": "<b>DECLARE</b>\n  total NUMBER := 0;\n<b>BEGIN</b>\n  FOR rec IN (SELECT SAL FROM EMP) LOOP\n    total := total + rec.SAL;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(total);\n<b>END;</b>",
+        "image": "./outputs/cursors/10.png"
+    },
+    {
+        "question": "11. Employees with salary > average",
+        "sql": "<b>DECLARE</b>\n  avg_sal NUMBER;\n<b>BEGIN</b>\n  SELECT AVG(SAL) INTO avg_sal FROM EMP;\n  FOR rec IN (SELECT ENAME, SAL FROM EMP WHERE SAL > avg_sal) LOOP\n    DBMS_OUTPUT.PUT_LINE(rec.ENAME || ' ' || rec.SAL);\n  END LOOP;\n<b>END;</b>",
+        "image": "./outputs/cursors/11.png"
+    },
+    {
+        "question": "12. Parameterized cursor for department",
+        "sql": "<b>DECLARE</b>\n  CURSOR c1(dno NUMBER) <b>IS</b> SELECT ENAME FROM EMP WHERE DEPTNO = dno;\n  name_var EMP.ENAME%TYPE;\n<b>BEGIN</b>\n  OPEN c1(10);\n  LOOP\n    FETCH c1 INTO name_var;\n    EXIT WHEN c1%NOTFOUND;\n    DBMS_OUTPUT.PUT_LINE(name_var);\n  END LOOP;\n  CLOSE c1;\n<b>END;</b>",
+        "image": "./outputs/cursors/12.png"
+    }
+],
+            "Procedures & Functions":[
+    {
+        "question": "1 display \"Hello Oracle\"",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> hello_proc <b>IS</b>\n<b>BEGIN</b>\n  <b>DBMS_OUTPUT.PUT_LINE</b>('Hello Oracle');\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  hello_proc;\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/1.png"
+    },
+    {
+        "question": "2 display employee name for given empno",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> emp_name_proc(p_empno <b>NUMBER</b>) <b>IS</b>\n  name_var EMP.ENAME%<b>TYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> ENAME <b>INTO</b> name_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = p_empno;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(name_var);\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  emp_name_proc(4300);\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/2.png"
+    },
+    {
+        "question": "3 print salary of an employee",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> emp_sal_proc(p_empno <b>NUMBER</b>) <b>IS</b>\n  sal_var EMP.SAL%<b>TYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> SAL <b>INTO</b> sal_var <b>FROM</b> EMP <b>WHERE</b> EMPNO = p_empno;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(sal_var);\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  emp_sal_proc(4300);\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/3.png"
+    },
+    {
+        "question": "4 display all employees using cursor",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> all_emp_proc <b>IS</b>\n  <b>CURSOR</b> c1 <b>IS</b> <b>SELECT</b> ENAME <b>FROM</b> EMP;\n  name_var EMP.ENAME%<b>TYPE</b>;\n<b>BEGIN</b>\n  <b>OPEN</b> c1;\n  <b>LOOP</b>\n    <b>FETCH</b> c1 <b>INTO</b> name_var;\n    <b>EXIT WHEN</b> c1%<b>NOTFOUND</b>;\n    <b>DBMS_OUTPUT.PUT_LINE</b>(name_var);\n  <b>END LOOP</b>;\n  <b>CLOSE</b> c1;\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  all_emp_proc;\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/4.png"
+    },
+    {
+        "question": "5 display department details",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> dept_proc <b>IS</b>\n<b>BEGIN</b>\n  <b>FOR</b> rec <b>IN</b> (<b>SELECT</b> * <b>FROM</b> DEPT) <b>LOOP</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>(rec.DEPTNO || ' ' || rec.DNAME || ' ' || rec.LOC);\n  <b>END LOOP</b>;\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  dept_proc;\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/5.png"
+    },
+    {
+        "question": "6 procedure with IN parameter (emp details)",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> emp_details_proc(p_empno <b>NUMBER</b>) <b>IS</b>\n  emp_rec EMP%<b>ROWTYPE</b>;\n<b>BEGIN</b>\n  <b>SELECT</b> * <b>INTO</b> emp_rec <b>FROM</b> EMP <b>WHERE</b> EMPNO = p_empno;\n  <b>DBMS_OUTPUT.PUT_LINE</b>(emp_rec.ENAME || ' ' || emp_rec.SAL || ' ' || emp_rec.JOB);\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  emp_details_proc(4300);\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/6.png"
+    },
+    {
+        "question": "7 procedure for employees of a department",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> dept_emp_proc(p_deptno <b>NUMBER</b>) <b>IS</b>\n<b>BEGIN</b>\n  <b>FOR</b> rec <b>IN</b> (<b>SELECT</b> ENAME <b>FROM</b> EMP <b>WHERE</b> DEPTNO = p_deptno) <b>LOOP</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>(rec.ENAME);\n  <b>END LOOP</b>;\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  dept_emp_proc(10);\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/7.png"
+    },
+    {
+        "question": "8 employees earning more than given salary",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> sal_filter_proc(p_sal <b>NUMBER</b>) <b>IS</b>\n<b>BEGIN</b>\n  <b>FOR</b> rec <b>IN</b> (<b>SELECT</b> ENAME, SAL <b>FROM</b> EMP <b>WHERE</b> SAL > p_sal) <b>LOOP</b>\n    <b>DBMS_OUTPUT.PUT_LINE</b>(rec.ENAME || ' ' || rec.SAL);\n  <b>END LOOP</b>;\n<b>END</b>;\n/\n\n<b>BEGIN</b>\n  sal_filter_proc(2000);\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/8.png"
+    },
+    {
+        "question": "9 OUT parameter to return salary",
+        "sql": "<b>CREATE OR REPLACE PROCEDURE</b> get_sal_proc(p_empno <b>NUMBER</b>, sal_out <b>OUT NUMBER</b>) <b>IS</b>\n<b>BEGIN</b>\n  <b>SELECT</b> SAL <b>INTO</b> sal_out <b>FROM</b> EMP <b>WHERE</b> EMPNO = p_empno;\n<b>END</b>;\n/\n\n<b>DECLARE</b>\n  s <b>NUMBER</b>;\n<b>BEGIN</b>\n  get_sal_proc(4300, s);\n  <b>DBMS_OUTPUT.PUT_LINE</b>(s);\n<b>END</b>;\n/",
+        "image": "./outputs/Procedures/9.png"
+    }
+],
+            "PLSQL: Packages (I'll start this after understanding it a bit.)": [],
+            "Exception Handling": [
+                {
+                    question: "1. Write a PL/SQL block to handle NO_DATA_FOUND exception while fetching employee details. (Exception Basics)",
+                    sql: "<b>DECLARE</b><br>  emp_name emp.ename%<b>TYPE</b>;<br>  emp_salary emp.sal%<b>TYPE</b>;<br>  emp_number emp.empno%<b>TYPE</b> := 9999;<br><b>BEGIN</b><br>  <b>SELECT</b> ename, sal <b>INTO</b> emp_name, emp_salary <b>FROM</b> emp <b>WHERE</b> empno = emp_number;<br><br>  DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);<br>  DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_salary);<br><br><b>EXCEPTION</b><br>  -- Handle case when no employee is found<br>  <b>WHEN NO_DATA_FOUND THEN</b><br>    DBMS_OUTPUT.PUT_LINE('No employee found with EMPNO = ' || emp_number);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/1.png"
+                },
+                {
+                    question: "2. Write a PL/SQL block to handle TOO_MANY_ROWS exception. (Exception Basics)",
+                    sql: "<b>DECLARE</b><br> emp_name emp.ename%<b>TYPE</b>;<br> emp_salary emp.sal%<b>TYPE</b>;<br><b>BEGIN</b><br> <b>SELECT</b> ename, sal <b>INTO</b> emp_name, emp_salary <b>FROM</b> emp <b>WHERE</b> job = 'SALESMAN';<br><br> DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);<br> DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_salary);<br><br><b>EXCEPTION</b><br> <b>WHEN NO_DATA_FOUND THEN</b><br> DBMS_OUTPUT.PUT_LINE('No employee found with the specified criteria.');<br> <b>WHEN TOO_MANY_ROWS THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error: More than one employee found for the criteria.');<br><b>END;</b>",
+                    image: "./outputs/Exceptions/2.png"
+                },
+                {
+                    question: "3. Write a PL/SQL block to handle ZERO_DIVIDE exception. (Exception Basics)",
+                    sql: "<b>DECLARE</b><br> emp_salary emp.sal%<b>TYPE</b>;<br> bonus NUMBER := 0;<br> result NUMBER;<br><b>BEGIN</b><br> <b>SELECT</b> sal <b>INTO</b> emp_salary <b>FROM</b> emp <b>WHERE</b> ename = 'SCOTT';<br><br> result := emp_salary / bonus;<br><br> DBMS_OUTPUT.PUT_LINE('Result: ' || result);<br><br><b>EXCEPTION</b><br> <b>WHEN ZERO_DIVIDE THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error: cannot be divide by zero.');<br><b>END;</b>",
+                    image: "./outputs/Exceptions/3.png"
+                },
+                {
+                    question: "5. Write a PL/SQL block with a generic WHEN OTHERS exception handler.(Exception Basics)",
+                    sql: "<b>DECLARE</b><br> emp_salary emp.sal%<b>TYPE</b>;<br> divisor NUMBER := 0;<br> result NUMBER;<br><b>BEGIN</b><br> <b>SELECT</b> sal <b>INTO</b> emp_salary <b>FROM</b> emp <b>WHERE</b> ename = 'SCOTT';<br><br> result := emp_salary / divisor;<br><br> DBMS_OUTPUT.PUT_LINE('Result: ' || result);<br><br><b>EXCEPTION</b><br> <b>WHEN OTHERS THEN</b><br> DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/5.png"
+                },
+                {
+                    question: "6. Write a PL/SQL block to display error code and message using SQLCODE and SQLERRM.(Exception Variables)",
+                    sql: "<b>DECLARE</b><br> emp_salary emp.sal%<b>TYPE</b>;<br> divisor NUMBER := 0;<br> result NUMBER;<br><b>BEGIN</b><br> <b>SELECT</b> sal <b>INTO</b> emp_salary <b>FROM</b> emp <b>WHERE</b> ename = 'SCOTT';<br><br> result := emp_salary / divisor;<br><br> DBMS_OUTPUT.PUT_LINE('Result: ' || result);<br><br><b>EXCEPTION</b><br> <b>WHEN OTHERS THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);<br> DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/6.png"
+                },
+                {
+                    question: "9. Write a PL/SQL block to raise an error if salary is less than 2000 using RAISE_APPLICATION_ERROR.(RAISE_APPLICATION_ERROR)",
+                    sql: "<b>DECLARE</b><br> emp_salary emp.sal%<b>TYPE</b>;<br><b>BEGIN</b><br> <b>SELECT</b> sal <b>INTO</b> emp_salary <b>FROM</b> emp <b>WHERE</b> ename = 'SCOTT';<br><br> <b>IF</b> emp_salary < 2000 <b>THEN</b><br> RAISE_APPLICATION_ERROR(-20001, 'Salary is less than 2000');<br> <b>END IF;</b><br><br> DBMS_OUTPUT.PUT_LINE('Salary is OK: ' || emp_salary);<br><br><b>EXCEPTION</b><br> <b>WHEN OTHERS THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);<br> DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/9.png"
+                },
+                {
+                    question: "10. Write a PL/SQL block to validate employee age and raise custom error if age < 18.(RAISE_APPLICATION_ERROR)",
+                    sql: "<b>DECLARE</b><br> emp_age NUMBER := 16;<br><b>BEGIN</b><br> <b>IF</b> emp_age < 18 <b>THEN</b><br> RAISE_APPLICATION_ERROR(-20002, 'Employee age must be at least 18');<br> <b>END IF;</b><br><br> DBMS_OUTPUT.PUT_LINE('Employee age is valid: ' || emp_age);<br><br><b>EXCEPTION</b><br> <b>WHEN OTHERS THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);<br> DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/10.png"
+                },
+                {
+                    question: "12. Write a PL/SQL block to raise an error when invalid department number is entered.(Validation Logic)",
+                    "sql": "<b>DECLARE</b><br> dept_number NUMBER :=80;<br> count_dept NUMBER;<br><b>BEGIN</b><br> <b>SELECT</b> COUNT(*) <b>INTO</b> count_dept <b>FROM</b> dept <b>WHERE</b> deptno = dept_number;<br><br> <b>IF</b> count_dept = 0 <b>THEN</b><br> RAISE_APPLICATION_ERROR(-20003, 'Invalid department number: ' || dept_number);<br> <b>END IF;</b><br><br> DBMS_OUTPUT.PUT_LINE('Department number is valid: ' || dept_number);<br><br><b>EXCEPTION</b><br> <b>WHEN OTHERS THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);<br> DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/12.png"
+                },
+                {
+                    question: "13. Write a PL/SQL block to declare and handle a user-defined exception.(User Defined Exception)",
+                    sql: "<b>DECLARE</b><br> invalid_salary EXCEPTION;<br> salary NUMBER := 1500;<br><b>BEGIN</b><br> <b>IF</b> salary < 2000 <b>THEN</b><br> <b>RAISE</b> invalid_salary;<br> <b>END IF;</b><br><br> DBMS_OUTPUT.PUT_LINE('Salary is valid: ' || salary);<br><br><b>EXCEPTION</b><br> <b>WHEN</b> invalid_salary <b>THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error: Salary cannot be less than 2000');<br> <b>WHEN OTHERS THEN</b><br> DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);<br> DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);<br><b>END;</b>",
+                    image: "./outputs/Exceptions/13.png"
+                },
+                {
+                    question: "16. Write a PL/SQL block to handle multiple user-defined exceptions.(Multiple Exceptions)",
+                    sql: "<b>DECLARE</b><br>  low_salary <b>EXCEPTION</b>;<br>  invalid_age <b>EXCEPTION</b>;<br>  salary <b>NUMBER</b> := 1500;<br>  age <b>NUMBER</b> := 16;<br><b>BEGIN</b><br>  <b>IF</b> salary &lt; 2000 <b>THEN</b><br>    <b>RAISE</b> low_salary;<br>  <b>END IF</b>;<br><br>  <b>IF</b> age &lt; 18 <b>THEN</b><br>    <b>RAISE</b> invalid_age;<br>  <b>END IF</b>;<br><br>  DBMS_OUTPUT.PUT_LINE('Salary and age are valid');<br><br><b>EXCEPTION</b><br>  <b>WHEN</b> low_salary <b>THEN</b><br>    DBMS_OUTPUT.PUT_LINE('Error: Salary cannot be less than 2000');<br>  <b>WHEN</b> invalid_age <b>THEN</b><br>    DBMS_OUTPUT.PUT_LINE('Error: Employee must be at least 18 years old');<br>  <b>WHEN</b> OTHERS <b>THEN</b><br>    DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);<br>    DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);<br><b>END</b>;",
+                    image: "./outputs/Exceptions/16.png"
+                },
+                {
+                    question: "18. Write a PL/SQL block where exception is handled in inner block and re-raised to outer block.(Nested Blocks + Re-raise)",
+                    sql: "<b>DECLARE</b><br>  emp_salary emp.sal%TYPE;<br>  divisor <b>NUMBER</b> := 0;<br>  result <b>NUMBER</b>;<br><b>BEGIN</b><br>  <b>BEGIN</b><br>    SELECT sal<br>    INTO emp_salary<br>    FROM emp<br>    WHERE ename = 'SCOTT';<br><br>    result := emp_salary / divisor;<br><br>    DBMS_OUTPUT.PUT_LINE('Result: ' || result);<br>  <b>EXCEPTION</b><br>    <b>WHEN</b> ZERO_DIVIDE <b>THEN</b><br>      DBMS_OUTPUT.PUT_LINE('Inner Block: Caught ZERO_DIVIDE, re-raising.');<br>      <b>RAISE</b>;<br>  <b>END</b>;<br><br><b>EXCEPTION</b><br>  <b>WHEN</b> ZERO_DIVIDE <b>THEN</b><br>    DBMS_OUTPUT.PUT_LINE('Outer Block: ZERO_DIVIDE handled again.');<br><b>END</b>;",
+                    image: "./outputs/Exceptions/18.png"
+                },
+            ],
+            "Triggers": [
+                {
+                    question: "1. Write a trigger to display a message whenever a record is inserted into EMP table. (Trigger Basics)",
+                    sql: "<b>CREATE OR REPLACE TRIGGER</b> emp_insert_msg\n<b>AFTER INSERT ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n    DBMS_OUTPUT.PUT_LINE('A new employee has been inserted ');\n<b>END;</b>\n/\n\n<b>INSERT INTO</b> EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) <b>VALUES</b> (8300, 'DAKSHI', 'ANALYST', 7566, <b>TO_DATE</b>('08-APR-2026','DD-MON-YYYY'), 4000, (null), 20);\n<b>COMMIT;</b>",
+                    image: "./outputs/Triggers/1.png"
+                },
+                {
+                    question: "2. Write a trigger that fires before inserting data into EMP table. (BEFORE INSERT Trigger)",
+
+                    sql: "<b>CREATE OR REPLACE TRIGGER</b> emp_before_insert\n<b>BEFORE INSERT ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n DBMS_OUTPUT.PUT_LINE('About to insert employee:');\n<b>END;</b>\n/\n\n<b>INSERT INTO</b> EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) <b>VALUES</b> (9400, 'ANITA', 'ANALYST', 7566, <b>TO_DATE</b>('08-APR-2026','DD-MON-YYYY'), 4000, (null), 20);",
+                    image: "./outputs/Triggers/2.png"
+                },
+                {
+                    question: "3. Write a trigger that fires after deleting a record from EMP table. (AFTER DELETE Trigger)",
+                    sql: "<b>CREATE OR REPLACE TRIGGER</b> emp_after_delete\n<b>AFTER DELETE ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n DBMS_OUTPUT.PUT_LINE('Employee deleted' );\n<b>END;</b>\n/\n\n<b>DELETE FROM</b> EMP <b>WHERE</b> EMPNO = 9400;",
+                    image: "./outputs/Triggers/3.png"
+                },
+                {
+                    question: "4. Write a trigger to prevent deletion from EMP table. (BEFORE DELETE Trigger)",
+
+                    sql: "<b>CREATE OR REPLACE TRIGGER</b> emp_prevent_delete\n<b>BEFORE DELETE ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n RAISE_APPLICATION_ERROR(-20002, 'Deletion is not allowed from EMP table!');\n<b>END;</b>\n/\n\n<b>DELETE FROM</b> EMP <b>WHERE</b> EMPNO = 8100;",
+                    image: "./outputs/Triggers/4.png"
+                },
+                {
+                    question: "5. Write a trigger to display a message when employee salary is updated. (AFTER UPDATE Trigger)",
+                    sql: "<b>CREATE OR REPLACE TRIGGER</b> emp_after_salary_update\n<b>AFTER UPDATE OF</b> SAL <b>ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n DBMS_OUTPUT.PUT_LINE('Salary updated for employee');\n<b>END;</b>\n/\n\n<b>UPDATE</b> EMP <b>SET</b> SAL = SAL + 500 <b>WHERE</b> EMPNO = 9400;",
+                    image: "./outputs/Triggers/5.png"
+                },
+                {
+                    question: "6. Write a row-level trigger to display old and new salary when salary is updated. (:OLD and :NEW)",
+
+                    sql: "<b>CREATE OR REPLACE TRIGGER</b> emp_salary_change\n<b>AFTER UPDATE OF</b> SAL <b>ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n DBMS_OUTPUT.PUT_LINE('Employee: ' || :NEW.ENAME || \n ', EMPNO: ' || :NEW.EMPNO || \n ', Old SAL: ' || :OLD.SAL || \n ', New SAL: ' || :NEW.SAL);\n<b>END;</b>\n/\n\n<b>UPDATE</b> EMP <b>SET</b> SAL = SAL + 400 <b>WHERE</b> EMPNO = 7876;",
+                    image: "./outputs/Triggers/6.png"
+                },
+                {
+                    question: "10. Write a trigger to copy deleted records into another table (audit table).(AFTER DELETE + Logging)",
+                    sql: "<b>CREATE TABLE</b> EMP_AUDIT (\n EMPNO NUMBER(4),\n ENAME VARCHAR2(10),\n JOB VARCHAR2(9),\n MGR NUMBER(4),\n HIREDATE DATE,\n SAL NUMBER(7,2),\n COMM NUMBER(7,2),\n DEPTNO NUMBER(2),\n DELETED_ON DATE\n);\n\n<b>CREATE OR REPLACE TRIGGER</b> emp_delete_audit\n<b>AFTER DELETE ON</b> EMP\n<b>FOR EACH ROW</b>\n<b>BEGIN</b>\n <b>INSERT INTO</b> EMP_AUDIT (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO, DELETED_ON)\n <b>VALUES</b> (:OLD.EMPNO, :OLD.ENAME, :OLD.JOB, :OLD.MGR, :OLD.HIREDATE, :OLD.SAL, :OLD.COMM, :OLD.DEPTNO, SYSDATE);\n\n DBMS_OUTPUT.PUT_LINE('Deleted employee logged: ' || :OLD.ENAME || ', EMPNO: ' || :OLD.EMPNO);\n<b>END;</b>\n/\n\n<b>ALTER TRIGGER</b> emp_prevent_delete <b>DISABLE</b>;\n\n<b>DELETE FROM</b> EMP\n<b>WHERE</b> EMPNO = 7876;",
+                    image: "./outputs/Triggers/10.png"
+                },
+            ]
+        };
+
+        const topics = Object.keys(assignmentData);
+        const sidebar = document.getElementById('sidebarList');
+        const container = document.getElementById('queryContainer');
+        const titleDisplay = document.getElementById('activeTopicTitle');
+
+        function renderTopic(topicName) {
+            titleDisplay.innerText = topicName;
+            container.innerHTML = "";
+
+            const queries = assignmentData[topicName];
+
+            // IF TOPIC IS EMPTY, SHOW "NOT STARTED"
+            if (!queries || queries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="status-badge">NOT STARTED</div>
+                        <p>Questions for <b>${topicName}</b> have not been started yet.</p>
+                        <p style="font-size:0.8rem; margin-top:10px;">Please check back later.</p>
+                    </div>`;
+                return;
+            }
+
+            queries.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'query-card';
+                card.innerHTML = `
+                <div class="q-badge">${index + 1}</div>
+                <p class="q-text">${item.question}</p>
+                <div class="code-box"><pre class="sql-code">${item.sql}</pre></div>
+                <span class="output-label">Oracle Terminal Output:</span>
+                <div style="background:#f1f5f9; border:1px solid #e2e8f0; border-radius:12px; padding:15px; overflow-x:auto; display: flex;">
+                    <img src="${item.image}" alt="Output Screenshot" class="output-img" 
+                    >
+                </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        topics.forEach((t) => {
+            const li = document.createElement('li');
+            li.className = 'topic-item';
+            li.innerText = t;
+            li.onclick = () => {
+                document.querySelectorAll('.topic-item').forEach(el => el.classList.remove('active'));
+                li.classList.add('active');
+                renderTopic(t);
+            };
+            sidebar.appendChild(li);
+        });
+    </script>
+</body>
+
+</html>

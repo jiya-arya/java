@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java - Jiya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --success: #22c55e;
+            --accent: #6366f1;
+            --warning: #f59e0b;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            padding-bottom: 50px;
+        }
+        nav {
+            background: white;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .home-nav-link {
+            text-decoration: none;
+            color: #000000a6;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .project-id {
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .student-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .header {
+            text-align: center;
+            padding: 4rem 1rem 3rem;
+            background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        .stats-bar {
+            max-width: 1200px;
+            margin: -25px auto 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .stat-pill {
+            background: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 1px solid #f1f5f9;
+        }
+        .stat-pill b { color: var(--accent); }
+        .stat-pill span#totalAttempted { color: var(--accent); }
+        .stat-pill span#statusText { color: var(--warning); text-transform: uppercase; }
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .submission-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 2px solid #f1f5f9;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 240px;
+        }
+        .submission-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .not-started-card {
+            opacity: 0.7;
+            pointer-events: none;
+            filter: grayscale(0.5);
+        }
+        .status-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .badge-done { background: #dcfce7; color: #166534; }
+        .badge-progress { background: #fef3c7; color: #92400e; }
+        .badge-upcoming { background: #f1f5f9; color: #94a3b8; }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            width: 75%;
+            line-height: 1.3;
+        }
+        .query-count {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .progress-box {
+            margin-bottom: 1.2rem;
+            margin-top: auto;
+        }
+        .progress-track {
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill { height: 100%; transition: width 0.5s ease; }
+        .btn-view {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #f8fafc;
+            color: var(--accent);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .btn-view.disabled { pointer-events: none; opacity: 0.5; color: #cbd5e1; }
+        .btn-view:hover {
+            background: var(--accent) !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        @media (max-width: 600px) { .container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html" class="home-nav-link">← Home</a>
+        <div class="nav-bottom-row">
+            <div class="project-id">Java Questions</div>
+            <div class="student-meta">JIYA | 7011/24 | BCA 5 SEM</div>
+        </div>
+    </nav>
+    <header class="header">
+        <h1>Submission Progress</h1>
+        <p>Assignment record for Core Java implementation.</p>
+    </header>
+    <div class="stats-bar">
+        <div class="stat-pill">Topics: <b id="topicCount">0</b></div>
+        <div class="stat-pill">Ques Attempted: <span id="totalAttempted">0 / 0</span></div>
+        <div class="stat-pill">Overall Status: <span id="statusText">0%</span></div>
+    </div>
+    <main class="container" id="gridContainer"></main>
+    <script>
+    const data = [
+        { name: "Strings", done: 3, total: 50 },
+        { name: "Single Dimension Arrays", done: 0, total: 23 },
+        { name: "Functions", done: 0, total: 13 },
+        { name: "Multi-Dimension Arrays", done: 0, total: 13 },
+        { name: "Basic Programming Constructs", done: 0, total: 139 },
+        { name: "Interfaces", done: 0, total: 11 },
+        { name: "Packages", done: 0, total: 10 },
+        { name: "Inheritance", done: 0, total: 26 },
+        { name: "Input/Output", done: 0, total: 10 },
+        { name: "Exception Handling", done: 0, total: 13 },
+        { name: "MultiThreading", done: 0, total: 13 },
+        { name: "Object Oriented Programming", done: 0, total: 32},
+        { name: "Practical based questions", done: 0, total: 45 }
+    ];
+    const grid = document.getElementById('gridContainer');
+    let totalDone = 0, totalAvailable = 0;
+    data.forEach(item => {
+        totalDone += item.done;
+        totalAvailable += item.total;
+        const isUploaded = item.uploaded !== false;
+        const percent = isUploaded ? (item.done / item.total) * 100 : 0;
+        let statusText = "In Progress", badgeClass = "badge-progress", barColor = "var(--accent)", queryText = `${item.done} of ${item.total} Solved`, btnClass = "btn-view", btnText = "View Details", cardExtraClass = "";
+        if (item.done === 0) {
+            statusText = "Not Started";
+            btnClass = "btn-view disabled";
+            cardExtraClass = "not-started-card";
+        }
+        if (!isUploaded) {
+            statusText = "Upcoming";
+            badgeClass = "badge-upcoming";
+            barColor = "#f1f5f9";
+            queryText = "Awaiting Sir's Upload";
+            btnClass = "btn-view disabled";
+            cardExtraClass = "not-started-card"; 
+        } else if (item.done === item.total) {
+            statusText = "Completed";
+            badgeClass = "badge-done";
+            barColor = "var(--success)";
+        }
+        const card = document.createElement('div');
+        card.className = `submission-card ${cardExtraClass}`;
+        card.innerHTML = `
+            <span class="status-badge ${badgeClass}">${statusText}</span>
+            <div>
+                <h3 class="card-title">${item.name}</h3>
+                <p class="query-count">${queryText}</p>
+            </div>
+            <div class="progress-box">
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: ${percent}%; background: ${barColor}"></div>
+                </div>
+            </div>
+            <a href="master-portal.html" class="${btnClass}">${btnText}</a>
+        `;
+        grid.appendChild(card);
+    });
+    document.getElementById('topicCount').innerText = data.length;
+    document.getElementById('totalAttempted').innerText = `${totalDone} / ${totalAvailable}`;
+    document.getElementById('statusText').innerText = ((totalDone / totalAvailable) * 100).toFixed(2) + "%";
+</script>
+</body>
+</html>
