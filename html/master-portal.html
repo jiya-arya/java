@@ -301,6 +301,236 @@
     <script>
         const assignmentData = {
 
+
+            "Practical based questions": [
+                {
+                    "question": "1. Program to print a simple message.",
+                    "sql": "public class print {\n    public static void main(String[] args) {\n        System.out.println(\"hello jiya\");\n    }\n}",
+                    "image": "./outputs/practical/1.png"
+                },
+                {
+                    "question": "2. Program to demonstrate data types and variables.",
+                    "sql": "public class datatypes {\n    public static void main(String[] args) {\n        byte b = 100;\n        short s = 5000;\n        int i = 100000;\n        long l = 15000000000L;\n        float f = 5.75f;\n        double d = 19.99;\n        char c = 'A';\n        boolean bool = true;\n        String str = \"hello\";\n        System.out.println(b);\n        System.out.println(s);\n        System.out.println(i);\n        System.out.println(l);\n        System.out.println(f);\n        System.out.println(d);\n        System.out.println(c);\n        System.out.println(bool);\n        System.out.println(str);\n    }\n}",
+                    "image": "./outputs/practical/2.png"
+                },
+                {
+                    "question": "3. Program to demonstrate command-line arguments.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "4. Program to demonstrate arithmetic operators (+, −, *, /, %).",
+                    "sql": "public class arithmetic2 {\n    public static void main(String[] args) {\n        int a = 4;\n        int b = 2;\n        System.out.println(\"Sum \" + (a+b));\n        System.out.println(\"Sub \" + (a-b));\n        System.out.println(\"Mul \" + (a*b));\n        System.out.println(\"Div \" + (a/b));\n        System.out.println(\"Rem \" + (a%b));\n    }\n}",
+                    "image": "./outputs/practical/4.png"
+                },
+                {
+                    "question": "5. Program to read input using Scanner.",
+                    "sql": "import java.util.Scanner;\n\npublic class name {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String name = scanner.nextLine();\n        System.out.println(name);\n    }\n}",
+                    "image": "./outputs/practical/5.png"
+                },
+                {
+                    "question": "6. Program to check even/odd using if-else.",
+                    "sql": "public class oddeven {\n    public static void main(String[] args) {\n        int num = 7;\n        if (num % 2 == 0) {\n            System.out.println(\"even\");\n        } else {\n            System.out.println(\"odd\");\n        }\n    }\n}",
+                    "image": "./outputs/practical/6.png"
+                },
+                {
+                    "question": "7. Program to demonstrate relational and logical operators.",
+                    "sql": "public class relationallogical {\n    public static void main(String[] args) {\n        int a = 10, b = 20;\n        System.out.println(a > b);\n        System.out.println(a < b);\n        System.out.println(a == b);\n        System.out.println((a < b) && (b > 15));\n        System.out.println((a > b) || (b > 15));\n        System.out.println(!(a < b));\n    }\n}",
+                    "image": "./outputs/practical/7.png"
+                },
+                {
+                    "question": "8. Program to print numbers from 1 to 10 using a loop.",
+                    "sql": "public class oneto10 {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 10; i++) {\n            System.out.println(i);\n        }\n    }\n}",
+                    "image": "./outputs/practical/8.png"
+                },
+                {
+                    "question": "9. Program to demonstrate break and continue in loops.",
+                    "sql": "public class breakCont {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 10; i++) {\n            if (i == 3)\n                continue;\n            if (i == 7)\n                break;\n            System.out.println(i);\n        }\n    }\n}",
+                    "image": "./outputs/practical/9.png"
+                },
+                {
+                    "question": "10. Program to create a simple class and object.",
+                    "sql": "class Student {\n    String name = \"Jiya\";\n    void show() {\n        System.out.println(name);\n    }\n}\npublic class classobj {\n    public static void main(String[] args) {\n        Student s = new Student();\n        s.show();\n    }\n}",
+                    "image": "./outputs/practical/10.png"
+                },
+                {
+                    "question": "11. Program to access class members (variables & methods).",
+                    "sql": "class Student {\n    String name = \"jiya\";\n    int rollNo = 7011;\n\n    void display() {\n        System.out.println(\"Roll No: \" + rollNo);\n    }\n}\npublic class classmember {\n    public static void main(String[] args) {\n        Student s = new Student();\n        System.out.println(\"Name: \" + s.name);\n        s.display();\n    }\n}",
+                    "image": "./outputs/practical/11.png"
+                },
+                {
+                    "question": "12. Program to demonstrate constructors.",
+                    "sql": "class Student {\n    String name;\n    Student() {\n        name = \"jiya\";\n        System.out.println(\"Default: \" + name);\n    }\n    Student(String n) {\n        name = n;\n        System.out.println(\"Parameterized: \" + name);\n    }\n}\npublic class constructor {\n    public static void main(String[] args) {\n        Student s1 = new Student();\n        Student s2 = new Student(\"janvi\");\n    }\n}",
+                    "image": "./outputs/practical/12.png"
+                },
+                {
+                    "question": "13. Program to demonstrate constructor overloading.",
+                    "sql": "class Student {\n    String name;\n    int age;\n\n    Student() {\n        name = \"no\";\n        age = 0;\n    }\n\n    Student(String n) {\n        name = n;\n        age = 21;\n    }\n\n    Student(String n, int a) {\n        name = n;\n        age = a;\n    }\n\n    void display() {\n        System.out.println(name + \" , \" + age);\n    }\n}\npublic class construcoverloading {\n    public static void main(String[] args) {\n        Student s1 = new Student();\n        Student s2 = new Student(\"jiya\");\n        Student s3 = new Student(\"janvi\", 21);\n        s1.display();\n        s2.display();\n        s3.display();\n    }\n}",
+                    "image": "./outputs/practical/13.png"
+                },
+                {
+                    "question": "14. Program to demonstrate method overloading.",
+                    "sql": "class arithmetic {\n    void add(int a, int b) {\n        System.out.println(a + b);\n    }\n    void add(int a, int b, int c) {\n        System.out.println(a + b + c);\n    }\n}\npublic class methodoverloading {\n    public static void main(String[] args) {\n        arithmetic m = new arithmetic();\n        m.add(2, 3);\n        m.add(2, 3, 4);\n    }\n}",
+                    "image": "./outputs/practical/14.png"
+                },
+                {
+                    "question": "15. Program to demonstrate static variables and static methods.",
+                    "sql": "class demo {\n    static int count = 10;\n\n    static void show() {\n        System.out.println(\"Count: \" + count);\n    }\n}\npublic class staticVarMethod15 {\n    public static void main(String[] args) {\n        demo.show();\n    }\n}",
+                    "image": "./outputs/practical/15.png"
+                },
+                {
+                    "question": "16. Program to demonstrate final variable, final method, final class.",
+                    "sql": "final class demo {\n    final int X = 10;\n\n    final void show() {\n        System.out.println(\"Value of X: \" + X);\n    }\n}\npublic class finaldemo {\n    public static void main(String[] args) {\n        demo d = new demo();\n        d.show();\n    }\n}",
+                    "image": "./outputs/practical/16.png"
+                },
+                {
+                    "question": "17. Program to demonstrate abstract class and abstract method.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "18. Program to demonstrate the finalize() method.",
+                    "sql": "",
+                    "image": "./outputs/practical/18.png"
+                },
+                {
+                    "question": "19. Program to create and display an array.",
+                    "sql": "public class arraydis {\n    public static void main(String[] args) {\n        int[] num = { 10, 20, 30, 40, 50 };\n        for (int i = 0; i < num.length; i++) {\n            System.out.println(num[i]);\n        }\n    }\n}",
+                    "image": "./outputs/practical/19.png"
+                },
+                {
+                    "question": "20. Program to find the sum of array elements.",
+                    "sql": "public class arrsum {\n    public static void main(String[] args) {\n        int[] num = { 10, 20, 30, 40, 50 };\n        int sum = 0;\n        for (int i = 0; i < num.length; i++) {\n            sum += num[i];\n        }\n        System.out.println(\"Sum: \" + sum);\n    }\n}",
+                    "image": "./outputs/practical/20.png"
+                },
+                {
+                    "question": "21. Program to find the largest element in an array.",
+                    "sql": "public class lararrelem {\n    public static void main(String[] args) {\n        int[] arr = { 15, 8, 42, 4, 23 };\n        int lar = arr[0];\n        for (int i = 1; i < arr.length; i++) {\n            if (arr[i] > lar) {\n                lar = arr[i];\n            }\n        }\n        System.out.println(\"largest  \" + lar);\n    }\n}",
+                    "image": "./outputs/practical/21.png"
+                },
+                {
+                    "question": "22. Program to create and print a 2-dimensional array.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "23. Program to demonstrate simple String operations (length, concat, compare).",
+                    "sql": "public class stringop {\n    public static void main(String[] args) {\n        String s1 = \"jiya\";\n        String s2 = \"arya\";\n        System.out.println(\"length: \" + s1.length());\n        System.out.println(\"concat: \" + s1.concat(s2));\n        System.out.println(\"comp: \" + s1.equals(s2));\n    }\n}",
+                    "image": "./outputs/practical/23.png"
+                },
+                {
+                    "question": "24. Program to reverse a string.",
+                    "sql": "public class revstr {\n    public static void main(String[] args) {\n        String s = \"jiya\";\n        String rev = \"\";\n\n        for (int i = s.length() - 1; i >= 0; i--) {\n            rev = rev + s.charAt(i);\n        }\n        System.out.println(\"rev \" + rev);\n    }\n}",
+                    "image": "./outputs/practical/24.png"
+                },
+                {
+                    "question": "25. Program to show StringBuffer operations (append, insert, delete).",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "26. Program to demonstrate single inheritance.",
+                    "sql": "class A {\n    void showA() {\n        System.out.println(\"Base class\");\n    }\n}\nclass B extends A {\n    void showB() {\n        System.out.println(\"Derived class\");\n    }\n}\npublic class singleinheri {\n    public static void main(String[] args) {\n        B obj = new B();\n        obj.showA();\n        obj.showB();\n    }\n}",
+                    "image": "./outputs/practical/26.png"
+                },
+                {
+                    "question": "27. Program to demonstrate multilevel inheritance.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "28. Program to demonstrate hierarchical inheritance.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "29. Program to demonstrate method overriding.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "30. Program to demonstrate multiple inheritance using interfaces.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "31. Program to demonstrate super keyword.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "32. Program to demonstrate visibility (public, private, protected).",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "33. Program to create a user-defined package.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "34. Program to import a package and use its class.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "35. Program to demonstrate try-catch.",
+                    "sql": "public class trycatch {\n    public static void main(String[] args) {\n        try {\n            int a = 10;\n            int b = 0;\n            int c = a / b;\n            System.out.println(\"Result: \" + c);\n        } catch (ArithmeticException e) {\n            System.out.println(\"Cannot divide by zero\");\n        }\n    }\n}",
+                    "image": "./outputs/practical/35.png"
+                },
+                {
+                    "question": "36. Program to demonstrate multiple catch blocks.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "37. Program to demonstrate finally block.",
+                    "sql": "public class finallyblock {\n    public static void main(String[] args) {\n        try {\n            int a = 10;\n            int b = 0;\n            int c = a / b;\n            System.out.println(c);\n        } catch (ArithmeticException e) {\n            System.out.println(\"cannot divide by zero\");\n        } finally {\n            System.out.println(\"finally block\");\n        }\n    }\n}",
+                    "image": "./outputs/practical/37.png"
+                },
+                {
+                    "question": "38. Program to create a user-defined exception.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "39. Program to demonstrate checked exception (FileNotFound).",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "40. Program to demonstrate unchecked exception (ArithmeticException).",
+                    "sql": "",
+                    "image": "./outputs/practical/40.png"
+                },
+                {
+                    "question": "41. Program to create a thread using the Thread class.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "42. Program to create a thread using the Runnable interface.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "43. Program to demonstrate multiple threads running together.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "44. Program to demonstrate thread priorities.",
+                    "sql": "",
+                    "image": ""
+                },
+                {
+                    "question": "45. Program to demonstrate synchronization.",
+                    "sql": "",
+                    "image": ""
+                }
+            ],
+
+
             "Strings": [
                 {
                     "question": "1. Program to Check if a String contains only digits?",
@@ -1618,7 +1848,6 @@
                 }
             ],
 
-
             "Inheritance": [
                 {
                     "question": "1. Write a Java program to create a class called Animal with a method called makeSound(). Create a subclass called Cat that overrides the makeSound() method to bark.",
@@ -1752,7 +1981,6 @@
                 }
             ],
 
-
             "Input/Output": [
                 {
                     "question": "1. Enter the character from user using InputStreamReader",
@@ -1805,7 +2033,6 @@
                     "image": ""
                 }
             ],
-
 
             "Exception Handling": [
                 {
@@ -1943,7 +2170,6 @@
                     "image": ""
                 }
             ],
-
 
             "Object Oriented Programming": [
                 {
@@ -2106,236 +2332,10 @@
                     "sql": "",
                     "image": ""
                 }
-            ],
-
-
-            "Practical based questions": [
-                {
-                    "question": "1. Program to print a simple message.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "2. Program to demonstrate data types and variables.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "3. Program to demonstrate command-line arguments.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "4. Program to demonstrate arithmetic operators (+, −, *, /, %).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "5. Program to read input using Scanner.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "6. Program to check even/odd using if-else.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "7. Program to demonstrate relational and logical operators.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "8. Program to print numbers from 1 to 10 using a loop.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "9. Program to demonstrate break and continue in loops.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "10. Program to create a simple class and object.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "11. Program to access class members (variables & methods).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "12. Program to demonstrate constructors.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "13. Program to demonstrate constructor overloading.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "14. Program to demonstrate method overloading.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "15. Program to demonstrate static variables and static methods.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "16. Program to demonstrate final variable, final method, final class.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "17. Program to demonstrate abstract class and abstract method.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "18. Program to demonstrate the finalize() method.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "19. Program to create and display an array.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "20. Program to find the sum of array elements.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "21. Program to find the largest element in an array.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "22. Program to create and print a 2-dimensional array.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "23. Program to demonstrate simple String operations (length, concat, compare).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "24. Program to reverse a string.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "25. Program to show StringBuffer operations (append, insert, delete).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "26. Program to demonstrate single inheritance.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "27. Program to demonstrate multilevel inheritance.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "28. Program to demonstrate hierarchical inheritance.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "29. Program to demonstrate method overriding.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "30. Program to demonstrate multiple inheritance using interfaces.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "31. Program to demonstrate super keyword.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "32. Program to demonstrate visibility (public, private, protected).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "33. Program to create a user-defined package.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "34. Program to import a package and use its class.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "35. Program to demonstrate try-catch.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "36. Program to demonstrate multiple catch blocks.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "37. Program to demonstrate finally block.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "38. Program to create a user-defined exception.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "39. Program to demonstrate checked exception (FileNotFound).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "40. Program to demonstrate unchecked exception (ArithmeticException).",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "41. Program to create a thread using the Thread class.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "42. Program to create a thread using the Runnable interface.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "43. Program to demonstrate multiple threads running together.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "44. Program to demonstrate thread priorities.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
-                    "question": "45. Program to demonstrate synchronization.",
-                    "sql": "",
-                    "image": ""
-                }
             ]
+
+
+
 
 
         };
