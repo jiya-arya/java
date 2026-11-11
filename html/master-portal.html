@@ -534,253 +534,250 @@
             "Strings": [
                 {
                     "question": "1. Program to Check if a String contains only digits?",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CheckDigits {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        boolean ans = true;\n        for (int i = 0; i < s.length(); i++) {\n            if (s.charAt(i) < '0' || s.charAt(i) > '9') {\n                ans = false;\n                break;\n            }\n        }\n        if (ans && s.length() > 0)\n            System.out.println(\"Only digits\");\n        else\n            System.out.println(\"Not only digits\");\n    }\n}",
+                    "image": "./outputs/strings/1.png"
                 },
                 {
                     "question": "2. Program to perform Deep Copy for String?",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class DeepCopy {\n    public static void main(String[] args) {\n        String s1 = new String(\"Hello Java\");\n        String s2 = new String(s1);\n        System.out.println(\"Original String: \" + s1);\n        System.out.println(\"Copied String: \" + s2);\n    }\n}",
+                    "image": "./outputs/strings/2.png"
                 },
                 {
                     "question": "3. Program to prove String is immutable programmatically?",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class StringImmutable {\n    public static void main(String[] args) {\n        String s = \"Hello\";\n        s.concat(\" Java\");\n        System.out.println(\"After concat: \" + s);\n        s = s.concat(\" Java\");\n        System.out.println(\"After storing: \" + s);\n    }\n}",
+                    "image": "./outputs/strings/3.png"
                 },
                 {
                     "question": "4. Program to remove all occurrences of a given character from input String?",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass RemoveCharacter {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        System.out.print(\"Enter character to remove: \");\n        char ch = sc.next().charAt(0);\n        String ans = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            if (s.charAt(i) != ch)\n                ans = ans + s.charAt(i);\n        }\n        System.out.println(\"New string: \" + ans);\n    }\n}",
+                    "image": "./outputs/strings/4.png"
                 },
                 {
                     "question": "5. Program to append the string using StringBuffer class",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class AppendString {\n    public static void main(String[] args) {\n        StringBuffer s = new StringBuffer(\"Hello\");\n        s.append(\" Java\");\n        System.out.println(\"String: \" + s);\n    }\n}",
+                    "image": "./outputs/strings/5.png"
                 },
                 {
                     "question": "6. Program to insert the string using StringBuffer class",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class InsertString {\n    public static void main(String[] args) {\n        StringBuffer s = new StringBuffer(\"Hello World\");\n        s.insert(6, \"Java \");\n        System.out.println(\"String: \" + s);\n    }\n}",
+                    "image": "./outputs/strings/6.png"
                 },
                 {
                     "question": "7. Program to Add Characters to a String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class AddCharacters {\n    public static void main(String[] args) {\n        String s = \"Hello\";\n        char ch = '!';\n        s = s + ch;\n        System.out.println(\"New string: \" + s);\n    }\n}",
+                    "image": "./outputs/strings/7.png"
                 },
                 {
                     "question": "8. Program to Add Characters to a String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class AddCharacterAtPosition {\n    public static void main(String[] args) {\n        String s = \"Hello\";\n        char ch = 'X';\n        int pos = 2;\n        String ans = s.substring(0, pos) + ch + s.substring(pos);\n        System.out.println(\"New string: \" + ans);\n    }\n}",
+                    "image": "./outputs/strings/8.png"
                 },
                 {
                     "question": "9. Program to Check Anagram",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Arrays;\nimport java.util.Scanner;\nclass Anagram {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter first word: \");\n        String a = sc.nextLine().toLowerCase();\n        System.out.print(\"Enter second word: \");\n        String b = sc.nextLine().toLowerCase();\n        char x[] = a.toCharArray();\n        char y[] = b.toCharArray();\n        Arrays.sort(x);\n        Arrays.sort(y);\n        if (Arrays.equals(x, y))\n            System.out.println(\"Anagram\");\n        else\n            System.out.println(\"Not anagram\");\n    }\n}",
+                    "image": "./outputs/strings/9.png"
                 },
                 {
                     "question": "10. Program to check whether a string is a Palindrome",
-                    "sql": "",
-                    "image": ""
-                },
-                {
+                    "sql": "import java.util.Scanner;\nclass Palindrome {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        String rev = \"\";\n        for (int i = s.length() - 1; i >= 0; i--) {\n            rev = rev + s.charAt(i);\n        }\n        if (s.equalsIgnoreCase(rev))\n            System.out.println(\"Palindrome\");\n        else\n            System.out.println(\"Not palindrome\");\n    }\n}",
+                    "image": "./outputs/strings/10.png"
+                }, {
                     "question": "11. Program to Convert Enum to String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class EnumToString {\n    enum Day { MONDAY, TUESDAY, WEDNESDAY }\n    public static void main(String[] args) {\n        Day d = Day.MONDAY;\n        String s = d.toString();\n        System.out.println(\"String: \" + s);\n    }\n}",
+                    "image": "./outputs/strings/11.png"
                 },
                 {
                     "question": "12. Program to Convert String to String Array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class StringToArray {\n    public static void main(String[] args) {\n        String s = \"Apple Mango Banana\";\n        String words[] = s.split(\" \");\n        for (int i = 0; i < words.length; i++) {\n            System.out.println(words[i]);\n        }\n    }\n}",
+                    "image": "./outputs/strings/12.png"
                 },
                 {
                     "question": "13. Program to count number of words in a String?",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CountWords {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine().trim();\n        int count = 0;\n        if (!s.isEmpty()) {\n            String words[] = s.split(\"\\\\s+\");\n            count = words.length;\n        }\n        System.out.println(\"Total words: \" + count);\n    }\n}",
+                    "image": "./outputs/strings/13.png"
                 },
                 {
                     "question": "14. Program to count the total number of characters in a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CountCharacters {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        System.out.println(\"Total characters: \" + s.length());\n    }\n}",
+                    "image": "./outputs/strings/14.png"
                 },
                 {
                     "question": "15. Program to count the total number of punctuation characters exists in a String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CountPunctuation {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        int count = 0;\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (!Character.isLetterOrDigit(ch) && !Character.isWhitespace(ch))\n                count++;\n        }\n        System.out.println(\"Punctuation characters: \" + count);\n    }\n}",
+                    "image": "./outputs/strings/15.png"
                 },
                 {
                     "question": "16. Program to count the total number of vowels and consonants in a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass VowelsConsonants {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine().toLowerCase();\n        int v = 0, c = 0;\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (ch >= 'a' && ch <= 'z') {\n                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u')\n                    v++;\n                else\n                    c++;\n            }\n        }\n        System.out.println(\"Vowels: \" + v);\n        System.out.println(\"Consonants: \" + c);\n    }\n}",
+                    "image": "./outputs/strings/16.png"
                 },
                 {
                     "question": "17. Program to determine whether a given string is palindrome",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CheckPalindrome {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        int i = 0, j = s.length() - 1;\n        boolean same = true;\n        while (i < j) {\n            if (s.charAt(i) != s.charAt(j)) {\n                same = false;\n                break;\n            }\n            i++;\n            j--;\n        }\n        if (same)\n            System.out.println(\"Palindrome\");\n        else\n            System.out.println(\"Not palindrome\");\n    }\n}",
+                    "image": "./outputs/strings/17.png"
                 },
                 {
                     "question": "18. Program to determine whether one string is a rotation of another",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass StringRotation {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter first string: \");\n        String a = sc.nextLine();\n        System.out.print(\"Enter second string: \");\n        String b = sc.nextLine();\n        if (a.length() == b.length() && (a + a).contains(b))\n            System.out.println(\"Strings are rotations\");\n        else\n            System.out.println(\"Strings are not rotations\");\n    }\n}",
+                    "image": "./outputs/strings/18.png"
                 },
                 {
                     "question": "19. Program to divide a string in 'N' equal parts.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass DivideString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        System.out.print(\"Enter number of parts: \");\n        int n = sc.nextInt();\n        if (n > 0 && s.length() % n == 0) {\n            int size = s.length() / n;\n            for (int i = 0; i < s.length(); i += size) {\n                System.out.println(s.substring(i, i + size));\n            }\n        } else {\n            System.out.println(\"String cannot be divided equally\");\n        }\n    }\n}",
+                    "image": "./outputs/strings/19.png"
                 },
                 {
                     "question": "20. Program to find all subsets of a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass StringSubsets {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        int total = 1 << s.length();\n        for (int i = 1; i < total; i++) {\n            String part = \"\";\n            for (int j = 0; j < s.length(); j++) {\n                if ((i & (1 << j)) != 0)\n                    part = part + s.charAt(j);\n            }\n            System.out.println(part);\n        }\n    }\n}",
+                    "image": "./outputs/strings/20.png"
                 },
                 {
                     "question": "21. Program to find all the permutations of a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass StringPermutations {\n    static void show(String s, String ans) {\n        if (s.length() == 0) {\n            System.out.println(ans);\n            return;\n        }\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            String left = s.substring(0, i) + s.substring(i + 1);\n            show(left, ans + ch);\n        }\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        show(s, \"\");\n    }\n}",
+                    "image": "./outputs/strings/21.png"
                 },
                 {
                     "question": "22. Program to find maximum and minimum occurring character in a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass MaxMinCharacter {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        int max = 0, min = s.length();\n        char big = ' ', small = ' ';\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (s.indexOf(ch) == i) {\n                int count = 0;\n                for (int j = 0; j < s.length(); j++) {\n                    if (s.charAt(j) == ch)\n                        count++;\n                }\n                if (count > max) {\n                    max = count;\n                    big = ch;\n                }\n                if (count < min) {\n                    min = count;\n                    small = ch;\n                }\n            }\n        }\n        System.out.println(\"Maximum occurring character: \" + big);\n        System.out.println(\"Minimum occurring character: \" + small);\n    }\n}",
+                    "image": "./outputs/strings/22.png"
                 },
                 {
                     "question": "23. Program to find Reverse of the string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ReverseString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        String rev = \"\";\n        for (int i = s.length() - 1; i >= 0; i--) {\n            rev = rev + s.charAt(i);\n        }\n        System.out.println(\"Reverse: \" + rev);\n    }\n}",
+                    "image": "./outputs/strings/23.png"
                 },
                 {
                     "question": "24. Program to find the duplicate characters in a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass DuplicateCharacters {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (s.indexOf(ch) == i && s.lastIndexOf(ch) != i)\n                System.out.println(ch);\n        }\n    }\n}",
+                    "image": "./outputs/strings/24.png"
                 },
                 {
                     "question": "25. Program to find the duplicate words in a string",
-                    "sql": "",
-                    "image": ""
-                },
-                {
+                    "sql": "import java.util.Scanner;\nclass DuplicateWords {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a sentence: \");\n        String s = sc.nextLine();\n        String words[] = s.split(\"\\\\s+\");\n        for (int i = 0; i < words.length; i++) {\n            boolean found = false;\n            for (int j = 0; j < i; j++) {\n                if (words[i].equalsIgnoreCase(words[j]))\n                    found = true;\n            }\n            if (!found) {\n                int count = 0;\n                for (int j = 0; j < words.length; j++) {\n                    if (words[i].equalsIgnoreCase(words[j]))\n                        count++;\n                }\n                if (count > 1)\n                    System.out.println(words[i]);\n            }\n        }\n    }\n}",
+                    "image": "./outputs/strings/25.png"
+                }, {
                     "question": "26. Program to find the frequency of characters",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CharacterFrequency {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (s.indexOf(ch) == i) {\n                int count = 0;\n                for (int j = 0; j < s.length(); j++) {\n                    if (s.charAt(j) == ch)\n                        count++;\n                }\n                System.out.println(ch + \" = \" + count);\n            }\n        }\n    }\n}",
+                    "image": "./outputs/strings/26.png"
                 },
                 {
                     "question": "27. Program to find the largest and smallest word in a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass LargeSmallWord {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a sentence: \");\n        String s = sc.nextLine();\n        String words[] = s.split(\"\\\\s+\");\n        String big = words[0], small = words[0];\n        for (int i = 1; i < words.length; i++) {\n            if (words[i].length() > big.length())\n                big = words[i];\n            if (words[i].length() < small.length())\n                small = words[i];\n        }\n        System.out.println(\"Largest word: \" + big);\n        System.out.println(\"Smallest word: \" + small);\n    }\n}",
+                    "image": "./outputs/strings/27.png"
                 },
                 {
                     "question": "28. Program to find the longest repeating sequence in a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass LongestRepeating {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        String ans = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            for (int j = i + 1; j < s.length(); j++) {\n                int k = 0;\n                while (j + k < s.length() && s.charAt(i + k) == s.charAt(j + k) && i + k < j) {\n                    k++;\n                }\n                if (k > ans.length())\n                    ans = s.substring(i, i + k);\n            }\n        }\n        System.out.println(\"Longest repeating sequence: \" + ans);\n    }\n}",
+                    "image": "./outputs/strings/28.png"
                 },
                 {
                     "question": "29. Program to find the most repeated word in a text file",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.io.File;\nimport java.util.Scanner;\nclass MostRepeatedWord {\n    public static void main(String[] args) throws Exception {\n        Scanner sc = new Scanner(new File(\"data.txt\"));\n        String s = \"\";\n        while (sc.hasNext()) {\n            s = s + sc.next() + \" \";\n        }\n        String words[] = s.toLowerCase().split(\"\\\\s+\");\n        String big = \"\";\n        int max = 0;\n        for (int i = 0; i < words.length; i++) {\n            int count = 0;\n            for (int j = 0; j < words.length; j++) {\n                if (words[i].equals(words[j]))\n                    count++;\n            }\n            if (count > max) {\n                max = count;\n                big = words[i];\n            }\n        }\n        System.out.println(\"Most repeated word: \" + big);\n        System.out.println(\"Count: \" + max);\n        sc.close();\n    }\n}",
+                    "image": "./outputs/strings/29.png"
                 },
                 {
                     "question": "30. Program to find the number of the words in the given text file",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.io.File;\nimport java.util.Scanner;\nclass FileWordCount {\n    public static void main(String[] args) throws Exception {\n        Scanner sc = new Scanner(new File(\"data.txt\"));\n        int count = 0;\n        while (sc.hasNext()) {\n            sc.next();\n            count++;\n        }\n        System.out.println(\"Total words: \" + count);\n        sc.close();\n    }\n}",
+                    "image": "./outputs/strings/30.png"
                 },
                 {
                     "question": "31. Program to Get a Character From the Given String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass GetCharacter {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        System.out.print(\"Enter position: \");\n        int pos = sc.nextInt();\n        if (pos >= 0 && pos < s.length())\n            System.out.println(\"Character: \" + s.charAt(pos));\n        else\n            System.out.println(\"Invalid position\");\n    }\n}",
+                    "image": "./outputs/strings/31.png"
                 },
                 {
                     "question": "32. Program to Insert a string into another string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass InsertIntoString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter first string: \");\n        String a = sc.nextLine();\n        System.out.print(\"Enter string to insert: \");\n        String b = sc.nextLine();\n        System.out.print(\"Enter position: \");\n        int pos = sc.nextInt();\n        if (pos >= 0 && pos <= a.length()) {\n            String ans = a.substring(0, pos) + b + a.substring(pos);\n            System.out.println(\"New string: \" + ans);\n        } else {\n            System.out.println(\"Invalid position\");\n        }\n    }\n}",
+                    "image": "./outputs/strings/32.png"
                 },
                 {
                     "question": "33. Program to Iterate Over Characters in String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass IterateString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        for (int i = 0; i < s.length(); i++) {\n            System.out.println(s.charAt(i));\n        }\n    }\n}",
+                    "image": "./outputs/strings/33.png"
                 },
                 {
                     "question": "34. Program to Print a New Line in String",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class NewLineString {\n    public static void main(String[] args) {\n        String s = \"Hello\\nJava\\nWorld\";\n        System.out.println(s);\n    }\n}",
+                    "image": "./outputs/strings/34.png"
                 },
                 {
                     "question": "35. Program to Print even length words",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass EvenLengthWords {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a sentence: \");\n        String s = sc.nextLine();\n        String words[] = s.split(\"\\\\s+\");\n        for (int i = 0; i < words.length; i++) {\n            if (words[i].length() % 2 == 0)\n                System.out.println(words[i]);\n        }\n    }\n}",
+                    "image": "./outputs/strings/35.png"
                 },
                 {
                     "question": "36. Program to print smallest and biggest possible palindrome word in a given string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass PalindromeWords {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a sentence: \");\n        String s = sc.nextLine();\n        String words[] = s.split(\"\\\\s+\");\n        String small = \"\", big = \"\";\n        for (int i = 0; i < words.length; i++) {\n            String rev = \"\";\n            for (int j = words[i].length() - 1; j >= 0; j--)\n                rev = rev + words[i].charAt(j);\n            if (words[i].equalsIgnoreCase(rev)) {\n                if (small.equals(\"\") || words[i].length() < small.length())\n                    small = words[i];\n                if (words[i].length() > big.length())\n                    big = words[i];\n            }\n        }\n        System.out.println(\"Smallest palindrome: \" + small);\n        System.out.println(\"Biggest palindrome: \" + big);\n    }\n}",
+                    "image": "./outputs/strings/36.png"
                 },
                 {
                     "question": "37. Program to remove all the white spaces from a string",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass RemoveSpaces {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        String ans = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            if (!Character.isWhitespace(s.charAt(i)))\n                ans = ans + s.charAt(i);\n        }\n        System.out.println(\"New string: \" + ans);\n    }\n}",
+                    "image": "./outputs/strings/37.png"
                 },
                 {
                     "question": "38. Program to replace lower-case characters with upper-case and vice-versa",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ChangeCase {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        String ans = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (Character.isLowerCase(ch))\n                ans = ans + Character.toUpperCase(ch);\n            else if (Character.isUpperCase(ch))\n                ans = ans + Character.toLowerCase(ch);\n            else\n                ans = ans + ch;\n        }\n        System.out.println(\"New string: \" + ans);\n    }\n}",
+                    "image": "./outputs/strings/38.png"
                 },
                 {
                     "question": "39. Program to replace the spaces of a string with a specific character",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ReplaceSpaces {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        System.out.print(\"Enter a character: \");\n        char ch = sc.next().charAt(0);\n        String ans = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            if (s.charAt(i) == ' ')\n                ans = ans + ch;\n            else\n                ans = ans + s.charAt(i);\n        }\n        System.out.println(\"New string: \" + ans);\n    }\n}",
+                    "image": "./outputs/strings/39.png"
                 },
                 {
                     "question": "40. Program to separate the Individual Characters from a String",
-                    "sql": "",
-                    "image": ""
-                },
-                {
+                    "sql": "import java.util.Scanner;\nclass SeparateCharacters {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        for (int i = 0; i < s.length(); i++) {\n            System.out.println(s.charAt(i));\n        }\n    }\n}",
+                    "image": "./outputs/strings/40.png"
+                }, {
                     "question": "41. Program to Splitting into a number of sub-strings",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SplitString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        System.out.print(\"Enter size: \");\n        int n = sc.nextInt();\n        for (int i = 0; i < s.length(); i += n) {\n            int end = Math.min(i + n, s.length());\n            System.out.println(s.substring(i, end));\n        }\n    }\n}",
+                    "image": "./outputs/strings/41.png"
                 },
                 {
                     "question": "42. Program to swap two string variables without using third or temp variable.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SwapStrings {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter first string: \");\n        String a = sc.nextLine();\n        System.out.print(\"Enter second string: \");\n        String b = sc.nextLine();\n        a = a + b;\n        b = a.substring(0, a.length() - b.length());\n        a = a.substring(b.length());\n        System.out.println(\"First string: \" + a);\n        System.out.println(\"Second string: \" + b);\n    }\n}",
+                    "image": "./outputs/strings/42.png"
                 },
                 {
                     "question": "43. Program to Swapping Pair of Characters",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SwapPairs {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        char arr[] = s.toCharArray();\n        for (int i = 0; i < arr.length - 1; i += 2) {\n            char temp = arr[i];\n            arr[i] = arr[i + 1];\n            arr[i + 1] = temp;\n        }\n        System.out.println(\"New string: \" + new String(arr));\n    }\n}",
+                    "image": "./outputs/strings/43.png"
                 },
                 {
                     "question": "44. Read two String user input and check if first contains second?",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CheckContains {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter first string: \");\n        String a = sc.nextLine();\n        System.out.print(\"Enter second string: \");\n        String b = sc.nextLine();\n        if (a.contains(b))\n            System.out.println(\"First string contains second\");\n        else\n            System.out.println(\"First string does not contain second\");\n    }\n}",
+                    "image": "./outputs/strings/44.png"
                 },
                 {
                     "question": "45. Reserve String without reverse() function",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ReverseWithoutFunction {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        String rev = \"\";\n        for (int i = s.length() - 1; i >= 0; i--) {\n            rev = rev + s.charAt(i);\n        }\n        System.out.println(\"Reverse string: \" + rev);\n    }\n}",
+                    "image": "./outputs/strings/45.png"
                 },
                 {
-                    "question": "Reverse String Word by Word",
-                    "sql": "",
-                    "image": ""
+                    "question": "46. Reverse String Word by Word",
+                    "sql": "import java.util.Scanner;\nclass ReverseWords {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a sentence: \");\n        String s = sc.nextLine();\n        String words[] = s.trim().split(\"\\\\s+\");\n        for (int i = words.length - 1; i >= 0; i--) {\n            System.out.print(words[i] + \" \");\n        }\n    }\n}",
+                    "image": "./outputs/strings/46.png"
                 },
                 {
-                    "question": "Write a program to check if two Strings are created with same characters?",
-                    "sql": "",
-                    "image": ""
+                    "question": "47. Write a program to check if two Strings are created with same characters?",
+                    "sql": "import java.util.Arrays;\nimport java.util.Scanner;\nclass SameCharacters {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter first string: \");\n        String a = sc.nextLine().toLowerCase();\n        System.out.print(\"Enter second string: \");\n        String b = sc.nextLine().toLowerCase();\n        char x[] = a.toCharArray();\n        char y[] = b.toCharArray();\n        Arrays.sort(x);\n        Arrays.sort(y);\n        if (Arrays.equals(x, y))\n            System.out.println(\"Same characters\");\n        else\n            System.out.println(\"Different characters\");\n    }\n}",
+                    "image": "./outputs/strings/47.png"
                 },
                 {
-                    "question": "Write a program to find out first non repeated character from input String?",
-                    "sql": "",
-                    "image": ""
+                    "question": "48. Write a program to find out first non repeated character from input String?",
+                    "sql": "import java.util.Scanner;\nclass FirstNonRepeated {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        boolean found = false;\n        for (int i = 0; i < s.length(); i++) {\n            int count = 0;\n            for (int j = 0; j < s.length(); j++) {\n                if (s.charAt(i) == s.charAt(j))\n                    count++;\n            }\n            if (count == 1) {\n                System.out.println(\"First non repeated character: \" + s.charAt(i));\n                found = true;\n                break;\n            }\n        }\n        if (!found)\n            System.out.println(\"No non repeated character found\");\n    }\n}",
+                    "image": "./outputs/strings/48.png"
                 },
                 {
-                    "question": "Create an object StringBuffer class to reverse the string.",
-                    "sql": "",
-                    "image": ""
+                    "question": "49. Create an object StringBuffer class to reverse the string.",
+                    "sql": "import java.util.Scanner;\nclass BufferReverse {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a string: \");\n        String s = sc.nextLine();\n        StringBuffer sb = new StringBuffer(s);\n        sb.reverse();\n        System.out.println(\"Reverse string: \" + sb);\n    }\n}",
+                    "image": "./outputs/strings/49.png"
                 },
                 {
-                    "question": "Create an object StringBuffer class to show functionality of insert, append, delete and replace functions.",
-                    "sql": "",
-                    "image": ""
+                    "question": "50. Create an object StringBuffer class to show functionality of insert, append, delete and replace functions.",
+                    "sql": "class BufferFunctions {\n    public static void main(String[] args) {\n        StringBuffer sb = new StringBuffer(\"Hello World\");\n        System.out.println(\"Original: \" + sb);\n        sb.append(\" Java\");\n        System.out.println(\"After append: \" + sb);\n        sb.insert(6, \"Beautiful \");\n        System.out.println(\"After insert: \" + sb);\n        sb.delete(6, 16);\n        System.out.println(\"After delete: \" + sb);\n        sb.replace(6, 10, \"Code\");\n        System.out.println(\"After replace: \" + sb);\n    }\n}",
+                    "image": "./outputs/strings/50.png"
                 }
             ],
 
