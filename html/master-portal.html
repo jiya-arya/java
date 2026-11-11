@@ -301,7 +301,6 @@
     <script>
         const assignmentData = {
 
-
             "Practical based questions": [
                 {
                     "question": "1. Program to print a simple message.",
@@ -529,7 +528,6 @@
                     "image": ""
                 }
             ],
-
 
             "Strings": [
                 {
@@ -784,257 +782,255 @@
             "Single Dimension Arrays": [
                 {
                     "question": "1. Program to copy all elements of one array into another array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CopyArray {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        int[] b = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        for (int i = 0; i < 5; i++) b[i] = a[i];\n        System.out.println(\"Copied array:\");\n        for (int i = 0; i < 5; i++) System.out.print(b[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/1.png"
                 },
                 {
                     "question": "2. Program to find the frequency of each element in the array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass Frequency {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        boolean[] visited = new boolean[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        for (int i = 0; i < 5; i++) {\n            if (visited[i]) continue;\n            int count = 1;\n            for (int j = i + 1; j < 5; j++) {\n                if (a[i] == a[j]) {\n                    count++;\n                    visited[j] = true;\n                }\n            }\n            System.out.println(a[i] + \" occurs \" + count + \" times\");\n        }\n    }\n}",
+                    "image": "./outputs/1dArray/2.png"
                 },
                 {
                     "question": "3. Program to left rotate the elements of an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass LeftRotate {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        int first = a[0];\n        for (int i = 0; i < 4; i++) a[i] = a[i + 1];\n        a[4] = first;\n        System.out.println(\"After left rotation:\");\n        for (int i = 0; i < 5; i++) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/3.png"
                 },
                 {
                     "question": "4. Program to print the duplicate elements of an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass DuplicateElements {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Duplicate elements:\");\n        for (int i = 0; i < 5; i++) {\n            boolean found = false;\n            for (int j = 0; j < i; j++) {\n                if (a[i] == a[j]) found = true;\n            }\n            if (!found) {\n                for (int j = i + 1; j < 5; j++) {\n                    if (a[i] == a[j]) {\n                        System.out.println(a[i]);\n                        break;\n                    }\n                }\n            }\n        }\n    }\n}",
+                    "image": "./outputs/1dArray/4.png"
                 },
                 {
                     "question": "5. Program to print the elements of an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass PrintArray {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Array elements:\");\n        for (int i = 0; i < 5; i++) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/5.png"
                 },
                 {
                     "question": "6. Program to print the elements of an array in reverse order",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ReverseArray {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Array in reverse order:\");\n        for (int i = 4; i >= 0; i--) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/6.png"
                 },
                 {
                     "question": "7. Program to print the elements of an array present on even position",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass EvenPosition {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Elements at even positions:\");\n        for (int i = 1; i < 5; i += 2) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/7.png"
                 },
                 {
                     "question": "8. Program to print the elements of an array present on odd position",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass OddPosition {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Elements at odd positions:\");\n        for (int i = 0; i < 5; i += 2) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/8.png"
                 },
                 {
                     "question": "9. Program to print the largest element in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass LargestElement {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        int largest = a[0];\n        for (int i = 1; i < 5; i++) {\n            if (a[i] > largest) largest = a[i];\n        }\n        System.out.println(\"Largest element: \" + largest);\n    }\n}",
+                    "image": "./outputs/1dArray/9.png"
                 },
                 {
                     "question": "10. Program to print the smallest element in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SmallestElement {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        int smallest = a[0];\n        for (int i = 1; i < 5; i++) {\n            if (a[i] < smallest) smallest = a[i];\n        }\n        System.out.println(\"Smallest element: \" + smallest);\n    }\n}",
+                    "image": "./outputs/1dArray/10.png"
                 },
                 {
                     "question": "11. Program to print the number of elements present in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ArrayLength {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Number of elements: \" + a.length);\n    }\n}",
+                    "image": "./outputs/1dArray/11.png"
                 },
                 {
                     "question": "12. Program to print the sum of all the items of the array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ArraySum {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        int sum = 0;\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) {\n            a[i] = sc.nextInt();\n            sum += a[i];\n        }\n        System.out.println(\"Sum of array elements: \" + sum);\n    }\n}",
+                    "image": "./outputs/1dArray/12.png"
                 },
                 {
                     "question": "13. Program to right rotate the elements of an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass RightRotate {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        int last = a[4];\n        for (int i = 4; i > 0; i--) a[i] = a[i - 1];\n        a[0] = last;\n        System.out.println(\"After right rotation:\");\n        for (int i = 0; i < 5; i++) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/13.png"
                 },
                 {
                     "question": "14. Program to sort the elements of an array in ascending order",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass AscendingOrder {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        for (int i = 0; i < 5; i++) {\n            for (int j = i + 1; j < 5; j++) {\n                if (a[i] > a[j]) {\n                    int temp = a[i];\n                    a[i] = a[j];\n                    a[j] = temp;\n                }\n            }\n        }\n        System.out.println(\"Ascending order:\");\n        for (int i = 0; i < 5; i++) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/14.png"
                 },
                 {
                     "question": "15. Program to sort the elements of an array in descending order",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass DescendingOrder {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        for (int i = 0; i < 5; i++) {\n            for (int j = i + 1; j < 5; j++) {\n                if (a[i] < a[j]) {\n                    int temp = a[i];\n                    a[i] = a[j];\n                    a[j] = temp;\n                }\n            }\n        }\n        System.out.println(\"Descending order:\");\n        for (int i = 0; i < 5; i++) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/15.png"
                 },
                 {
                     "question": "16. Program to Find 3rd Largest Number in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nimport java.util.Arrays;\nclass ThirdLargest {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        Arrays.sort(a);\n        int count = 1;\n        int previous = a[4];\n        for (int i = 3; i >= 0; i--) {\n            if (a[i] != previous) {\n                count++;\n                previous = a[i];\n            }\n            if (count == 3) {\n                System.out.println(\"3rd largest number: \" + a[i]);\n                return;\n            }\n        }\n        System.out.println(\"3rd largest number does not exist\");\n    }\n}",
+                    "image": "./outputs/1dArray/16.png"
                 },
                 {
                     "question": "17. Program to Find 2nd Largest Number in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nimport java.util.Arrays;\nclass SecondLargest {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        Arrays.sort(a);\n        for (int i = 3; i >= 0; i--) {\n            if (a[i] != a[4]) {\n                System.out.println(\"2nd largest number: \" + a[i]);\n                return;\n            }\n        }\n        System.out.println(\"2nd largest number does not exist\");\n    }\n}",
+                    "image": "./outputs/1dArray/17.png"
                 },
                 {
                     "question": "18. Program to Find Largest Number in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass FindLargest {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        int largest = a[0];\n        for (int i = 1; i < 5; i++) {\n            if (a[i] > largest) largest = a[i];\n        }\n        System.out.println(\"Largest number: \" + largest);\n    }\n}",
+                    "image": "./outputs/1dArray/18.png"
                 },
                 {
                     "question": "19. to Program Find 2nd Smallest Number in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nimport java.util.Arrays;\nclass SecondSmallest {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        Arrays.sort(a);\n        for (int i = 1; i < 5; i++) {\n            if (a[i] != a[0]) {\n                System.out.println(\"2nd smallest number: \" + a[i]);\n                return;\n            }\n        }\n        System.out.println(\"2nd smallest number does not exist\");\n    }\n}",
+                    "image": "./outputs/1dArray/19.png"
                 },
                 {
                     "question": "20. Program to Find Smallest Number in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass FindSmallest {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        int smallest = a[0];\n        for (int i = 1; i < 5; i++) {\n            if (a[i] < smallest) smallest = a[i];\n        }\n        System.out.println(\"Smallest number: \" + smallest);\n    }\n}",
+                    "image": "./outputs/1dArray/20.png"
                 },
                 {
                     "question": "21. Program to Remove Duplicate Element in an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass RemoveDuplicates {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Array without duplicates:\");\n        for (int i = 0; i < 5; i++) {\n            boolean found = false;\n            for (int j = 0; j < i; j++) {\n                if (a[i] == a[j]) found = true;\n            }\n            if (!found) System.out.print(a[i] + \" \");\n        }\n    }\n}",
+                    "image": "./outputs/1dArray/21.png"
                 },
                 {
                     "question": "22. Program to Print Odd and Even Numbers from an array",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass OddEvenNumbers {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        System.out.println(\"Even numbers:\");\n        for (int i = 0; i < 5; i++) {\n            if (a[i] % 2 == 0) System.out.print(a[i] + \" \");\n        }\n        System.out.println(\"\\nOdd numbers:\");\n        for (int i = 0; i < 5; i++) {\n            if (a[i] % 2 != 0) System.out.print(a[i] + \" \");\n        }\n    }\n}",
+                    "image": "./outputs/1dArray/22.png"
                 },
                 {
                     "question": "23. How to Sort an Array in Java",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nimport java.util.Arrays;\nclass SortArray {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] a = new int[5];\n        System.out.println(\"Enter 5 elements:\");\n        for (int i = 0; i < 5; i++) a[i] = sc.nextInt();\n        Arrays.sort(a);\n        System.out.println(\"Sorted array:\");\n        for (int i = 0; i < 5; i++) System.out.print(a[i] + \" \");\n    }\n}",
+                    "image": "./outputs/1dArray/23.png"
                 }
             ],
 
             "Functions": [
                 {
                     "question": "1. Write a Java method to find the smallest number among three numbers.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SmallestNumber {\n    static int smallest(int a, int b, int c) {\n        if (a < b && a < c) return a;\n        else if (b < c) return b;\n        else return c;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter three numbers:\");\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        int c = sc.nextInt();\n        System.out.println(\"Smallest number: \" + smallest(a, b, c));\n    }\n}",
+                    "image": "./outputs/functions/1.png"
                 },
                 {
                     "question": "2. Write a Java method to compute the average of three numbers.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass AverageNumbers {\n    static double average(int a, int b, int c) {\n        return (a + b + c) / 3.0;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter three numbers:\");\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        int c = sc.nextInt();\n        System.out.println(\"Average: \" + average(a, b, c));\n    }\n}",
+                    "image": "./outputs/functions/2.png"
                 },
                 {
                     "question": "3. Write a Java method to display the middle character of a string. Note: a) If the length of the string is odd there will be two middle characters. b) If the length of the string is even there will be one middle character.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass MiddleCharacter {\n    static void middle(String s) {\n        int n = s.length();\n        if (n == 0) {\n            System.out.println(\"String is empty\");\n        } else if (n % 2 == 0) {\n            System.out.println(\"Middle character: \" + s.charAt(n / 2 - 1) + s.charAt(n / 2));\n        } else {\n            System.out.println(\"Middle character: \" + s.charAt(n / 2));\n        }\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter a string:\");\n        String s = sc.nextLine();\n        middle(s);\n    }\n}",
+                    "image": "./outputs/functions/3.png"
                 },
                 {
                     "question": "4. Write a Java method to count all the words in a string.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CountWords {\n    static int count(String s) {\n        s = s.trim();\n        if (s.isEmpty()) return 0;\n        String[] words = s.split(\"\\\\s+\");\n        return words.length;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter a sentence:\");\n        String s = sc.nextLine();\n        System.out.println(\"Number of words: \" + count(s));\n    }\n}",
+                    "image": "./outputs/functions/4.png"
                 },
                 {
                     "question": "5. Write a Java method to compute the future investment value at a given interest rate for a specified number of years.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass FutureInvestment {\n    static double calculate(double amount, double rate, int years) {\n        return amount * Math.pow(1 + rate / 100, years);\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter investment amount:\");\n        double amount = sc.nextDouble();\n        System.out.println(\"Enter yearly interest rate:\");\n        double rate = sc.nextDouble();\n        System.out.println(\"Enter number of years:\");\n        int years = sc.nextInt();\n        System.out.println(\"Future value: \" + calculate(amount, rate, years));\n    }\n}",
+                    "image": "./outputs/functions/5.png"
                 },
                 {
                     "question": "6. Write a Java method to print characters between two characters (i.e. A to P).",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CharactersBetween {\n    static void printCharacters(char start, char end) {\n        for (char ch = start; ch <= end; ch++) {\n            System.out.print(ch + \" \");\n        }\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter starting character:\");\n        char start = sc.next().charAt(0);\n        System.out.println(\"Enter ending character:\");\n        char end = sc.next().charAt(0);\n        printCharacters(start, end);\n    }\n}",
+                    "image": "./outputs/functions/6.png"
                 },
                 {
                     "question": "7. Write a Java method to check whether a string is a valid password.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ValidPassword {\n    static boolean checkPassword(String password) {\n        if (password.length() < 8) return false;\n        boolean letter = false;\n        boolean digit = false;\n        for (int i = 0; i < password.length(); i++) {\n            char ch = password.charAt(i);\n            if (Character.isLetter(ch)) letter = true;\n            if (Character.isDigit(ch)) digit = true;\n        }\n        return letter && digit;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter password:\");\n        String password = sc.nextLine();\n        if (checkPassword(password))\n            System.out.println(\"Valid password\");\n        else\n            System.out.println(\"Invalid password\");\n    }\n}",
+                    "image": "./outputs/functions/7.png"
                 },
                 {
                     "question": "8. Write a Java method to display the current date and time.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.time.LocalDateTime;\nclass CurrentDateTime {\n    static void displayDateTime() {\n        System.out.println(\"Current date and time: \" + LocalDateTime.now());\n    }\n    public static void main(String[] args) {\n        displayDateTime();\n    }\n}",
+                    "image": "./outputs/functions/8.png"
                 },
                 {
                     "question": "9. Write a Java method to find all twin prime numbers less than 100.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "class TwinPrimes {\n    static boolean isPrime(int n) {\n        if (n < 2) return false;\n        for (int i = 2; i < n; i++) {\n            if (n % i == 0) return false;\n        }\n        return true;\n    }\n    static void findTwinPrimes() {\n        for (int i = 2; i < 100; i++) {\n            if (isPrime(i) && isPrime(i + 2)) {\n                System.out.println(i + \" and \" + (i + 2));\n            }\n        }\n    }\n    public static void main(String[] args) {\n        System.out.println(\"Twin prime numbers less than 100:\");\n        findTwinPrimes();\n    }\n}",
+                    "image": "./outputs/functions/9.png"
                 },
                 {
                     "question": "10. Write a Java method to count the number of digits in an integer with the value 2. The integer may be assumed to be non-negative.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass CountDigitTwo {\n    static int countTwos(int n) {\n        int count = 0;\n        while (n > 0) {\n            if (n % 10 == 2) count++;\n            n = n / 10;\n        }\n        return count;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter a non-negative number:\");\n        int n = sc.nextInt();\n        System.out.println(\"Number of 2s: \" + countTwos(n));\n    }\n}",
+                    "image": "./outputs/functions/10.png"
                 },
                 {
                     "question": "11. Write a Java method that accepts three integers and checks whether they are consecutive or not. Returns true or false.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass ConsecutiveNumbers {\n    static boolean check(int a, int b, int c) {\n        int smallest = Math.min(a, Math.min(b, c));\n        int largest = Math.max(a, Math.max(b, c));\n        return largest - smallest == 2 && a != b && a != c && b != c;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter three numbers:\");\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        int c = sc.nextInt();\n        System.out.println(check(a, b, c));\n    }\n}",
+                    "image": "./outputs/functions/11.png"
                 },
                 {
                     "question": "12. Write a Java method that accepts three integers and returns true if one is the middle point between the other two integers, otherwise false",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass MiddlePoint {\n    static boolean check(int a, int b, int c) {\n        return (a + b == 2 * c) || (a + c == 2 * b) || (b + c == 2 * a);\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter three numbers:\");\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        int c = sc.nextInt();\n        System.out.println(check(a, b, c));\n    }\n}",
+                    "image": "./outputs/functions/12.png"
                 },
                 {
                     "question": "13. Write a Java method that checks whether all the characters in a given string are vowels (a, e,i,o,u) or not. Return true if each character in the string is a vowel, otherwise return false.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass AllVowels {\n    static boolean check(String s) {\n        if (s.isEmpty()) return false;\n        for (int i = 0; i < s.length(); i++) {\n            char ch = Character.toLowerCase(s.charAt(i));\n            if (ch != 'a' && ch != 'e' && ch != 'i' && ch != 'o' && ch != 'u') {\n                return false;\n            }\n        }\n        return true;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(\"Enter a string:\");\n        String s = sc.nextLine();\n        System.out.println(check(s));\n    }\n}",
+                    "image": "./outputs/functions/13.png"
                 }
             ],
 
             "Multi-Dimension Arrays": [
                 {
                     "question": "1. Enter the Matrix of rows and columns entered by the user and print in matrix format",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass MatrixInput {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows: \");\n        int r = sc.nextInt();\n        System.out.print(\"Enter columns: \");\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                a[i][j] = sc.nextInt();\n            }\n        }\n        System.out.println(\"Matrix:\");\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                System.out.print(a[i][j] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/1.png"
                 },
                 {
                     "question": "2. Program to Add Two Matrices",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass AddMatrices {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        int b[][] = new int[r][c];\n        int sum[][] = new int[r][c];\n        System.out.println(\"Enter first matrix:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Enter second matrix:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                b[i][j] = sc.nextInt();\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                sum[i][j] = a[i][j] + b[i][j];\n        System.out.println(\"Sum of matrices:\");\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++)\n                System.out.print(sum[i][j] + \" \");\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/2.png"
                 },
                 {
                     "question": "3. Program to Multiply Two Matrices",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass MultiplyMatrices {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns of first matrix: \");\n        int r1 = sc.nextInt();\n        int c1 = sc.nextInt();\n        System.out.print(\"Enter rows and columns of second matrix: \");\n        int r2 = sc.nextInt();\n        int c2 = sc.nextInt();\n        if (c1 != r2) {\n            System.out.println(\"Multiplication not possible\");\n            return;\n        }\n        int a[][] = new int[r1][c1];\n        int b[][] = new int[r2][c2];\n        int ans[][] = new int[r1][c2];\n        System.out.println(\"Enter first matrix:\");\n        for (int i = 0; i < r1; i++)\n            for (int j = 0; j < c1; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Enter second matrix:\");\n        for (int i = 0; i < r2; i++)\n            for (int j = 0; j < c2; j++)\n                b[i][j] = sc.nextInt();\n        for (int i = 0; i < r1; i++) {\n            for (int j = 0; j < c2; j++) {\n                for (int k = 0; k < c1; k++) {\n                    ans[i][j] = ans[i][j] + a[i][k] * b[k][j];\n                }\n            }\n        }\n        System.out.println(\"Product of matrices:\");\n        for (int i = 0; i < r1; i++) {\n            for (int j = 0; j < c2; j++)\n                System.out.print(ans[i][j] + \" \");\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/3.png"
                 },
                 {
                     "question": "4. Program to subtract the two matrices",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SubtractMatrices {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        int b[][] = new int[r][c];\n        int ans[][] = new int[r][c];\n        System.out.println(\"Enter first matrix:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Enter second matrix:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                b[i][j] = sc.nextInt();\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                ans[i][j] = a[i][j] - b[i][j];\n        System.out.println(\"Subtraction of matrices:\");\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++)\n                System.out.print(ans[i][j] + \" \");\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/4.png"
                 },
                 {
                     "question": "5. Program to determine whether two matrices are equal",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass EqualMatrices {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        int b[][] = new int[r][c];\n        boolean same = true;\n        System.out.println(\"Enter first matrix:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Enter second matrix:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                b[i][j] = sc.nextInt();\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                if (a[i][j] != b[i][j])\n                    same = false;\n            }\n        }\n        if (same)\n            System.out.println(\"Matrices are equal\");\n        else\n            System.out.println(\"Matrices are not equal\");\n    }\n}",
+                    "image": "./outputs/multiArray/5.png"
                 },
                 {
                     "question": "6. Program to display the lower triangular matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass LowerTriangle {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter size of matrix: \");\n        int n = sc.nextInt();\n        int a[][] = new int[n][n];\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Lower triangular matrix:\");\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (i >= j)\n                    System.out.print(a[i][j] + \" \");\n                else\n                    System.out.print(\"0 \");\n            }\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/6.png"
                 },
                 {
                     "question": "7. Program to display the upper triangular matrix",
-                    "sql": "",
-                    "image": ""
-                },
-                {
+                    "sql": "import java.util.Scanner;\nclass UpperTriangle {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter size of matrix: \");\n        int n = sc.nextInt();\n        int a[][] = new int[n][n];\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Upper triangular matrix:\");\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (i <= j)\n                    System.out.print(a[i][j] + \" \");\n                else\n                    System.out.print(\"0 \");\n            }\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/7.png"
+                }, {
                     "question": "8. Program to find the frequency of odd & even numbers in the given matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass OddEvenFrequency {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        int odd = 0, even = 0;\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                a[i][j] = sc.nextInt();\n                if (a[i][j] % 2 == 0)\n                    even++;\n                else\n                    odd++;\n            }\n        }\n        System.out.println(\"Even numbers: \" + even);\n        System.out.println(\"Odd numbers: \" + odd);\n    }\n}",
+                    "image": "./outputs/multiArray/8.png"
                 },
                 {
                     "question": "9. Program to find the sum of each row and each column of a matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass RowColumnSum {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                a[i][j] = sc.nextInt();\n        for (int i = 0; i < r; i++) {\n            int sum = 0;\n            for (int j = 0; j < c; j++)\n                sum = sum + a[i][j];\n            System.out.println(\"Sum of row \" + (i + 1) + \": \" + sum);\n        }\n        for (int j = 0; j < c; j++) {\n            int sum = 0;\n            for (int i = 0; i < r; i++)\n                sum = sum + a[i][j];\n            System.out.println(\"Sum of column \" + (j + 1) + \": \" + sum);\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/9.png"
                 },
                 {
                     "question": "10. Program to find the transpose of a given matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass MatrixTranspose {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                a[i][j] = sc.nextInt();\n        System.out.println(\"Transpose matrix:\");\n        for (int j = 0; j < c; j++) {\n            for (int i = 0; i < r; i++)\n                System.out.print(a[i][j] + \" \");\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/10.png"
                 },
                 {
                     "question": "11. Program to determine whether a given matrix is an identity matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass IdentityMatrix {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter size of matrix: \");\n        int n = sc.nextInt();\n        int a[][] = new int[n][n];\n        boolean ans = true;\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                a[i][j] = sc.nextInt();\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (i == j && a[i][j] != 1)\n                    ans = false;\n                if (i != j && a[i][j] != 0)\n                    ans = false;\n            }\n        }\n        if (ans)\n            System.out.println(\"Identity matrix\");\n        else\n            System.out.println(\"Not an identity matrix\");\n    }\n}",
+                    "image": "./outputs/multiArray/11.png"
                 },
                 {
                     "question": "12. Program to Transpose matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass TransposeMatrix {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        int b[][] = new int[c][r];\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                a[i][j] = sc.nextInt();\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                b[j][i] = a[i][j];\n        System.out.println(\"Transpose matrix:\");\n        for (int i = 0; i < c; i++) {\n            for (int j = 0; j < r; j++)\n                System.out.print(b[i][j] + \" \");\n            System.out.println();\n        }\n    }\n}",
+                    "image": "./outputs/multiArray/12.png"
                 },
                 {
                     "question": "13. Program to determine whether a given matrix is a sparse matrix",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.Scanner;\nclass SparseMatrix {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter rows and columns: \");\n        int r = sc.nextInt();\n        int c = sc.nextInt();\n        int a[][] = new int[r][c];\n        int zero = 0;\n        System.out.println(\"Enter matrix elements:\");\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                a[i][j] = sc.nextInt();\n                if (a[i][j] == 0)\n                    zero++;\n            }\n        }\n        if (zero > (r * c) / 2)\n            System.out.println(\"Sparse matrix\");\n        else\n            System.out.println(\"Not a sparse matrix\");\n    }\n}",
+                    "image": "./outputs/multiArray/13.png"
                 }
             ],
-
 
             "Basic Programming Constructs": [
                 {
@@ -1737,58 +1733,57 @@
             "Interfaces": [
                 {
                     "question": "1. Write a Java program to create an interface Shape with the getArea() method. Create three classes Rectangle, Circle, and Triangle that implement the Shape interface. Implement the getArea() method for each of the three classes.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Shape {\n    double getArea();\n}\nclass Rectangle implements Shape {\n    double l = 5, b = 4;\n    public double getArea() {\n        return l * b;\n    }\n}\nclass Circle implements Shape {\n    double r = 3;\n    public double getArea() {\n        return 3.14 * r * r;\n    }\n}\nclass Triangle implements Shape {\n    double b = 6, h = 4;\n    public double getArea() {\n        return 0.5 * b * h;\n    }\n}\nclass ShapeArea {\n    public static void main(String[] args) {\n        Rectangle r = new Rectangle();\n        Circle c = new Circle();\n        Triangle t = new Triangle();\n        System.out.println(\"Rectangle area: \" + r.getArea());\n        System.out.println(\"Circle area: \" + c.getArea());\n        System.out.println(\"Triangle area: \" + t.getArea());\n    }\n}",
+                    "image": "./outputs/interfaces/1.png"
                 },
                 {
                     "question": "2. Write a Java program to create a Animal interface with a method called bark() that takes no arguments and returns void. Create a Dog class that implements Animal and overrides speak() to print \"Dog is barking\".",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Animal {\n    void bark();\n}\nclass Dog implements Animal {\n    public void bark() {\n        System.out.println(\"Dog is barking\");\n    }\n}\nclass AnimalTest {\n    public static void main(String[] args) {\n        Dog d = new Dog();\n        d.bark();\n    }\n}",
+                    "image": "./outputs/interfaces/2.png"
                 },
                 {
                     "question": "3. Write a Java program to create an interface Flyable with a method called fly_obj(). Create three classes Spacecraft, Airplane, and Helicopter that implement the Flyable interface. Implement the fly_obj() method for each of the three classes.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Flyable {\n    void fly_obj();\n}\nclass Spacecraft implements Flyable {\n    public void fly_obj() {\n        System.out.println(\"Spacecraft is flying in space\");\n    }\n}\nclass Airplane implements Flyable {\n    public void fly_obj() {\n        System.out.println(\"Airplane is flying in sky\");\n    }\n}\nclass Helicopter implements Flyable {\n    public void fly_obj() {\n        System.out.println(\"Helicopter is flying\");\n    }\n}\nclass FlyTest {\n    public static void main(String[] args) {\n        Spacecraft s = new Spacecraft();\n        Airplane a = new Airplane();\n        Helicopter h = new Helicopter();\n        s.fly_obj();\n        a.fly_obj();\n        h.fly_obj();\n    }\n}",
+                    "image": "./outputs/interfaces/3.png"
                 },
                 {
                     "question": "4. Write a Java programming to create a banking system with three classes - Bank, Account, SavingsAccount, and CurrentAccount. The bank should have a list of accounts and methods for adding them. Accounts should be an interface with methods to deposit, withdraw, calculate interest, and view balances. SavingsAccount and CurrentAccount should implement the Account interface and have their own unique methods.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "import java.util.ArrayList;\ninterface Account {\n    void deposit(double amount);\n    void withdraw(double amount);\n    double calculateInterest();\n    void viewBalance();\n}\nclass SavingsAccount implements Account {\n    double balance = 1000;\n    public void deposit(double amount) {\n        balance = balance + amount;\n    }\n    public void withdraw(double amount) {\n        if (amount <= balance)\n            balance = balance - amount;\n        else\n            System.out.println(\"Not enough balance\");\n    }\n    public double calculateInterest() {\n        return balance * 5 / 100;\n    }\n    public void viewBalance() {\n        System.out.println(\"Savings balance: \" + balance);\n    }\n    void addBonus() {\n        balance = balance + 100;\n    }\n}\nclass CurrentAccount implements Account {\n    double balance = 2000;\n    public void deposit(double amount) {\n        balance = balance + amount;\n    }\n    public void withdraw(double amount) {\n        if (amount <= balance)\n            balance = balance - amount;\n        else\n            System.out.println(\"Not enough balance\");\n    }\n    public double calculateInterest() {\n        return 0;\n    }\n    public void viewBalance() {\n        System.out.println(\"Current balance: \" + balance);\n    }\n    void checkOverdraft() {\n        System.out.println(\"Overdraft facility is available\");\n    }\n}\nclass Bank {\n    ArrayList<Account> list = new ArrayList<Account>();\n    void addAccount(Account a) {\n        list.add(a);\n    }\n    void showAccounts() {\n        for (Account a : list) {\n            a.viewBalance();\n            System.out.println(\"Interest: \" + a.calculateInterest());\n        }\n    }\n}\nclass BankTest {\n    public static void main(String[] args) {\n        Bank b = new Bank();\n        SavingsAccount s = new SavingsAccount();\n        CurrentAccount c = new CurrentAccount();\n        b.addAccount(s);\n        b.addAccount(c);\n        s.deposit(500);\n        c.withdraw(300);\n        s.addBonus();\n        c.checkOverdraft();\n        b.showAccounts();\n    }\n}",
+                    "image": "./outputs/interfaces/4.png"
                 },
                 {
                     "question": "5. Write a Java program to create an interface Resizable with methods resizeWidth(int width) and resizeHeight(int height) that allow an object to be resized. Create a class Rectangle that implements the Resizable interface and implements the resize methods.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Resizable {\n    void resizeWidth(int width);\n    void resizeHeight(int height);\n}\nclass Rectangle implements Resizable {\n    int width = 10;\n    int height = 5;\n    public void resizeWidth(int width) {\n        this.width = width;\n    }\n    public void resizeHeight(int height) {\n        this.height = height;\n    }\n    void show() {\n        System.out.println(\"Width: \" + width);\n        System.out.println(\"Height: \" + height);\n    }\n}\nclass ResizeTest {\n    public static void main(String[] args) {\n        Rectangle r = new Rectangle();\n        System.out.println(\"Before resizing:\");\n        r.show();\n        r.resizeWidth(20);\n        r.resizeHeight(15);\n        System.out.println(\"After resizing:\");\n        r.show();\n    }\n}",
+                    "image": "./outputs/interfaces/5.png"
                 },
                 {
                     "question": "6. Write a Java program to create an interface Drawable with a method draw() that takes no arguments and returns void. Create three classes Circle, Rectangle, and Triangle that implement the Drawable interface and override the draw() method to draw their respective shapes.",
-                    "sql": "",
-                    "image": ""
-                },
-                {
+                    "sql": "interface Drawable {\n    void draw();\n}\nclass Circle implements Drawable {\n    public void draw() {\n        System.out.println(\"Drawing Circle\");\n    }\n}\nclass Rectangle implements Drawable {\n    public void draw() {\n        System.out.println(\"Drawing Rectangle\");\n    }\n}\nclass Triangle implements Drawable {\n    public void draw() {\n        System.out.println(\"Drawing Triangle\");\n    }\n}\nclass DrawTest {\n    public static void main(String[] args) {\n        Circle c = new Circle();\n        Rectangle r = new Rectangle();\n        Triangle t = new Triangle();\n        c.draw();\n        r.draw();\n        t.draw();\n    }\n}",
+                    "image": "./outputs/interfaces/6.png"
+                },     {
                     "question": "7. Write a Java program to create an interface Sortable with a method sort() that sorts an array of integers in ascending order. Create two classes BubbleSort and SelectionSort that implement the Sortable interface and provide their own implementations of the sort() method.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Sortable {\n    void sort();\n}\nclass BubbleSort implements Sortable {\n    int a[] = {5, 2, 8, 1, 3};\n    public void sort() {\n        for (int i = 0; i < a.length; i++) {\n            for (int j = 0; j < a.length - 1; j++) {\n                if (a[j] > a[j + 1]) {\n                    int temp = a[j];\n                    a[j] = a[j + 1];\n                    a[j + 1] = temp;\n                }\n            }\n        }\n        System.out.print(\"Bubble Sort: \");\n        for (int x : a)\n            System.out.print(x + \" \");\n        System.out.println();\n    }\n}\nclass SelectionSort implements Sortable {\n    int a[] = {9, 4, 7, 2, 6};\n    public void sort() {\n        for (int i = 0; i < a.length; i++) {\n            int small = i;\n            for (int j = i + 1; j < a.length; j++) {\n                if (a[j] < a[small])\n                    small = j;\n            }\n            int temp = a[i];\n            a[i] = a[small];\n            a[small] = temp;\n        }\n        System.out.print(\"Selection Sort: \");\n        for (int x : a)\n            System.out.print(x + \" \");\n    }\n}\nclass SortTest {\n    public static void main(String[] args) {\n        BubbleSort b = new BubbleSort();\n        SelectionSort s = new SelectionSort();\n        b.sort();\n        s.sort();\n    }\n}",
+                    "image": "./outputs/interfaces/7.png"
                 },
                 {
                     "question": "8. Write a Java program to create an interface Playable with a method play() that takes no arguments and returns void. Create three classes Football, Volleyball, and Basketball that implement the Playable interface and override the play() method to play the respective sports.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Playable {\n    void play();\n}\nclass Football implements Playable {\n    public void play() {\n        System.out.println(\"Playing Football\");\n    }\n}\nclass Volleyball implements Playable {\n    public void play() {\n        System.out.println(\"Playing Volleyball\");\n    }\n}\nclass Basketball implements Playable {\n    public void play() {\n        System.out.println(\"Playing Basketball\");\n    }\n}\nclass PlayTest {\n    public static void main(String[] args) {\n        Football f = new Football();\n        Volleyball v = new Volleyball();\n        Basketball b = new Basketball();\n        f.play();\n        v.play();\n        b.play();\n    }\n}",
+                    "image": "./outputs/interfaces/8.png"
                 },
                 {
                     "question": "9. Write a Java program to create an interface Searchable with a method search(String keyword) that searches for a given keyword in a text document. Create two classes Document and WebPage that implement the Searchable interface and provide their own implementations of the search() method.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Searchable {\n    void search(String keyword);\n}\nclass Document implements Searchable {\n    String text = \"Java is a programming language\";\n    public void search(String keyword) {\n        if (text.contains(keyword))\n            System.out.println(\"Word found in document\");\n        else\n            System.out.println(\"Word not found in document\");\n    }\n}\nclass WebPage implements Searchable {\n    String text = \"Welcome to the Java website\";\n    public void search(String keyword) {\n        if (text.contains(keyword))\n            System.out.println(\"Word found on webpage\");\n        else\n            System.out.println(\"Word not found on webpage\");\n    }\n}\nclass SearchTest {\n    public static void main(String[] args) {\n        Document d = new Document();\n        WebPage w = new WebPage();\n        d.search(\"Java\");\n        w.search(\"Python\");\n    }\n}",
+                    "image": "./outputs/interfaces/9.png"
                 },
                 {
                     "question": "10. Write a Java program to create an interface Encryptable with methods encrypt (String data) and decrypt (String encryptedData) that define encryption and decryption operations. Create two classes AES and RSA that implement the Encryptable interface and provide their own encryption and decryption algorithms.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Encryptable {\n    String encrypt(String data);\n    String decrypt(String data);\n}\nclass AES implements Encryptable {\n    public String encrypt(String data) {\n        String ans = \"\";\n        for (int i = 0; i < data.length(); i++) {\n            ans = ans + (char)(data.charAt(i) + 2);\n        }\n        return ans;\n    }\n    public String decrypt(String data) {\n        String ans = \"\";\n        for (int i = 0; i < data.length(); i++) {\n            ans = ans + (char)(data.charAt(i) - 2);\n        }\n        return ans;\n    }\n}\nclass RSA implements Encryptable {\n    public String encrypt(String data) {\n        String ans = \"\";\n        for (int i = 0; i < data.length(); i++) {\n            ans = ans + (char)(data.charAt(i) + 3);\n        }\n        return ans;\n    }\n    public String decrypt(String data) {\n        String ans = \"\";\n        for (int i = 0; i < data.length(); i++) {\n            ans = ans + (char)(data.charAt(i) - 3);\n        }\n        return ans;\n    }\n}\nclass EncryptionTest {\n    public static void main(String[] args) {\n        AES a = new AES();\n        RSA r = new RSA();\n        String s = \"Hello\";\n        String x = a.encrypt(s);\n        System.out.println(\"AES encrypted: \" + x);\n        System.out.println(\"AES decrypted: \" + a.decrypt(x));\n        String y = r.encrypt(s);\n        System.out.println(\"RSA encrypted: \" + y);\n        System.out.println(\"RSA decrypted: \" + r.decrypt(y));\n    }\n}",
+                    "image": "./outputs/interfaces/10.png"
                 },
                 {
                     "question": "11. Write a Java program to create an interface Sortable with a method sort (int[] array) that sorts an array of integers in descending order. Create two classes QuickSort and MergeSort that implement the Sortable interface and provide their own implementations of the sort() method.",
-                    "sql": "",
-                    "image": ""
+                    "sql": "interface Sortable {\n    void sort(int a[]);\n}\nclass QuickSort implements Sortable {\n    public void sort(int a[]) {\n        for (int i = 0; i < a.length; i++) {\n            for (int j = 0; j < a.length - 1; j++) {\n                if (a[j] < a[j + 1]) {\n                    int temp = a[j];\n                    a[j] = a[j + 1];\n                    a[j + 1] = temp;\n                }\n            }\n        }\n        System.out.print(\"QuickSort: \");\n        for (int x : a)\n            System.out.print(x + \" \");\n        System.out.println();\n    }\n}\nclass MergeSort implements Sortable {\n    public void sort(int a[]) {\n        for (int i = 0; i < a.length; i++) {\n            for (int j = i + 1; j < a.length; j++) {\n                if (a[i] < a[j]) {\n                    int temp = a[i];\n                    a[i] = a[j];\n                    a[j] = temp;\n                }\n            }\n        }\n        System.out.print(\"MergeSort: \");\n        for (int x : a)\n            System.out.print(x + \" \");\n    }\n}\nclass SortTest {\n    public static void main(String[] args) {\n        int a[] = {4, 8, 2, 9, 1};\n        int b[] = {7, 3, 6, 1, 5};\n        QuickSort q = new QuickSort();\n        MergeSort m = new MergeSort();\n        q.sort(a);\n        m.sort(b);\n    }\n}",
+                    "image": "./outputs/interfaces/11.png"
                 }
             ],
 
@@ -2099,7 +2094,6 @@
                 }
             ],
 
-
             "MultiThreading": [
                 {
                     "question": "1. Write a Java program to create a basic Java thread that prints \"Hello, World!\" when executed.",
@@ -2330,11 +2324,6 @@
                     "image": ""
                 }
             ]
-
-
-
-
-
         };
 
         const topics = Object.keys(assignmentData);
